@@ -17,7 +17,9 @@ class FirstPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('🔙 swipeable_page_route example')),
+      appBar: MorphingAppBar(
+        title: Text('🔙 swipeable_page_route example'),
+      ),
       body: RaisedButton(
         onPressed: () {
           Navigator.of(context).push(SwipeablePageRoute(
@@ -34,7 +36,7 @@ class SecondPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
+      appBar: MorphingAppBar(
         title: Text('Page 2'),
       ),
     );
