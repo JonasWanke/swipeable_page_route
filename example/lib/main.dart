@@ -8,9 +8,34 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: '🔙 swipeable_page_route example',
-      home: Scaffold(
-        appBar: AppBar(title: Text('🔙 swipeable_page_route example')),
-        body: SizedBox(),
+      home: FirstPage(),
+    );
+  }
+}
+
+class FirstPage extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(title: Text('🔙 swipeable_page_route example')),
+      body: RaisedButton(
+        onPressed: () {
+          Navigator.of(context).push(SwipeablePageRoute(
+            builder: (_) => SecondPage(),
+          ));
+        },
+        child: Text('Open page 2'),
+      ),
+    );
+  }
+}
+
+class SecondPage extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Page 2'),
       ),
     );
   }
