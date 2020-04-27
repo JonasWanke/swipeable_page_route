@@ -261,12 +261,28 @@ class _AnimatedTitle extends MultiChildRenderObjectWidget {
         t = state.t,
         super(
           children: [
-            state.parent.appBar.title ?? SizedBox(),
-            state.child.appBar.title ?? SizedBox(),
+            _createChild(state.parent),
+            _createChild(state.child),
           ],
         );
 
   final double t;
+
+  static Widget _createChild(_EndState state) {
+    final title = state.appBar.title;
+    if (title == null) {
+      return SizedBox();
+    }
+
+    var style = state.appBar.textTheme?.title ??
+        state.appBarTheme.textTheme?.title ??
+        state.theme.primaryTextTheme.title;
+    if (style?.color != null) {
+      style = style.copyWith(color: style.color.withOpacity(state.opacity));
+    }
+
+    return DefaultTextStyle(style: style, child: title);
+  }
 
   @override
   RenderObject createRenderObject(BuildContext context) {
@@ -531,6 +547,11 @@ class _EndState {
 
   ThemeData get theme => context.theme;
   AppBarTheme get appBarTheme => theme.appBarTheme;
+
+  double get opacity {
+    return Interval(0.25, 1, curve: Curves.fastOutSlowIn)
+        .transform(appBar.toolbarOpacity);
+  }
 
   Color get backgroundColor =>
       appBar.backgroundColor ?? appBarTheme.color ?? theme.primaryColor;
