@@ -176,11 +176,15 @@ class _AnimatedAppBar extends AnimatedWidget {
       // We manually determine the leadings to be able to animate between them.
       automaticallyImplyLeading: false,
       bottom: _AnimatedBottom(state),
-      elevation: lerpDouble(parent.elevation, child.elevation, t),
+      elevation:
+          lerpDouble(_resolveElevation(parent), _resolveElevation(child), t),
       shape: ShapeBorder.lerp(parent.appBar.shape, child.appBar.shape, t),
       backgroundColor: state.backgroundColor,
     );
   }
+
+  double _resolveElevation(_EndState state) =>
+      state.appBar.elevation ?? state.appBarTheme.elevation ?? 4;
 }
 
 class _AnimatedLeading extends _AnimatedAppBarPart {
@@ -188,8 +192,8 @@ class _AnimatedLeading extends _AnimatedAppBarPart {
 
   @override
   Widget build(BuildContext context) {
-    final parentLeading = parent.leading;
-    final childLeading = child.leading;
+    final parentLeading = _resolveLeading(parent);
+    final childLeading = _resolveLeading(child);
 
     if (parentLeading is _DrawerButton && childLeading is _DrawerButton) {
       return parentLeading;
@@ -227,6 +231,25 @@ class _AnimatedLeading extends _AnimatedAppBarPart {
       ],
     );
   }
+
+  Widget _resolveLeading(_EndState state) {
+    if (state.appBar.leading != null ||
+        !state.appBar.automaticallyImplyLeading) {
+      return state.appBar.leading;
+    }
+
+    if (state.context.scaffoldOrNull?.hasDrawer ?? false) {
+      return _DrawerButton();
+    } else {
+      final parentRoute = state.context.modalRoute;
+      if (parentRoute?.canPop ?? false) {
+        return parentRoute is PageRoute<dynamic> && parentRoute.fullscreenDialog
+            ? CloseButton()
+            : BackButton();
+      }
+    }
+    return null;
+  }
 }
 
 class _DrawerButton extends StatelessWidget {
@@ -247,10 +270,13 @@ class _AnimatedBottom extends _AnimatedAppBarPart
     implements PreferredSizeWidget {
   const _AnimatedBottom(_State state) : super(state);
 
-  double get preferredHeight =>
-      lerpDouble(parent.bottomPreferredHeight, child.bottomPreferredHeight, t);
   @override
   Size get preferredSize => Size.fromHeight(preferredHeight);
+
+  double get preferredHeight => lerpDouble(
+      _resolvePreferredHeight(parent), _resolvePreferredHeight(child), t);
+  double _resolvePreferredHeight(_EndState state) =>
+      state.appBar.bottom?.preferredSize?.height ?? 0;
 
   @override
   Widget build(BuildContext context) {
@@ -378,26 +404,6 @@ class _EndState {
   ThemeData get theme => context.theme;
   AppBarTheme get appBarTheme => theme.appBarTheme;
 
-  Widget get leading {
-    if (appBar.leading != null || !appBar.automaticallyImplyLeading) {
-      return appBar.leading;
-    }
-
-    if (context.scaffoldOrNull?.hasDrawer ?? false) {
-      return _DrawerButton();
-    } else {
-      final parentRoute = context.modalRoute;
-      if (parentRoute?.canPop ?? false) {
-        return parentRoute is PageRoute<dynamic> && parentRoute.fullscreenDialog
-            ? CloseButton()
-            : BackButton();
-      }
-    }
-    return null;
-  }
-
-  double get bottomPreferredHeight => appBar.bottom?.preferredSize?.height ?? 0;
-  double get elevation => appBar.elevation ?? appBarTheme.elevation ?? 4;
   Color get backgroundColor =>
       appBar.backgroundColor ?? appBarTheme.color ?? theme.primaryColor;
 }
