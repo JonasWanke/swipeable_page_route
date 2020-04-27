@@ -1,3 +1,4 @@
+import 'dart:math' as math;
 import 'dart:ui';
 
 import 'package:black_hole_flutter/black_hole_flutter.dart';
@@ -144,8 +145,8 @@ class MorphingAppBar extends StatelessWidget implements PreferredSizeWidget {
     final toState = _EndState(toContext, appBarFromContext(toContext));
 
     return _AnimatedAppBar(
-      parentState: direction == HeroFlightDirection.push ? fromState : toState,
-      childState: direction == HeroFlightDirection.push ? toState : fromState,
+      parent: direction == HeroFlightDirection.push ? fromState : toState,
+      child: direction == HeroFlightDirection.push ? toState : fromState,
       animation: animation,
     );
   }
@@ -153,58 +154,42 @@ class MorphingAppBar extends StatelessWidget implements PreferredSizeWidget {
 
 class _AnimatedAppBar extends AnimatedWidget {
   const _AnimatedAppBar({
-    @required this.parentState,
-    @required this.childState,
+    @required this.parent,
+    @required this.child,
     @required this.animation,
-  })  : assert(parentState != null),
-        assert(childState != null),
+  })  : assert(parent != null),
+        assert(child != null),
         super(listenable: animation);
 
-  final _EndState parentState;
-  final _EndState childState;
+  final _EndState parent;
+  final _EndState child;
 
   final Animation<double> animation;
   double get t => animation.value;
 
   @override
   Widget build(BuildContext context) {
+    final state = _State(parent: parent, child: child, t: t);
+
     return AppBar(
-      leading: _AnimatedLeading(
-        parentState: parentState,
-        childState: childState,
-        t: t,
-      ),
+      leading: _AnimatedLeading(state),
       // We manually determine the leadings to be able to animate between them.
       automaticallyImplyLeading: false,
-      elevation: lerpDouble(parentState.elevation, childState.elevation, t),
-      shape: ShapeBorder.lerp(
-          parentState.appBar.shape, childState.appBar.shape, t),
-      backgroundColor: Color.lerp(
-        parentState.appBar.backgroundColor,
-        childState.appBar.backgroundColor,
-        t,
-      ),
+      bottom: _AnimatedBottom(state),
+      elevation: lerpDouble(parent.elevation, child.elevation, t),
+      shape: ShapeBorder.lerp(parent.appBar.shape, child.appBar.shape, t),
+      backgroundColor: state.backgroundColor,
     );
   }
 }
 
-class _AnimatedLeading extends StatelessWidget {
-  const _AnimatedLeading({
-    @required this.parentState,
-    @required this.childState,
-    @required this.t,
-  })  : assert(parentState != null),
-        assert(childState != null),
-        assert(t != null);
-
-  final _EndState parentState;
-  final _EndState childState;
-  final double t;
+class _AnimatedLeading extends _AnimatedAppBarPart {
+  const _AnimatedLeading(_State state) : super(state);
 
   @override
   Widget build(BuildContext context) {
-    final parentLeading = parentState.leading;
-    final childLeading = childState.leading;
+    final parentLeading = parent.leading;
+    final childLeading = child.leading;
 
     if (parentLeading is _DrawerButton && childLeading is _DrawerButton) {
       return parentLeading;
@@ -258,6 +243,129 @@ class _DrawerButton extends StatelessWidget {
   }
 }
 
+class _AnimatedBottom extends _AnimatedAppBarPart
+    implements PreferredSizeWidget {
+  const _AnimatedBottom(_State state) : super(state);
+
+  double get preferredHeight =>
+      lerpDouble(parent.bottomPreferredHeight, child.bottomPreferredHeight, t);
+  @override
+  Size get preferredSize => Size.fromHeight(preferredHeight);
+
+  @override
+  Widget build(BuildContext context) {
+    final hasParent = parent.appBar.bottom != null;
+    final hasChild = child.appBar.bottom != null;
+    if (!hasParent && !hasChild) {
+      return SizedBox();
+    }
+
+    if (hasParent &&
+        hasChild &&
+        Widget.canUpdate(parent.appBar.bottom, child.appBar.bottom)) {
+      // Do a simple crossfade.
+      return SizedBox(
+        height: preferredHeight,
+        child: Stack(
+          children: <Widget>[
+            Positioned.fill(
+              top: null,
+              child: Opacity(opacity: 1 - t, child: parent.appBar.bottom),
+            ),
+            Positioned.fill(
+              top: null,
+              child: Opacity(opacity: t, child: child.appBar.bottom),
+            ),
+          ],
+        ),
+      );
+    }
+
+    // Fade out the parent and then fade in the child.
+    final parentEnd = hasChild ? 0.5 : 1;
+    final childStart = hasParent ? 0.5 : 0;
+    return SizedBox(
+      height: preferredHeight,
+      child: Stack(
+        children: <Widget>[
+          if (hasParent && t < parentEnd)
+            Positioned.fill(top: null, child: parent.appBar.bottom),
+          if (hasChild && t > childStart)
+            Positioned.fill(top: null, child: child.appBar.bottom),
+          Positioned.fill(
+            child: DecoratedBox(
+              decoration: BoxDecoration(
+                gradient: _buildScrimGradient(
+                  hasParent: hasParent,
+                  hasChild: hasChild,
+                ),
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Gradient _buildScrimGradient({
+    @required bool hasParent,
+    @required bool hasChild,
+  }) {
+    final triangleT = math.min(t, 1 - t) * 2;
+    final backgroundColor = state.backgroundColor;
+
+    return LinearGradient(
+      begin: Alignment.topCenter,
+      end: Alignment.bottomCenter,
+      colors: [
+        if (hasParent && hasChild)
+          backgroundColor.withOpacity(triangleT)
+        else if (hasParent)
+          backgroundColor.withOpacity(t)
+        else if (hasChild)
+          backgroundColor.withOpacity(1 - t),
+        backgroundColor.withAlpha(0),
+      ],
+      stops: [
+        if (hasParent && hasChild) triangleT else 0.0,
+        1,
+      ],
+    );
+  }
+}
+
+abstract class _AnimatedAppBarPart extends StatelessWidget {
+  const _AnimatedAppBarPart(this.state) : assert(state != null);
+
+  final _State state;
+
+  _EndState get parent => state.parent;
+  _EndState get child => state.child;
+  double get t => state.t;
+}
+
+@immutable
+class _State {
+  const _State({
+    @required this.parent,
+    @required this.child,
+    @required this.t,
+  })  : assert(parent != null),
+        assert(child != null),
+        assert(t != null);
+
+  final _EndState parent;
+  final _EndState child;
+  final double t;
+
+  Color get backgroundColor {
+    assert(parent.backgroundColor.isOpaque);
+    assert(child.backgroundColor.isOpaque);
+
+    return Color.lerp(parent.backgroundColor, child.backgroundColor, t);
+  }
+}
+
 @immutable
 class _EndState {
   const _EndState(this.context, this.appBar)
@@ -288,5 +396,8 @@ class _EndState {
     return null;
   }
 
+  double get bottomPreferredHeight => appBar.bottom?.preferredSize?.height ?? 0;
   double get elevation => appBar.elevation ?? appBarTheme.elevation ?? 4;
+  Color get backgroundColor =>
+      appBar.backgroundColor ?? appBarTheme.color ?? theme.primaryColor;
 }
