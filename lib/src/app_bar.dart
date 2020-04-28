@@ -155,12 +155,16 @@ class MorphingAppBar extends StatelessWidget implements PreferredSizeWidget {
 }
 
 class _AnimatedAppBar extends AnimatedWidget {
-  const _AnimatedAppBar({
+  _AnimatedAppBar({
     @required this.parent,
     @required this.child,
     @required this.animation,
   })  : assert(parent != null),
         assert(child != null),
+        assert(
+          parent.appBar.primary == child.appBar.primary,
+          "Can't morph between a primary and a non-primary AppBar.",
+        ),
         super(listenable: animation);
 
   final _EndState parent;
@@ -183,6 +187,9 @@ class _AnimatedAppBar extends AnimatedWidget {
           lerpDouble(_resolveElevation(parent), _resolveElevation(child), t),
       shape: ShapeBorder.lerp(parent.appBar.shape, child.appBar.shape, t),
       backgroundColor: state.backgroundColor,
+      // Value is the same for parent and child, so it doesn't matter which one
+      // we use.
+      primary: parent.appBar.primary,
     );
   }
 
