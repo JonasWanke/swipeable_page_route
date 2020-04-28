@@ -247,10 +247,11 @@ class _AnimatedActionsLayout
 
       final groupIndex = child.data.groupIndex;
       final width = child.size.width;
-      groupWidths[groupIndex] += width;
       if (child.data.position == _ActionPosition.parent) {
+        groupWidths[groupIndex] += width * (1 - t);
         groupParentWidths[groupIndex] += width;
       } else {
+        groupWidths[groupIndex] += width * t;
         groupChildWidths[groupIndex] += width;
       }
     }
