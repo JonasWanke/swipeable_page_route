@@ -211,3 +211,32 @@ abstract class AnimatedAppBarPart extends StatelessWidget {
   EndState get child => state.child;
   double get t => state.t;
 }
+
+class AnimatedAppBarLayout<
+        ParentDataType extends ContainerBoxParentData<RenderBox>>
+    extends RenderBox
+    with
+        ContainerRenderObjectMixin<RenderBox, ParentDataType>,
+        RenderBoxContainerDefaultsMixin<RenderBox, ParentDataType> {
+  AnimatedAppBarLayout({
+    double t = 0,
+  })  : assert(t != null),
+        _t = t;
+
+  double _t;
+  double get t => _t;
+  set t(double value) {
+    assert(value != null);
+    if (_t == value) {
+      return;
+    }
+
+    _t = value;
+    markNeedsLayout();
+  }
+
+  @override
+  bool hitTestChildren(BoxHitTestResult result, {Offset position}) {
+    return defaultHitTestChildren(result, position: position);
+  }
+}

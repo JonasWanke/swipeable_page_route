@@ -12,39 +12,36 @@ class AnimatedLeading extends AnimatedAppBarPart {
 
   @override
   Widget build(BuildContext context) {
-    final parentLeading = _resolveLeading(parent);
-    final childLeading = _resolveLeading(child);
-
-    if (parentLeading is _DrawerButton && childLeading is _DrawerButton) {
-      return parentLeading;
+    if (parent.leading is _DrawerButton && child.leading is _DrawerButton) {
+      return parent.leading;
     }
-    if (parentLeading is CloseButton && childLeading is CloseButton) {
-      return parentLeading;
+    if (parent.leading is CloseButton && child.leading is CloseButton) {
+      return parent.leading;
     }
-    if (parentLeading is BackButton && childLeading is BackButton) {
+    if (parent.leading is BackButton && child.leading is BackButton) {
       // TODO: color
-      return parentLeading;
+      return parent.leading;
     }
 
     return Stack(
       children: <Widget>[
-        if (parentLeading != null)
+        if (parent.leading != null)
           Positioned.fill(
             child: Transform.translate(
               offset: Offset(lerpDouble(0, -kToolbarHeight, t), 0),
               child: Opacity(
                 opacity: 1 - t,
-                child: parentLeading,
+                child: parent.leading,
               ),
             ),
           ),
-        if (childLeading != null)
+        if (child.leading != null)
           Positioned.fill(
             child: Transform.translate(
               offset: Offset(lerpDouble(kToolbarHeight, 0, t), 0),
               child: Opacity(
                 opacity: t,
-                child: childLeading,
+                child: child.leading,
               ),
             ),
           ),
@@ -52,16 +49,15 @@ class AnimatedLeading extends AnimatedAppBarPart {
     );
   }
 
-  Widget _resolveLeading(EndState state) {
-    if (state.appBar.leading != null ||
-        !state.appBar.automaticallyImplyLeading) {
-      return state.appBar.leading;
+  static Widget resolveLeading(BuildContext context, AppBar appBar) {
+    if (appBar.leading != null || !appBar.automaticallyImplyLeading) {
+      return appBar.leading;
     }
 
-    if (state.context.scaffoldOrNull?.hasDrawer ?? false) {
+    if (context.scaffoldOrNull?.hasDrawer ?? false) {
       return _DrawerButton();
     } else {
-      final parentRoute = state.context.modalRoute;
+      final parentRoute = context.modalRoute;
       if (parentRoute?.canPop ?? false) {
         return parentRoute is PageRoute<dynamic> && parentRoute.fullscreenDialog
             ? CloseButton()

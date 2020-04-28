@@ -4,6 +4,8 @@ import 'package:black_hole_flutter/black_hole_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 
+import 'leading.dart';
+
 @immutable
 class MorphingState {
   const MorphingState({
@@ -28,9 +30,10 @@ class MorphingState {
 
 @immutable
 class EndState {
-  const EndState(this.context, this.appBar)
+  EndState(this.context, this.appBar)
       : assert(context != null),
-        assert(appBar != null);
+        assert(appBar != null),
+        leading = AnimatedLeading.resolveLeading(context, appBar);
 
   final BuildContext context;
   final AppBar appBar;
@@ -43,6 +46,7 @@ class EndState {
         .transform(appBar.toolbarOpacity);
   }
 
+  final Widget leading;
   Color get backgroundColor =>
       appBar.backgroundColor ?? appBarTheme.color ?? theme.primaryColor;
 }

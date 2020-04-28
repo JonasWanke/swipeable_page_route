@@ -5,6 +5,7 @@ import 'package:dartx/dartx.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 
+import 'app_bar.dart';
 import 'state.dart';
 
 class AnimatedTitle extends MultiChildRenderObjectWidget {
@@ -33,7 +34,10 @@ class AnimatedTitle extends MultiChildRenderObjectWidget {
       style = style.copyWith(color: style.color.withOpacity(state.opacity));
     }
 
-    return DefaultTextStyle(style: style, child: title);
+    return _AnimatedTitleParentDataWidget(
+      hasLeading: state.leading != null,
+      child: DefaultTextStyle(style: style, child: title),
+    );
   }
 
   @override
@@ -50,28 +54,39 @@ class AnimatedTitle extends MultiChildRenderObjectWidget {
   }
 }
 
-class _AnimatedTitleParentData extends ContainerBoxParentData<RenderBox> {}
+class _AnimatedTitleParentDataWidget extends ParentDataWidget<AnimatedTitle> {
+  const _AnimatedTitleParentDataWidget({
+    Key key,
+    @required this.hasLeading,
+    @required Widget child,
+  })  : assert(hasLeading != null),
+        super(key: key, child: child);
 
-class _AnimatedTitleLayout extends RenderBox
-    with
-        ContainerRenderObjectMixin<RenderBox, _AnimatedTitleParentData>,
-        RenderBoxContainerDefaultsMixin<RenderBox, _AnimatedTitleParentData> {
-  _AnimatedTitleLayout({
-    double t = 0,
-  })  : assert(t != null),
-        _t = t;
+  final bool hasLeading;
 
-  double _t;
-  double get t => _t;
-  set t(double value) {
-    assert(value != null);
-    if (_t == value) {
+  @override
+  void applyParentData(RenderObject renderObject) {
+    assert(renderObject.parentData is _AnimatedTitleParentData);
+    final _AnimatedTitleParentData parentData = renderObject.parentData;
+
+    if (parentData.hasLeading == hasLeading) {
       return;
     }
-
-    _t = value;
-    markNeedsLayout();
+    parentData.hasLeading = hasLeading;
+    final targetParent = renderObject.parent;
+    if (targetParent is RenderObject) {
+      targetParent.markNeedsLayout();
+    }
   }
+}
+
+class _AnimatedTitleParentData extends ContainerBoxParentData<RenderBox> {
+  bool hasLeading;
+}
+
+class _AnimatedTitleLayout
+    extends AnimatedAppBarLayout<_AnimatedTitleParentData> {
+  _AnimatedTitleLayout({double t = 0}) : super(t: t);
 
   @override
   void setupParentData(RenderObject child) {
@@ -104,46 +119,43 @@ class _AnimatedTitleLayout extends RenderBox
     assert(!sizedByParent);
 
     final parent = firstChild;
-    final parentData = parent.parentData as _AnimatedTitleParentData;
-    final child = parentData.nextSibling;
-    final childData = child.parentData as _AnimatedTitleParentData;
+    final child = parent.data.nextSibling;
 
     parent.layout(constraints, parentUsesSize: true);
     child.layout(constraints, parentUsesSize: true);
     size = parent.size.coerceAtLeast(child.size);
 
-    parentData.offset = Offset(
-      lerpDouble(0, -kToolbarHeight, t),
+    parent.data.offset = Offset(
+      lerpDouble(0, -kToolbarHeight, t) +
+          (parent.data.hasLeading ? 0 : -kToolbarHeight),
       (size.height - parent.size.height) / 2,
     );
-    childData.offset = Offset(
-      lerpDouble(kToolbarHeight, 0, t),
+    child.data.offset = Offset(
+      lerpDouble(kToolbarHeight, 0, t) +
+          (child.data.hasLeading ? 0 : -kToolbarHeight),
       (size.height - child.size.height) / 2,
     );
   }
 
   @override
-  bool hitTestChildren(BoxHitTestResult result, {Offset position}) {
-    return defaultHitTestChildren(result, position: position);
-  }
-
-  @override
   void paint(PaintingContext context, Offset offset) {
     final parent = firstChild;
-    final parentData = parent.parentData as _AnimatedTitleParentData;
-    final child = parentData.nextSibling;
-    final childData = child.parentData as _AnimatedTitleParentData;
+    final child = parent.data.nextSibling;
 
     context
       ..pushOpacity(
-        parentData.offset + offset,
+        parent.data.offset + offset,
         (1 - 2 * t).coerceAtLeast(0).opacityToAlpha,
         (context, offset) => context.paintChild(parent, offset),
       )
       ..pushOpacity(
-        childData.offset + offset,
+        child.data.offset + offset,
         (2 * t - 1).coerceAtLeast(0).coerceAtLeast(0).opacityToAlpha,
         (context, offset) => context.paintChild(child, offset),
       );
   }
+}
+
+extension _ParentData on RenderBox {
+  _AnimatedTitleParentData get data => parentData as _AnimatedTitleParentData;
 }
