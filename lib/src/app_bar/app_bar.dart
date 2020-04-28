@@ -6,6 +6,7 @@ import 'package:dartx/dartx.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 
+import 'actions.dart';
 import 'bottom.dart';
 import 'leading.dart';
 import 'state.dart';
@@ -187,6 +188,7 @@ class _AnimatedAppBar extends AnimatedWidget {
       // We manually determine the leadings to be able to animate between them.
       automaticallyImplyLeading: false,
       title: AnimatedTitle(state),
+      actions: [AnimatedActions(state)],
       bottom: AnimatedBottom(state),
       elevation:
           lerpDouble(_resolveElevation(parent), _resolveElevation(child), t),
