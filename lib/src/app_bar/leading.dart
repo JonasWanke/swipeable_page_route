@@ -30,7 +30,7 @@ class AnimatedLeading extends AnimatedAppBarPart {
             child: Transform.translate(
               offset: Offset(lerpDouble(0, -kToolbarHeight, t), 0),
               child: Opacity(
-                opacity: 1 - t,
+                opacity: kHalfInterval.transform(1 - t),
                 child: parent.leading,
               ),
             ),
@@ -40,7 +40,7 @@ class AnimatedLeading extends AnimatedAppBarPart {
             child: Transform.translate(
               offset: Offset(lerpDouble(kToolbarHeight, 0, t), 0),
               child: Opacity(
-                opacity: t,
+                opacity: kHalfInterval.transform(t),
                 child: child.leading,
               ),
             ),

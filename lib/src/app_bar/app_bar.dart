@@ -1,8 +1,5 @@
-import 'dart:math' as math;
 import 'dart:ui';
 
-import 'package:black_hole_flutter/black_hole_flutter.dart';
-import 'package:dartx/dartx.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 
@@ -11,6 +8,8 @@ import 'bottom.dart';
 import 'leading.dart';
 import 'state.dart';
 import 'title.dart';
+
+const kHalfInterval = Interval(0.5, 1);
 
 /// An adapted version of [AppBar] that morphs while navigating.
 class MorphingAppBar extends StatelessWidget implements PreferredSizeWidget {
