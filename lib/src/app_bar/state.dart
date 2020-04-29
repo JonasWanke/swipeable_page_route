@@ -47,6 +47,14 @@ class EndState {
   }
 
   final Widget leading;
+  IconThemeData get iconTheme {
+    final overallIconTheme =
+        appBar.iconTheme ?? appBarTheme.iconTheme ?? theme.primaryIconTheme;
+    return overallIconTheme.copyWith(
+      opacity: opacity * (overallIconTheme.opacity ?? 1.0),
+    );
+  }
+
   Color get backgroundColor =>
       appBar.backgroundColor ?? appBarTheme.color ?? theme.primaryColor;
 }

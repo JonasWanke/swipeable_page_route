@@ -193,6 +193,8 @@ class _AnimatedAppBar extends AnimatedWidget {
           lerpDouble(_resolveElevation(parent), _resolveElevation(child), t),
       shape: ShapeBorder.lerp(parent.appBar.shape, child.appBar.shape, t),
       backgroundColor: state.backgroundColor,
+      // iconTheme & actionsIconTheme are applied in AnimatedLeading &
+      // AnimatedActions directly to differentiate between parent & child.
       // Value is the same for parent and child, so it doesn't matter which one
       // we use.
       primary: parent.appBar.primary,

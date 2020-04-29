@@ -11,6 +11,8 @@ import 'state.dart';
 
 class AnimatedActions extends MultiChildRenderObjectWidget {
   factory AnimatedActions(MorphingState state) {
+    final parentIconTheme = _actionsIconTheme(state.parent);
+    final childIconTheme = _actionsIconTheme(state.child);
     final parentActions = state.parent.appBar.actions ?? [];
     final childActions = state.child.appBar.actions ?? [];
     Iterable<Operation<Widget>> difference = diffSync<Widget>(
@@ -45,12 +47,18 @@ class AnimatedActions extends MultiChildRenderObjectWidget {
           ..add(_AnimatedActionsParentDataWidget(
             position: _ActionPosition.child,
             groupIndex: groupIndex,
-            child: childActions[childIndex],
+            child: IconTheme.merge(
+              data: childIconTheme,
+              child: childActions[childIndex],
+            ),
           ))
           ..add(_AnimatedActionsParentDataWidget(
             position: _ActionPosition.parent,
             groupIndex: groupIndex,
-            child: parentActions[parentIndex],
+            child: IconTheme.merge(
+              data: parentIconTheme,
+              child: parentActions[parentIndex],
+            ),
           ));
         parentIndex++;
         childIndex++;
@@ -73,7 +81,10 @@ class AnimatedActions extends MultiChildRenderObjectWidget {
           children.add(_AnimatedActionsParentDataWidget(
             position: _ActionPosition.child,
             groupIndex: groupIndex,
-            child: childActions[childIndex],
+            child: IconTheme.merge(
+              data: childIconTheme,
+              child: childActions[childIndex],
+            ),
           ));
           childIndex++;
           changeIndex++;
@@ -82,7 +93,10 @@ class AnimatedActions extends MultiChildRenderObjectWidget {
           children.add(_AnimatedActionsParentDataWidget(
             position: _ActionPosition.parent,
             groupIndex: groupIndex,
-            child: parentActions[parentIndex],
+            child: IconTheme.merge(
+              data: parentIconTheme,
+              child: parentActions[parentIndex],
+            ),
           ));
           parentIndex++;
         }
@@ -117,6 +131,16 @@ class AnimatedActions extends MultiChildRenderObjectWidget {
 
   final double t;
   final List<_ActionGroupType> _groups;
+
+  static IconThemeData _actionsIconTheme(EndState state) {
+    var actionsIconTheme = state.appBar.actionsIconTheme ??
+        state.appBarTheme.actionsIconTheme ??
+        state.iconTheme;
+    actionsIconTheme = actionsIconTheme.copyWith(
+      opacity: state.opacity * (actionsIconTheme.opacity ?? 1.0),
+    );
+    return state.iconTheme.merge(actionsIconTheme);
+  }
 
   @override
   RenderObject createRenderObject(BuildContext context) {

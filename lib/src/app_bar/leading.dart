@@ -12,36 +12,37 @@ class AnimatedLeading extends AnimatedAppBarPart {
 
   @override
   Widget build(BuildContext context) {
-    if (parent.leading is _DrawerButton && child.leading is _DrawerButton) {
-      return parent.leading;
-    }
-    if (parent.leading is CloseButton && child.leading is CloseButton) {
-      return parent.leading;
-    }
-    if (parent.leading is BackButton && child.leading is BackButton) {
-      // TODO: color
-      return parent.leading;
-    }
+    final canUpdate = Widget.canUpdate(parent.leading, child.leading);
 
     return Stack(
       children: <Widget>[
         if (parent.leading != null)
           Positioned.fill(
             child: Transform.translate(
-              offset: Offset(lerpDouble(0, -kToolbarHeight, t), 0),
+              offset: canUpdate
+                  ? Offset.zero
+                  : Offset(lerpDouble(0, -kToolbarHeight, t), 0),
               child: Opacity(
-                opacity: kHalfInterval.transform(1 - t),
-                child: parent.leading,
+                opacity: canUpdate ? 1 - t : kHalfInterval.transform(1 - t),
+                child: IconTheme.merge(
+                  data: parent.appBar.iconTheme,
+                  child: parent.leading,
+                ),
               ),
             ),
           ),
         if (child.leading != null)
           Positioned.fill(
             child: Transform.translate(
-              offset: Offset(lerpDouble(kToolbarHeight, 0, t), 0),
+              offset: canUpdate
+                  ? Offset.zero
+                  : Offset(lerpDouble(kToolbarHeight, 0, t), 0),
               child: Opacity(
-                opacity: kHalfInterval.transform(t),
-                child: child.leading,
+                opacity: canUpdate ? t : kHalfInterval.transform(t),
+                child: IconTheme.merge(
+                  data: child.appBar.iconTheme,
+                  child: child.leading,
+                ),
               ),
             ),
           ),
