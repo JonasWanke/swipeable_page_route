@@ -4,81 +4,102 @@ import 'package:flutter/rendering.dart';
 import 'package:flutter/widgets.dart';
 import 'package:dartx/dartx.dart';
 import 'package:black_hole_flutter/black_hole_flutter.dart';
+import 'package:list_diff/list_diff.dart';
 import 'package:swipeable_page_route/src/app_bar/app_bar.dart';
 
 import 'state.dart';
 
 class AnimatedActions extends MultiChildRenderObjectWidget {
   factory AnimatedActions(MorphingState state) {
-    // final difference = await diff<Widget>(
-    //   state.parent.appBar.actions ?? [],
-    //   state.child.appBar.actions ?? [],
-    //   spawnIsolate: false,
-    //   areEqual: Widget.canUpdate,
-    //   getHashCode: (widget) => hashValues(widget.runtimeType, widget.key),
-    // );
-    if (state.parent.appBar.actions?.isEmpty != false) {
-      return AnimatedActions._(
-        t: state.t,
-        groups: [_ActionGroupType.changes],
-        children: <Widget>[
-          _AnimatedActionsParentDataWidget(
+    final parentActions = state.parent.appBar.actions ?? [];
+    final childActions = state.child.appBar.actions ?? [];
+    Iterable<Operation<Widget>> difference = diffSync<Widget>(
+      parentActions,
+      childActions,
+      areEqual: Widget.canUpdate,
+    );
+
+    // We convert the list of [Operation]s into a sequence of groups with either
+    // children being the same in parent and child ([_ActionGroupType.stays]) or
+    // children changing (missing or new items in child compared to parent;
+    // [_ActionGroupType.changes]).
+    final groups = <_ActionGroupType>[];
+    final children = <_AnimatedActionsParentDataWidget>[];
+
+    // Current index in parentActions.
+    var parentIndex = 0;
+    // Current index in childActions.
+    var childIndex = 0;
+    // Current index in the merged state of both.
+    var changeIndex = 0;
+
+    bool itemsLeft() =>
+        parentIndex < parentActions.length || childIndex < childActions.length;
+
+    void tryMatchStaysGroup() {
+      final groupIndex = groups.length;
+      var anyMatch = false;
+      while ((difference.isEmpty || difference.first.index != changeIndex) &&
+          itemsLeft()) {
+        children
+          ..add(_AnimatedActionsParentDataWidget(
             position: _ActionPosition.child,
-            groupIndex: 0,
-            child: state.child.appBar.actions.first,
-          ),
-          _AnimatedActionsParentDataWidget(
-            position: _ActionPosition.child,
-            groupIndex: 0,
-            child: state.child.appBar.actions.second,
-          ),
-          _AnimatedActionsParentDataWidget(
-            position: _ActionPosition.child,
-            groupIndex: 0,
-            child: state.child.appBar.actions.third,
-          ),
-        ],
-      );
+            groupIndex: groupIndex,
+            child: childActions[childIndex],
+          ))
+          ..add(_AnimatedActionsParentDataWidget(
+            position: _ActionPosition.parent,
+            groupIndex: groupIndex,
+            child: parentActions[parentIndex],
+          ));
+        parentIndex++;
+        childIndex++;
+        changeIndex++;
+
+        anyMatch = true;
+      }
+      if (anyMatch) {
+        groups.add(_ActionGroupType.stays);
+      }
     }
 
-    final children = [
-      _AnimatedActionsParentDataWidget(
-        position: _ActionPosition.parent,
-        groupIndex: 0,
-        child: state.parent.appBar.actions.first,
-      ),
-      _AnimatedActionsParentDataWidget(
-        position: _ActionPosition.parent,
-        groupIndex: 1,
-        child: state.parent.appBar.actions.second,
-      ),
-      _AnimatedActionsParentDataWidget(
-        position: _ActionPosition.parent,
-        groupIndex: 3,
-        child: state.parent.appBar.actions.third,
-      ),
-      _AnimatedActionsParentDataWidget(
-        position: _ActionPosition.child,
-        groupIndex: 1,
-        child: state.child.appBar.actions.first,
-      ),
-      _AnimatedActionsParentDataWidget(
-        position: _ActionPosition.child,
-        groupIndex: 2,
-        child: state.child.appBar.actions.second,
-      ),
-      _AnimatedActionsParentDataWidget(
-        position: _ActionPosition.child,
-        groupIndex: 3,
-        child: state.child.appBar.actions.third,
-      ),
-    ];
-    final groups = [
-      _ActionGroupType.changes,
-      _ActionGroupType.stays,
-      _ActionGroupType.changes,
-      _ActionGroupType.stays,
-    ];
+    void tryMatchChangeGroup() {
+      final groupIndex = groups.length;
+      var anyMatch = false;
+      while (difference.isNotEmpty &&
+          difference.first.index == changeIndex &&
+          itemsLeft()) {
+        if (difference.first.isInsertion) {
+          children.add(_AnimatedActionsParentDataWidget(
+            position: _ActionPosition.child,
+            groupIndex: groupIndex,
+            child: childActions[childIndex],
+          ));
+          childIndex++;
+          changeIndex++;
+        } else {
+          assert(difference.first.isDeletion);
+          children.add(_AnimatedActionsParentDataWidget(
+            position: _ActionPosition.parent,
+            groupIndex: groupIndex,
+            child: parentActions[parentIndex],
+          ));
+          parentIndex++;
+        }
+
+        difference = difference.skip(1);
+        anyMatch = true;
+      }
+      if (anyMatch) {
+        groups.add(_ActionGroupType.changes);
+      }
+    }
+
+    while (itemsLeft()) {
+      tryMatchStaysGroup();
+      tryMatchChangeGroup();
+    }
+
     return AnimatedActions._(
       t: state.t,
       groups: groups,
@@ -88,7 +109,7 @@ class AnimatedActions extends MultiChildRenderObjectWidget {
   AnimatedActions._({
     @required this.t,
     @required List<_ActionGroupType> groups,
-    @required List<Widget> children,
+    @required List<_AnimatedActionsParentDataWidget> children,
   })  : assert(t != null),
         assert(groups != null),
         _groups = groups,
