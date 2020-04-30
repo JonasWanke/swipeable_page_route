@@ -3,7 +3,7 @@ name: "swipeable_page_route"
 description: "🔙 Swipe to navigate back and admire beautifully morphing widgets"
 homepage: "https://pub.dev/packages/swipeable_page_route"
 license: "mit"
-version: "0.1.0"
+version: "0.1.1"
 categorization:
   component:
     values: []
