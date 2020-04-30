@@ -36,7 +36,10 @@ class AnimatedTitle extends MultiChildRenderObjectWidget {
 
     return _AnimatedTitleParentDataWidget(
       hasLeading: state.leading != null,
-      child: DefaultTextStyle(style: style, child: title),
+      child: DefaultTextStyle.merge(
+        style: style,
+        child: title,
+      ),
     );
   }
 
