@@ -19,11 +19,12 @@ This project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html
 ## [Unreleased](https://github.com/JonasWanke/swipeable_page_route/compare/v0.1.1...master)
 
 
-## [0.1.1](https://github.com/JonasWanke/black_hole_flutter/compare/v0.1.0...v0.1.1) · 2020-04-30
+## [0.1.1](https://github.com/JonasWanke/swipeable_page_route/compare/v0.1.0...v0.1.1) · 2020-04-30
 
 ### 📜 Documentation updates
 - fix `MorphingSliverAppBar` naming in README
 
 
 ## 0.1.0 · 2020-04-30
+
 Initial release 🎉
