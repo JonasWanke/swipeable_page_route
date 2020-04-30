@@ -23,11 +23,11 @@ Navigator.of(context).push(SwipeablePageRoute(
 ```
 
 
-## [`MorphingAppBar`] & [`SliverMorphingAppBar`]
+## [`MorphingAppBar`] & [`MorphingSliverAppBar`]
 
 As you can see in the demo above, there's a beautiful animation happening to the AppBar. That's a [`MorphingAppBar`]!
 
-You can construct [`MorphingAppBar`] (corresponds to `AppBar`) and [`SliverMorphingAppBar`] (corresponds to `SliverAppBar`) just like the originals:
+You can construct [`MorphingAppBar`] (corresponds to `AppBar`) and [`MorphingSliverAppBar`] (corresponds to `SliverAppBar`) just like the originals:
 
 ```dart
 MorphingAppBar(
@@ -87,5 +87,5 @@ To animate additions, removals and constants in your `AppBar`s `actions`, we com
 [`Widget.canUpdate(Widget old, Widget new)`]: https://api.flutter.dev/flutter/widgets/Widget/canUpdate.html
 <!-- swipeable_page_route -->
 [`MorphingAppBar`]: https://pub.dev/documentation/swipeable_page_route/latest/swipeable_page_route/MorphingAppBar-class.html
-[`SliverMorphingAppBar`]: https://pub.dev/documentation/swipeable_page_route/latest/swipeable_page_route/SliverMorphingAppBar-class.html
+[`MorphingSliverAppBar`]: https://pub.dev/documentation/swipeable_page_route/latest/swipeable_page_route/MorphingSliverAppBar-class.html
 [`SwipeablePageRoute`]: https://pub.dev/documentation/swipeable_page_route/latest/swipeable_page_route/SwipeablePageRoute-class.html
