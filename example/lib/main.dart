@@ -38,6 +38,98 @@ class SecondPage extends StatelessWidget {
     return Scaffold(
       appBar: MorphingAppBar(
         title: Text('Page 2'),
+        actions: <Widget>[
+          IconButton(
+            key: ValueKey('check'),
+            icon: Icon(Icons.check),
+            onPressed: () {},
+          ),
+          IconButton(
+            key: ValueKey('star'),
+            icon: Icon(Icons.star),
+            onPressed: () {},
+          ),
+          IconButton(
+            key: ValueKey('play_arrow'),
+            icon: Icon(Icons.play_arrow),
+            onPressed: () {},
+          ),
+          PopupMenuButton<void>(
+            itemBuilder: (context) {
+              return [
+                PopupMenuItem<void>(child: Text('One')),
+                PopupMenuItem<void>(child: Text('Two')),
+              ];
+            },
+          ),
+        ],
+      ),
+      body: RaisedButton(
+        onPressed: () {
+          Navigator.of(context).push(SwipeablePageRoute(
+            builder: (_) => ThirdPage(),
+          ));
+        },
+        child: Text('Open page 3'),
+      ),
+    );
+  }
+}
+
+class ThirdPage extends StatefulWidget {
+  @override
+  _ThirdPageState createState() => _ThirdPageState();
+}
+
+class _ThirdPageState extends State<ThirdPage> with TickerProviderStateMixin {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: MorphingAppBar(
+        backgroundColor: Colors.green,
+        title: Text('Page 3'),
+        actions: <Widget>[
+          IconButton(
+            key: ValueKey('star'),
+            icon: Icon(Icons.star),
+            onPressed: () {},
+          ),
+          IconButton(
+            key: ValueKey('play_arrow'),
+            icon: Icon(Icons.play_arrow),
+            onPressed: () {},
+          ),
+          IconButton(
+            key: ValueKey('favorite'),
+            icon: Icon(Icons.favorite),
+            onPressed: () {},
+          ),
+          PopupMenuButton<void>(
+            itemBuilder: (context) {
+              return [
+                PopupMenuItem<void>(child: Text('One')),
+                PopupMenuItem<void>(child: Text('Two')),
+              ];
+            },
+          ),
+        ],
+        bottom: TabBar(
+          controller: TabController(length: 3, vsync: this),
+          indicatorColor: Colors.white,
+          tabs: <Widget>[
+            Tab(text: 'Tab 1'),
+            Tab(text: 'Tab 2'),
+            Tab(text: 'Tab 3'),
+          ],
+        ),
+      ),
+      body: RaisedButton(
+        onPressed: () {
+          Navigator.of(context).push(SwipeablePageRoute(
+            builder: (_) => SecondPage(),
+          ));
+        },
+        child: Text('Open page 2'),
       ),
     );
   }
