@@ -1,6 +1,6 @@
 name: swipeable_page_route_example
 description: "Example for 🔙 swipeable_page_route, a package adding back-navigation by swiping with beatifully morphing widgets"
-version: 0.1.1
+version: 0.1.2
 
 environment:
   sdk: ">=2.3.0 <3.0.0"
