@@ -159,7 +159,7 @@ class AnimatedActions extends MultiChildRenderObjectWidget {
 }
 
 class _AnimatedActionsParentDataWidget
-    extends ParentDataWidget<AnimatedActions> {
+    extends ParentDataWidget<_AnimatedActionsParentData> {
   const _AnimatedActionsParentDataWidget({
     Key key,
     @required this.position,
@@ -171,6 +171,9 @@ class _AnimatedActionsParentDataWidget
 
   final _ActionPosition position;
   final int groupIndex;
+
+  @override
+  Type get debugTypicalAncestorWidgetClass => _AnimatedActionsLayout;
 
   @override
   void applyParentData(RenderObject renderObject) {

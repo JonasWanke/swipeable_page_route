@@ -27,9 +27,9 @@ class AnimatedTitle extends MultiChildRenderObjectWidget {
       return SizedBox();
     }
 
-    var style = state.appBar.textTheme?.title ??
-        state.appBarTheme.textTheme?.title ??
-        state.theme.primaryTextTheme.title;
+    var style = state.appBar.textTheme?.headline6 ??
+        state.appBarTheme.textTheme?.headline6 ??
+        state.theme.primaryTextTheme.headline6;
     if (style?.color != null) {
       style = style.copyWith(color: style.color.withOpacity(state.opacity));
     }
@@ -57,7 +57,8 @@ class AnimatedTitle extends MultiChildRenderObjectWidget {
   }
 }
 
-class _AnimatedTitleParentDataWidget extends ParentDataWidget<AnimatedTitle> {
+class _AnimatedTitleParentDataWidget
+    extends ParentDataWidget<_AnimatedTitleParentData> {
   const _AnimatedTitleParentDataWidget({
     Key key,
     @required this.hasLeading,
@@ -66,6 +67,9 @@ class _AnimatedTitleParentDataWidget extends ParentDataWidget<AnimatedTitle> {
         super(key: key, child: child);
 
   final bool hasLeading;
+
+  @override
+  Type get debugTypicalAncestorWidgetClass => _AnimatedTitleLayout;
 
   @override
   void applyParentData(RenderObject renderObject) {
