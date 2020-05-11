@@ -1,5 +1,5 @@
 <!-- Please enter the corresponding issue ID: -->
-**Fixes: #Issue**
+**Closes: #Issue**
 
 <!-- Add the breaking label (PR: BREAKING) if applicable. -->
 <!-- Please summarize your changes: -->
