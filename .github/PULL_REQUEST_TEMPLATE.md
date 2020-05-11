@@ -1,17 +1,8 @@
 <!-- Please enter the corresponding issue ID: -->
-**Fixes: #Issue**
+**Closes: #Issue**
 
 <!-- Add the breaking label (PR: BREAKING) if applicable. -->
-
-
-**Checklist**
-<!-- Please check if your PR fulfills the following requirements: -->
-- [ ] Tests for the changes have been added (for bug fixes / features)
-- [ ] Docs have been added / updated (for bug fixes / features)
-
-
-**Changes**
-<!-- Please summarize your changes -->
+<!-- Please summarize your changes: -->
 
 
 
