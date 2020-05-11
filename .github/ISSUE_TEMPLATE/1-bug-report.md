@@ -24,5 +24,5 @@ assignees: ''
 **Environment:**
 <!-- Please complete the following information: -->
 - Device:  <!-- e.g. Samsung Galaxy S8+ -->
-- OS:  <!-- e.g. Windows 10 Home 1809 -->
-- Program/library version:  <!-- e.g. 1.0.0 -->
+- OS version:  <!-- e.g. Android 9.0.0 -->
+- Package version:  <!-- e.g. 1.0.2 -->
