@@ -1,6 +1,7 @@
 import 'dart:math' as math;
 import 'dart:ui';
 
+import 'package:black_hole_flutter/black_hole_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 
@@ -52,50 +53,48 @@ class AnimatedBottom extends AnimatedAppBarPart implements PreferredSizeWidget {
     final childStart = hasParent ? 0.5 : 0;
     return SizedBox(
       height: preferredHeight,
-      child: Stack(
-        children: <Widget>[
-          if (hasParent && t < parentEnd)
-            Positioned.fill(top: null, child: parent.appBar.bottom),
-          if (hasChild && t > childStart)
-            Positioned.fill(top: null, child: child.appBar.bottom),
-          Positioned.fill(
-            child: DecoratedBox(
-              decoration: BoxDecoration(
-                gradient: _buildScrimGradient(
-                  hasParent: hasParent,
-                  hasChild: hasChild,
-                ),
-              ),
-            ),
-          ),
-        ],
+      child: ShaderMask(
+        shaderCallback: (rect) => _buildScrimShader(
+          rect,
+          hasParent: hasParent,
+          hasChild: hasChild,
+        ),
+        blendMode: BlendMode.dstOut,
+        child: Stack(
+          children: <Widget>[
+            if (hasParent && t < parentEnd)
+              Positioned.fill(top: null, child: parent.appBar.bottom),
+            if (hasChild && t > childStart)
+              Positioned.fill(top: null, child: child.appBar.bottom),
+          ],
+        ),
       ),
     );
   }
 
-  Gradient _buildScrimGradient({
+  Shader _buildScrimShader(
+    Rect rect, {
     @required bool hasParent,
     @required bool hasChild,
   }) {
     final triangleT = math.min(t, 1 - t) * 2;
-    final backgroundColor = state.backgroundColor;
 
     return LinearGradient(
       begin: Alignment.topCenter,
       end: Alignment.bottomCenter,
       colors: [
         if (hasParent && hasChild)
-          backgroundColor.withOpacity(triangleT)
+          Colors.white.withOpacity(triangleT)
         else if (hasParent)
-          backgroundColor.withOpacity(t)
+          Colors.white.withOpacity(t)
         else if (hasChild)
-          backgroundColor.withOpacity(1 - t),
-        backgroundColor.withAlpha(0),
+          Colors.white.withOpacity(1 - t),
+        Colors.white.withAlpha(0),
       ],
       stops: [
         if (hasParent && hasChild) triangleT else 0.0,
         1,
       ],
-    );
+    ).createShader(rect);
   }
 }

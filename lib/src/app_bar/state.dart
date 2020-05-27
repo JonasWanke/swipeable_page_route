@@ -20,12 +20,8 @@ class MorphingState {
   final EndState child;
   final double t;
 
-  Color get backgroundColor {
-    assert(parent.backgroundColor.isOpaque);
-    assert(child.backgroundColor.isOpaque);
-
-    return Color.lerp(parent.backgroundColor, child.backgroundColor, t);
-  }
+  Color get backgroundColor =>
+      Color.lerp(parent.backgroundColor, child.backgroundColor, t);
 }
 
 @immutable
