@@ -16,7 +16,14 @@ This project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html
 -->
 
 
-## [Unreleased](https://github.com/JonasWanke/swipeable_page_route/compare/v0.1.2...master)
+## [Unreleased](https://github.com/JonasWanke/swipeable_page_route/compare/v0.1.3...master)
+
+
+## [0.1.3](https://github.com/JonasWanke/swipeable_page_route/compare/v0.1.2...v0.1.3) · 2020-05-27
+
+### 🎉 New Features
+
+- **app_bar:** support non-opaque backgrounds ([#2](https://github.com/JonasWanke/swipeable_page_route/pull/2))
 
 
 ## [0.1.2](https://github.com/JonasWanke/swipeable_page_route/compare/v0.1.1...v0.1.2) · 2020-05-11
