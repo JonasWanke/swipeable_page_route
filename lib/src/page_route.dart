@@ -420,7 +420,8 @@ class _FancyBackGestureController<T> {
   /// The drag gesture has changed by [delta]. The total range of the drag
   /// should be 0.0 to 1.0.
   void dragUpdate(double delta) {
-    controller.value = (controller.value - delta).clamp(0.0001, 0.9999);
+    controller.value =
+        (controller.value - delta).clamp(0.0001, 0.9999).toDouble();
   }
 
   /// The drag gesture has ended with a horizontal motion of [velocity] as a

@@ -22,7 +22,7 @@ class FirstPage extends StatelessWidget {
       ),
       body: RaisedButton(
         onPressed: () {
-          Navigator.of(context).push(SwipeablePageRoute(
+          Navigator.of(context).push<void>(SwipeablePageRoute(
             builder: (_) => SecondPage(),
           ));
         },
@@ -66,7 +66,7 @@ class SecondPage extends StatelessWidget {
       ),
       body: RaisedButton(
         onPressed: () {
-          Navigator.of(context).push(SwipeablePageRoute(
+          Navigator.of(context).push<void>(SwipeablePageRoute(
             builder: (_) => ThirdPage(),
           ));
         },
@@ -125,7 +125,7 @@ class _ThirdPageState extends State<ThirdPage> with TickerProviderStateMixin {
       ),
       body: RaisedButton(
         onPressed: () {
-          Navigator.of(context).push(SwipeablePageRoute(
+          Navigator.of(context).push<void>(SwipeablePageRoute(
             builder: (_) => SecondPage(),
           ));
         },

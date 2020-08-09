@@ -178,7 +178,7 @@ class _AnimatedActionsParentDataWidget
   @override
   void applyParentData(RenderObject renderObject) {
     assert(renderObject.parentData is _AnimatedActionsParentData);
-    final _AnimatedActionsParentData parentData = renderObject.parentData;
+    final parentData = renderObject.parentData as _AnimatedActionsParentData;
 
     var needsLayout = false;
     if (parentData.position != position) {

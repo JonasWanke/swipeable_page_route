@@ -74,7 +74,7 @@ class _AnimatedTitleParentDataWidget
   @override
   void applyParentData(RenderObject renderObject) {
     assert(renderObject.parentData is _AnimatedTitleParentData);
-    final _AnimatedTitleParentData parentData = renderObject.parentData;
+    final parentData = renderObject.parentData as _AnimatedTitleParentData;
 
     if (parentData.hasLeading == hasLeading) {
       return;
