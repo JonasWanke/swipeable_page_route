@@ -94,6 +94,7 @@ class _SliverAppBarDelegate extends SliverPersistentHeaderDelegate {
     @required this.topPadding,
     @required this.floating,
     @required this.pinned,
+    @required this.vsync,
     @required this.snapConfiguration,
     @required this.stretchConfiguration,
     @required this.shape,
@@ -135,6 +136,9 @@ class _SliverAppBarDelegate extends SliverPersistentHeaderDelegate {
   double get maxExtent => math.max(
       topPadding + (expandedHeight ?? kToolbarHeight + _bottomHeight),
       minExtent);
+
+  @override
+  final TickerProvider vsync;
 
   @override
   final FloatingHeaderSnapConfiguration snapConfiguration;
@@ -225,6 +229,7 @@ class _SliverAppBarDelegate extends SliverPersistentHeaderDelegate {
         topPadding != oldDelegate.topPadding ||
         pinned != oldDelegate.pinned ||
         floating != oldDelegate.floating ||
+        vsync != oldDelegate.vsync ||
         snapConfiguration != oldDelegate.snapConfiguration ||
         stretchConfiguration != oldDelegate.stretchConfiguration;
   }
@@ -371,7 +376,6 @@ class _SliverAppBarState extends State<MorphingSliverAppBar>
   void _updateSnapConfiguration() {
     if (widget.snap && widget.floating) {
       _snapConfiguration = FloatingHeaderSnapConfiguration(
-        vsync: this,
         curve: Curves.easeOut,
         duration: const Duration(milliseconds: 200),
       );
@@ -427,6 +431,7 @@ class _SliverAppBarState extends State<MorphingSliverAppBar>
         floating: widget.floating,
         pinned: widget.pinned,
         delegate: _SliverAppBarDelegate(
+          vsync: this,
           heroTag: widget.heroTag,
           leading: widget.leading,
           automaticallyImplyLeading: widget.automaticallyImplyLeading,
