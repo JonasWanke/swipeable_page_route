@@ -26,16 +26,16 @@ class MorphingState {
 
 @immutable
 class EndState {
-  EndState(this.context, this.appBar)
+  EndState(BuildContext context, this.appBar)
       : assert(context != null),
+        theme = context.theme,
         assert(appBar != null),
         leading = AnimatedLeading.resolveLeading(context, appBar);
 
-  final BuildContext context;
-  final AppBar appBar;
-
-  ThemeData get theme => context.theme;
+  final ThemeData theme;
   AppBarTheme get appBarTheme => theme.appBarTheme;
+
+  final AppBar appBar;
 
   double get opacity {
     return Interval(0.25, 1, curve: Curves.fastOutSlowIn)
