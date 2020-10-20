@@ -20,6 +20,8 @@ class MorphingState {
   final EndState child;
   final double t;
 
+  Brightness get brightness =>
+      t < 0.5 ? parent.appBar.brightness : child.appBar.brightness;
   Color get backgroundColor =>
       Color.lerp(parent.backgroundColor, child.backgroundColor, t);
 }
