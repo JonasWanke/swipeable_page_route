@@ -16,7 +16,15 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 -->
 
 
-## [Unreleased](https://github.com/JonasWanke/swipeable_page_route/compare/v0.1.4...master)
+## [Unreleased](https://github.com/JonasWanke/swipeable_page_route/compare/v0.1.5...master)
+
+
+## [0.1.5](https://github.com/JonasWanke/swipeable_page_route/compare/v0.1.4...v0.1.5) · 2020-10-20
+
+### 🐛 Bug Fixes
+- resolve theme only once to avoid looking up deactivated widget's ancestor
+- keep brightness parameter during transition
+- center app bar bottom widgets during animation
 
 
 ## [0.1.4](https://github.com/JonasWanke/swipeable_page_route/compare/v0.1.3...v0.1.4) · 2020-08-09
