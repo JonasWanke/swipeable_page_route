@@ -62,9 +62,15 @@ class AnimatedBottom extends AnimatedAppBarPart implements PreferredSizeWidget {
         child: Stack(
           children: <Widget>[
             if (hasParent && t < parentEnd)
-              Positioned.fill(top: null, child: parent.appBar.bottom),
+              Positioned.fill(
+                top: null,
+                child: Center(child: parent.appBar.bottom),
+              ),
             if (hasChild && t > childStart)
-              Positioned.fill(top: null, child: child.appBar.bottom),
+              Positioned.fill(
+                top: null,
+                child: Center(child: child.appBar.bottom),
+              ),
           ],
         ),
       ),
