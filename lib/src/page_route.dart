@@ -39,7 +39,6 @@ class SwipeablePageRoute<T> extends PageRoute<T> {
     RouteSettings settings,
   })  : assert(onlySwipeFromEdge != null),
         assert(builder != null),
-        assert(opaque),
         super(settings: settings, fullscreenDialog: false);
 
   final bool onlySwipeFromEdge;

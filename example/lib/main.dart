@@ -67,6 +67,12 @@ class SecondPage extends StatelessWidget {
       body: RaisedButton(
         onPressed: () {
           Navigator.of(context).push<void>(SwipeablePageRoute(
+            // This option has to be enabled for pages with horizontally
+            // scrollable content, as otherwise, `SwipeablePageRoute`'s
+            // swipe-gesture intercepts those gestures in the page. This way
+            // only swipes starting from the left edge of the screen can be used
+            // to navigate back.
+            onlySwipeFromEdge: true,
             builder: (_) => ThirdPage(),
           ));
         },
@@ -81,7 +87,17 @@ class ThirdPage extends StatefulWidget {
   _ThirdPageState createState() => _ThirdPageState();
 }
 
-class _ThirdPageState extends State<ThirdPage> with TickerProviderStateMixin {
+class _ThirdPageState extends State<ThirdPage>
+    with SingleTickerProviderStateMixin {
+  static const _tabCount = 3;
+  TabController _tabController;
+
+  @override
+  void initState() {
+    super.initState();
+    _tabController = TabController(length: _tabCount, vsync: this);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -105,31 +121,40 @@ class _ThirdPageState extends State<ThirdPage> with TickerProviderStateMixin {
             onPressed: () {},
           ),
           PopupMenuButton<void>(
-            itemBuilder: (context) {
-              return [
-                PopupMenuItem<void>(child: Text('One')),
-                PopupMenuItem<void>(child: Text('Two')),
-              ];
-            },
+            itemBuilder: (context) => [
+              PopupMenuItem<void>(child: Text('One')),
+              PopupMenuItem<void>(child: Text('Two')),
+            ],
           ),
         ],
         bottom: TabBar(
-          controller: TabController(length: 3, vsync: this),
+          controller: _tabController,
           indicatorColor: Colors.white,
+          isScrollable: true,
           tabs: <Widget>[
-            Tab(text: 'Tab 1'),
-            Tab(text: 'Tab 2'),
-            Tab(text: 'Tab 3'),
+            for (var i = 0; i < _tabCount; i++) Tab(text: 'Tab ${i + 1}'),
           ],
         ),
       ),
-      body: RaisedButton(
-        onPressed: () {
-          Navigator.of(context).push<void>(SwipeablePageRoute(
-            builder: (_) => SecondPage(),
-          ));
-        },
-        child: Text('Open page 2'),
+      body: TabBarView(
+        controller: _tabController,
+        children: [
+          for (var i = 0; i < _tabCount; i++)
+            Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text('This is tab ${i + 1}'),
+                RaisedButton(
+                  onPressed: () {
+                    Navigator.of(context).push<void>(SwipeablePageRoute(
+                      builder: (_) => SecondPage(),
+                    ));
+                  },
+                  child: Text('Open page 2'),
+                ),
+              ],
+            ),
+        ],
       ),
     );
   }
