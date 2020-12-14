@@ -16,7 +16,13 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 -->
 
 
-## [Unreleased](https://github.com/JonasWanke/swipeable_page_route/compare/v0.1.5...master)
+## [Unreleased](https://github.com/JonasWanke/swipeable_page_route/compare/v0.1.6...master)
+
+
+## [0.1.6](https://github.com/JonasWanke/swipeable_page_route/compare/v0.1.5...v0.1.6) · 2020-12-14
+
+### 🎉 New Features
+- **example:** demonstrate `onlySwipeFromEdge` parameter
 
 
 ## [0.1.5](https://github.com/JonasWanke/swipeable_page_route/compare/v0.1.4...v0.1.5) · 2020-10-20
