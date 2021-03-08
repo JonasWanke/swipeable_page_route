@@ -1,7 +1,9 @@
 import 'dart:ui';
 
+import 'package:black_hole_flutter/black_hole_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:flutter/services.dart';
 
 import 'actions.dart';
 import 'bottom.dart';
@@ -9,12 +11,10 @@ import 'leading.dart';
 import 'state.dart';
 import 'title.dart';
 
-const kHalfInterval = Interval(0.5, 1);
-
 /// An adapted version of [AppBar] that morphs while navigating.
 class MorphingAppBar extends StatelessWidget implements PreferredSizeWidget {
   MorphingAppBar({
-    Key key,
+    Key? key,
     this.heroTag = 'MorphingAppBar',
     this.leading,
     this.automaticallyImplyLeading = true,
@@ -23,78 +23,86 @@ class MorphingAppBar extends StatelessWidget implements PreferredSizeWidget {
     this.flexibleSpace,
     this.bottom,
     this.elevation,
+    this.shadowColor,
     this.shape,
     this.backgroundColor,
-    this.brightness,
+    this.foregroundColor,
     this.iconTheme,
     this.actionsIconTheme,
     this.textTheme,
     this.primary = true,
     this.centerTitle,
-    this.titleSpacing = NavigationToolbar.kMiddleSpacing,
+    this.excludeHeaderSemantics = false,
+    this.titleSpacing,
     this.toolbarOpacity = 1.0,
     this.bottomOpacity = 1.0,
-  })  : assert(heroTag != null),
-        assert(automaticallyImplyLeading != null),
-        assert(elevation == null || elevation >= 0.0),
-        assert(primary != null),
-        assert(titleSpacing != null),
-        assert(toolbarOpacity != null),
-        assert(bottomOpacity != null),
+    this.toolbarHeight,
+    this.leadingWidth,
+    this.toolbarTextStyle,
+    this.titleTextStyle,
+    this.systemOverlayStyle,
+  })  : assert(elevation == null || elevation >= 0.0),
         preferredSize = Size.fromHeight(
-            kToolbarHeight + (bottom?.preferredSize?.height ?? 0.0)),
+          toolbarHeight ?? kToolbarHeight + (bottom?.preferredSize.height ?? 0),
+        ),
         super(key: key);
 
   /// Tag used for the internally created [Hero] widget.
   final Object heroTag;
 
   /// See [AppBar.leading]
-  final Widget leading;
+  final Widget? leading;
 
   /// See [AppBar.automaticallyImplyLeading]
   final bool automaticallyImplyLeading;
 
   /// See [AppBar.title]
-  final Widget title;
+  final Widget? title;
 
   /// See [AppBar.actions]
-  final List<Widget> actions;
+  final List<Widget>? actions;
 
   /// See [AppBar.flexibleSpace]
-  final Widget flexibleSpace;
+  final Widget? flexibleSpace;
 
   /// See [AppBar.bottom]
-  final PreferredSizeWidget bottom;
+  final PreferredSizeWidget? bottom;
 
   /// See [AppBar.elevation]
-  final double elevation;
+  final double? elevation;
+
+  /// See [AppBar.shadowColor]
+  final Color? shadowColor;
 
   /// See [AppBar.shape]
-  final ShapeBorder shape;
+  final ShapeBorder? shape;
 
   /// See [AppBar.backgroundColor]
-  final Color backgroundColor;
+  final Color? backgroundColor;
 
-  /// See [AppBar.brightness]
-  final Brightness brightness;
+  /// See [AppBar.foregroundColor]
+  final Color? foregroundColor;
 
   /// See [AppBar.iconTheme]
-  final IconThemeData iconTheme;
+  final IconThemeData? iconTheme;
 
   /// See [AppBar.actionsIconTheme]
-  final IconThemeData actionsIconTheme;
+  final IconThemeData? actionsIconTheme;
 
   /// See [AppBar.textTheme]
-  final TextTheme textTheme;
+  final TextTheme? textTheme;
 
   /// See [AppBar.primary]
   final bool primary;
 
   /// See [AppBar.centerTitle]
-  final bool centerTitle;
+  final bool? centerTitle;
+
+  /// See [AppBar.excludeHeaderSemantics]
+  final bool excludeHeaderSemantics;
 
   /// See [AppBar.titleSpacing]
-  final double titleSpacing;
+  final double? titleSpacing;
 
   /// See [AppBar.toolbarOpacity]
   final double toolbarOpacity;
@@ -105,8 +113,34 @@ class MorphingAppBar extends StatelessWidget implements PreferredSizeWidget {
   @override
   final Size preferredSize;
 
+  /// See [AppBar.toolbarHeight]
+  final double? toolbarHeight;
+
+  /// See [AppBar.leadingWidth]
+  final double? leadingWidth;
+
+  /// See [AppBar.toolbarTextStyle]
+  final TextStyle? toolbarTextStyle;
+
+  /// See [AppBar.titleTextStyle]
+  final TextStyle? titleTextStyle;
+
+  /// See [AppBar.systemOverlayStyle]
+  final SystemUiOverlayStyle? systemOverlayStyle;
+
   @override
   Widget build(BuildContext context) {
+    final theme = context.theme;
+
+    final actualBackgroundColor = backgroundColor ??
+        theme.appBarTheme.backgroundColor ??
+        (theme.colorScheme.brightness == Brightness.dark
+            ? theme.colorScheme.surface
+            : theme.colorScheme.primary);
+    final actualSystemOverlayStyle = systemOverlayStyle ??
+        context.theme.appBarTheme.systemOverlayStyle ??
+        actualBackgroundColor.contrastSystemUiOverlayStyle;
+
     return Hero(
       tag: heroTag,
       flightShuttleBuilder: _flightShuttleBuilder,
@@ -119,17 +153,25 @@ class MorphingAppBar extends StatelessWidget implements PreferredSizeWidget {
         flexibleSpace: flexibleSpace,
         bottom: bottom,
         elevation: elevation,
+        shadowColor: shadowColor,
         shape: shape,
-        backgroundColor: backgroundColor,
-        brightness: brightness,
+        backgroundColor: actualBackgroundColor,
+        foregroundColor: foregroundColor,
         iconTheme: iconTheme,
         actionsIconTheme: actionsIconTheme,
         textTheme: textTheme,
         primary: primary,
         centerTitle: centerTitle,
+        excludeHeaderSemantics: excludeHeaderSemantics,
         titleSpacing: titleSpacing,
         toolbarOpacity: toolbarOpacity,
         bottomOpacity: bottomOpacity,
+        toolbarHeight: toolbarHeight,
+        leadingWidth: leadingWidth,
+        backwardsCompatibility: false,
+        toolbarTextStyle: toolbarTextStyle,
+        titleTextStyle: titleTextStyle,
+        systemOverlayStyle: actualSystemOverlayStyle,
       ),
     );
   }
@@ -161,12 +203,10 @@ class MorphingAppBar extends StatelessWidget implements PreferredSizeWidget {
 
 class _AnimatedAppBar extends AnimatedWidget {
   _AnimatedAppBar({
-    @required this.parent,
-    @required this.child,
-    @required this.animation,
-  })  : assert(parent != null),
-        assert(child != null),
-        assert(
+    required this.parent,
+    required this.child,
+    required this.animation,
+  })   : assert(
           parent.appBar.primary == child.appBar.primary,
           "Can't morph between a primary and a non-primary AppBar.",
         ),
@@ -188,26 +228,38 @@ class _AnimatedAppBar extends AnimatedWidget {
       automaticallyImplyLeading: false,
       title: AnimatedTitle(state),
       actions: [AnimatedActions(state)],
+      // TODO(JonasWanke): Animate `flexibleSpace`
       bottom: AnimatedBottom(state),
-      elevation:
-          lerpDouble(_resolveElevation(parent), _resolveElevation(child), t),
-      shape: ShapeBorder.lerp(parent.appBar.shape, child.appBar.shape, t),
-      brightness: state.brightness,
+      elevation: state.elevation,
+      shadowColor: state.shadowColor,
+      shape: state.shape,
       backgroundColor: state.backgroundColor,
-      // iconTheme & actionsIconTheme are applied in AnimatedLeading &
-      // AnimatedActions directly to differentiate between parent & child.
-      // Value is the same for parent and child, so it doesn't matter which one
-      // we use.
+      foregroundColor: state.foregroundColor,
+      // `brightness` is obsolete.
+      iconTheme: state.iconTheme,
+      actionsIconTheme: state.actionsIconTheme,
+      // We don't need to set `textTheme` as that's only used as fallback for
+      // `toolbarTextStyle` and `titleTextStyle`.
+      // The value is the same for parent and child, so it doesn't matter which
+      // one we use.
       primary: parent.appBar.primary,
+      centerTitle: state.centerTitle,
+      excludeHeaderSemantics: state.excludeHeaderSemantics,
+      titleSpacing: state.titleSpacing,
+      toolbarOpacity: state.toolbarOpacity,
+      bottomOpacity: state.bottomOpacity,
+      toolbarHeight: state.toolbarHeight,
+      leadingWidth: state.leadingWidth,
+      backwardsCompatibility: false,
+      toolbarTextStyle: state.toolbarTextStyle,
+      titleTextStyle: state.titleTextStyle,
+      systemOverlayStyle: state.systemOverlayStyle,
     );
   }
-
-  double _resolveElevation(EndState state) =>
-      state.appBar.elevation ?? state.appBarTheme.elevation ?? 4;
 }
 
 abstract class AnimatedAppBarPart extends StatelessWidget {
-  const AnimatedAppBarPart(this.state) : assert(state != null);
+  const AnimatedAppBarPart(this.state);
 
   final MorphingState state;
 
@@ -224,23 +276,18 @@ class AnimatedAppBarLayout<
         RenderBoxContainerDefaultsMixin<RenderBox, ParentDataType> {
   AnimatedAppBarLayout({
     double t = 0,
-  })  : assert(t != null),
-        _t = t;
+  }) : _t = t;
 
   double _t;
   double get t => _t;
   set t(double value) {
-    assert(value != null);
-    if (_t == value) {
-      return;
-    }
+    if (_t == value) return;
 
     _t = value;
     markNeedsLayout();
   }
 
   @override
-  bool hitTestChildren(BoxHitTestResult result, {Offset position}) {
-    return defaultHitTestChildren(result, position: position);
-  }
+  bool hitTestChildren(BoxHitTestResult result, {required Offset position}) =>
+      defaultHitTestChildren(result, position: position);
 }

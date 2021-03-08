@@ -5,7 +5,7 @@
 
 ## [`SwipeablePageRoute`]
 
-To allow your users to go back by swiping anywhere on the current page, use [`SwipeablePageRoute`] instead of [`MaterialPageRoute`] or [`CupertinoPageRoute`]:
+[`SwipeablePageRoute`] is a specialized [`CupertinoPageRoute`] that allows your users to go back by swiping anywhere on the current page. Use it instead of [`MaterialPageRoute`] or [`CupertinoPageRoute`]:
 
 ```dart
 Navigator.of(context).push(SwipeablePageRoute(
@@ -21,7 +21,6 @@ Navigator.of(context).push(SwipeablePageRoute(
   builder: (BuildContext context) => MyHorizontallyScrollablePageContent(),
 ));
 ```
-
 
 ## [`MorphingAppBar`] & [`MorphingSliverAppBar`]
 
@@ -68,16 +67,12 @@ Both [`MorphingAppBar`]s internally use [`Hero`]s, so if you're not navigating d
 
 ```dart
 Navigator(
-  observers: [
-    HeroController(),
-  ],
+  observers: [HeroController()],
   onGenerateRoute: // ...
 )
 ```
 
-To animate additions, removals and constants in your `AppBar`s `actions`, we compare them using [`Widget.canUpdate(Widget old, Widget new)`]. It compares `Widget`s based on their type and `key`, so it's recommended to give every action `Widget` a key (that will be reused across pages) for correct animations.
-
-
+To animate additions, removals, and constants in your `AppBar`s `actions`, we compare them using [`Widget.canUpdate(Widget old, Widget new)`]. It compares `Widget`s based on their type and `key`, so it's recommended to give every action `Widget` a key (that you reuse across pages) for correct animations.
 
 <!-- Flutter -->
 [`CupertinoPageRoute`]: https://api.flutter.dev/flutter/cupertino/CupertinoPageRoute-class.html

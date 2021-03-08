@@ -10,9 +10,15 @@ import 'state.dart';
 class AnimatedLeading extends AnimatedAppBarPart {
   const AnimatedLeading(MorphingState state) : super(state);
 
+  static const _halfInterval = Interval(0.5, 1);
+
   @override
   Widget build(BuildContext context) {
-    final canUpdate = Widget.canUpdate(parent.leading, child.leading);
+    if (parent.leading == null && child.leading == null) return SizedBox();
+
+    final canUpdate = parent.leading != null &&
+        child.leading != null &&
+        Widget.canUpdate(parent.leading!, child.leading!);
 
     return Stack(
       children: <Widget>[
@@ -21,12 +27,12 @@ class AnimatedLeading extends AnimatedAppBarPart {
             child: Transform.translate(
               offset: canUpdate
                   ? Offset.zero
-                  : Offset(lerpDouble(0, -kToolbarHeight, t), 0),
+                  : Offset(lerpDouble(0, -kToolbarHeight, t)!, 0),
               child: Opacity(
-                opacity: canUpdate ? 1 - t : kHalfInterval.transform(1 - t),
+                opacity: canUpdate ? 1 - t : _halfInterval.transform(1 - t),
                 child: IconTheme.merge(
-                  data: parent.appBar.iconTheme,
-                  child: parent.leading,
+                  data: parent.overallIconTheme,
+                  child: parent.leading!,
                 ),
               ),
             ),
@@ -36,12 +42,12 @@ class AnimatedLeading extends AnimatedAppBarPart {
             child: Transform.translate(
               offset: canUpdate
                   ? Offset.zero
-                  : Offset(lerpDouble(kToolbarHeight, 0, t), 0),
+                  : Offset(lerpDouble(kToolbarHeight, 0, t)!, 0),
               child: Opacity(
-                opacity: canUpdate ? t : kHalfInterval.transform(t),
+                opacity: canUpdate ? t : _halfInterval.transform(t),
                 child: IconTheme.merge(
-                  data: child.appBar.iconTheme,
-                  child: child.leading,
+                  data: child.overallIconTheme,
+                  child: child.leading!,
                 ),
               ),
             ),
@@ -50,7 +56,7 @@ class AnimatedLeading extends AnimatedAppBarPart {
     );
   }
 
-  static Widget resolveLeading(BuildContext context, AppBar appBar) {
+  static Widget? resolveLeading(BuildContext context, AppBar appBar) {
     if (appBar.leading != null || !appBar.automaticallyImplyLeading) {
       return appBar.leading;
     }
@@ -58,7 +64,7 @@ class AnimatedLeading extends AnimatedAppBarPart {
     if (context.scaffoldOrNull?.hasDrawer ?? false) {
       return _DrawerButton();
     } else {
-      final parentRoute = context.modalRoute;
+      final parentRoute = context.getModalRoute<dynamic>();
       if (parentRoute?.canPop ?? false) {
         return parentRoute is PageRoute<dynamic> && parentRoute.fullscreenDialog
             ? CloseButton()

@@ -13,22 +13,26 @@ class AnimatedBottom extends AnimatedAppBarPart implements PreferredSizeWidget {
   @override
   Size get preferredSize => Size.fromHeight(preferredHeight);
 
-  double get preferredHeight => lerpDouble(
-      _resolvePreferredHeight(parent), _resolvePreferredHeight(child), t);
+  double get preferredHeight {
+    return lerpDouble(
+      _resolvePreferredHeight(parent),
+      _resolvePreferredHeight(child),
+      t,
+    )!;
+  }
+
   double _resolvePreferredHeight(EndState state) =>
-      state.appBar.bottom?.preferredSize?.height ?? 0;
+      state.appBar.bottom?.preferredSize.height ?? 0;
 
   @override
   Widget build(BuildContext context) {
     final hasParent = parent.appBar.bottom != null;
     final hasChild = child.appBar.bottom != null;
-    if (!hasParent && !hasChild) {
-      return SizedBox();
-    }
+    if (!hasParent && !hasChild) return SizedBox();
 
     if (hasParent &&
         hasChild &&
-        Widget.canUpdate(parent.appBar.bottom, child.appBar.bottom)) {
+        Widget.canUpdate(parent.appBar.bottom!, child.appBar.bottom!)) {
       // Do a simple crossfade.
       return SizedBox(
         height: preferredHeight,
@@ -79,8 +83,8 @@ class AnimatedBottom extends AnimatedAppBarPart implements PreferredSizeWidget {
 
   Shader _buildScrimShader(
     Rect rect, {
-    @required bool hasParent,
-    @required bool hasChild,
+    required bool hasParent,
+    required bool hasChild,
   }) {
     final triangleT = math.min(t, 1 - t) * 2;
 

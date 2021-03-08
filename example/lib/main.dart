@@ -1,5 +1,7 @@
-import 'package:swipeable_page_route/swipeable_page_route.dart';
+import 'package:black_hole_flutter/black_hole_flutter.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:swipeable_page_route/swipeable_page_route.dart';
 
 void main() => runApp(MyApp());
 
@@ -20,13 +22,14 @@ class FirstPage extends StatelessWidget {
       appBar: MorphingAppBar(
         title: Text('🔙 swipeable_page_route example'),
       ),
-      body: RaisedButton(
-        onPressed: () {
-          Navigator.of(context).push<void>(SwipeablePageRoute(
-            builder: (_) => SecondPage(),
-          ));
-        },
-        child: Text('Open page 2'),
+      body: Center(
+        child: ElevatedButton(
+          onPressed: () {
+            context.navigator
+                .push<void>(SwipeablePageRoute(builder: (_) => SecondPage()));
+          },
+          child: Text('Open page 2'),
+        ),
       ),
     );
   }
@@ -55,28 +58,30 @@ class SecondPage extends StatelessWidget {
             onPressed: () {},
           ),
           PopupMenuButton<void>(
-            itemBuilder: (context) {
-              return [
-                PopupMenuItem<void>(child: Text('One')),
-                PopupMenuItem<void>(child: Text('Two')),
-              ];
-            },
+            itemBuilder: (context) => [
+              PopupMenuItem(child: Text('One')),
+              PopupMenuItem(child: Text('Two')),
+            ],
           ),
         ],
       ),
-      body: RaisedButton(
-        onPressed: () {
-          Navigator.of(context).push<void>(SwipeablePageRoute(
-            // This option has to be enabled for pages with horizontally
-            // scrollable content, as otherwise, `SwipeablePageRoute`'s
-            // swipe-gesture intercepts those gestures in the page. This way
-            // only swipes starting from the left edge of the screen can be used
-            // to navigate back.
-            onlySwipeFromEdge: true,
-            builder: (_) => ThirdPage(),
-          ));
-        },
-        child: Text('Open page 3'),
+      body: Center(
+        child: ElevatedButton(
+          onPressed: () {
+            context.navigator.push<void>(CupertinoPageRoute(
+              // This option has to be enabled for pages with horizontally
+              // scrollable content, as otherwise, `SwipeablePageRoute`'s
+              // swipe-gesture intercepts those gestures in the page. This way,
+              // only swipes starting from the left (LTR) or right (RTL) screen
+              // edge can be used to navigate back.
+              // canOnlySwipeFromEdge: true,
+              // You can customize the width of the detection area with
+              // `backGestureDetectionWidth`.
+              builder: (_) => ThirdPage(),
+            ));
+          },
+          child: Text('Open page 3'),
+        ),
       ),
     );
   }
@@ -90,12 +95,18 @@ class ThirdPage extends StatefulWidget {
 class _ThirdPageState extends State<ThirdPage>
     with SingleTickerProviderStateMixin {
   static const _tabCount = 3;
-  TabController _tabController;
+  late final TabController _tabController;
 
   @override
   void initState() {
     super.initState();
     _tabController = TabController(length: _tabCount, vsync: this);
+  }
+
+  @override
+  void dispose() {
+    _tabController.dispose();
+    super.dispose();
   }
 
   @override
@@ -122,8 +133,8 @@ class _ThirdPageState extends State<ThirdPage>
           ),
           PopupMenuButton<void>(
             itemBuilder: (context) => [
-              PopupMenuItem<void>(child: Text('One')),
-              PopupMenuItem<void>(child: Text('Two')),
+              PopupMenuItem(child: Text('One')),
+              PopupMenuItem(child: Text('Two')),
             ],
           ),
         ],
@@ -144,11 +155,11 @@ class _ThirdPageState extends State<ThirdPage>
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Text('This is tab ${i + 1}'),
-                RaisedButton(
+                ElevatedButton(
                   onPressed: () {
-                    Navigator.of(context).push<void>(SwipeablePageRoute(
-                      builder: (_) => SecondPage(),
-                    ));
+                    context.navigator.push<void>(
+                      SwipeablePageRoute(builder: (_) => SecondPage()),
+                    );
                   },
                   child: Text('Open page 2'),
                 ),

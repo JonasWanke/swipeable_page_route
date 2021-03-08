@@ -2,17 +2,18 @@ import 'dart:ui';
 
 import 'package:flutter/rendering.dart';
 import 'package:flutter/widgets.dart';
-import 'package:dartx/dartx.dart';
+import 'package:collection/collection.dart';
+import 'package:supercharged/supercharged.dart';
 import 'package:black_hole_flutter/black_hole_flutter.dart';
 import 'package:list_diff/list_diff.dart';
-import 'package:swipeable_page_route/src/app_bar/app_bar.dart';
+import 'app_bar.dart';
 
 import 'state.dart';
 
 class AnimatedActions extends MultiChildRenderObjectWidget {
   factory AnimatedActions(MorphingState state) {
-    final parentIconTheme = _actionsIconTheme(state.parent);
-    final childIconTheme = _actionsIconTheme(state.child);
+    final parentIconTheme = state.parent.actionsIconTheme;
+    final childIconTheme = state.child.actionsIconTheme;
     final parentActions = state.parent.appBar.actions ?? [];
     final childActions = state.child.appBar.actions ?? [];
     Iterable<Operation<Widget>> difference = diffSync<Widget>(
@@ -121,26 +122,14 @@ class AnimatedActions extends MultiChildRenderObjectWidget {
     );
   }
   AnimatedActions._({
-    @required this.t,
-    @required List<_ActionGroupType> groups,
-    @required List<_AnimatedActionsParentDataWidget> children,
-  })  : assert(t != null),
-        assert(groups != null),
-        _groups = groups,
+    required this.t,
+    required List<_ActionGroupType> groups,
+    required List<_AnimatedActionsParentDataWidget> children,
+  })   : _groups = groups,
         super(children: children);
 
   final double t;
   final List<_ActionGroupType> _groups;
-
-  static IconThemeData _actionsIconTheme(EndState state) {
-    var actionsIconTheme = state.appBar.actionsIconTheme ??
-        state.appBarTheme.actionsIconTheme ??
-        state.iconTheme;
-    actionsIconTheme = actionsIconTheme.copyWith(
-      opacity: state.opacity * (actionsIconTheme.opacity ?? 1.0),
-    );
-    return state.iconTheme.merge(actionsIconTheme);
-  }
 
   @override
   RenderObject createRenderObject(BuildContext context) {
@@ -161,13 +150,11 @@ class AnimatedActions extends MultiChildRenderObjectWidget {
 class _AnimatedActionsParentDataWidget
     extends ParentDataWidget<_AnimatedActionsParentData> {
   const _AnimatedActionsParentDataWidget({
-    Key key,
-    @required this.position,
-    @required this.groupIndex,
-    @required Widget child,
-  })  : assert(position != null),
-        assert(groupIndex != null),
-        super(key: key, child: child);
+    Key? key,
+    required this.position,
+    required this.groupIndex,
+    required Widget child,
+  }) : super(key: key, child: child);
 
   final _ActionPosition position;
   final int groupIndex;
@@ -178,7 +165,7 @@ class _AnimatedActionsParentDataWidget
   @override
   void applyParentData(RenderObject renderObject) {
     assert(renderObject.parentData is _AnimatedActionsParentData);
-    final parentData = renderObject.parentData as _AnimatedActionsParentData;
+    final parentData = renderObject.parentData! as _AnimatedActionsParentData;
 
     var needsLayout = false;
     if (parentData.position != position) {
@@ -202,26 +189,22 @@ enum _ActionPosition { parent, child }
 enum _ActionGroupType { stays, changes }
 
 class _AnimatedActionsParentData extends ContainerBoxParentData<RenderBox> {
-  _ActionPosition position;
-  int groupIndex;
+  _ActionPosition? position;
+  int? groupIndex;
 }
 
 class _AnimatedActionsLayout
     extends AnimatedAppBarLayout<_AnimatedActionsParentData> {
   _AnimatedActionsLayout({
     double t = 0,
-    @required List<_ActionGroupType> groups,
-  })  : assert(groups != null),
-        _groups = groups,
+    required List<_ActionGroupType> groups,
+  })   : _groups = groups,
         super(t: t);
 
   List<_ActionGroupType> _groups;
   List<_ActionGroupType> get groups => _groups;
   set groups(List<_ActionGroupType> value) {
-    assert(value != null);
-    if (_groups == value) {
-      return;
-    }
+    if (_groups == value) return;
 
     _groups = value;
     markNeedsLayout();
@@ -242,19 +225,19 @@ class _AnimatedActionsLayout
   @override
   double computeMinIntrinsicWidth(double height) {
     return lerpDouble(
-      _parentChildren.sumBy((c) => c.getMinIntrinsicWidth(height)),
-      _childChildren.sumBy((c) => c.getMinIntrinsicWidth(height)),
+      _parentChildren.sumByDouble((c) => c.getMinIntrinsicWidth(height)),
+      _childChildren.sumByDouble((c) => c.getMinIntrinsicWidth(height)),
       t,
-    );
+    )!;
   }
 
   @override
   double computeMaxIntrinsicWidth(double height) {
     return lerpDouble(
-      _parentChildren.sumBy((c) => c.getMaxIntrinsicWidth(height)),
-      _childChildren.sumBy((c) => c.getMaxIntrinsicWidth(height)),
+      _parentChildren.sumByDouble((c) => c.getMaxIntrinsicWidth(height)),
+      _childChildren.sumByDouble((c) => c.getMaxIntrinsicWidth(height)),
       t,
-    );
+    )!;
   }
 
   @override
@@ -263,7 +246,7 @@ class _AnimatedActionsLayout
       _parentChildren.map((c) => c.getMinIntrinsicHeight(width)).min() ?? 0,
       _childChildren.map((c) => c.getMinIntrinsicHeight(width)).min() ?? 0,
       t,
-    );
+    )!;
   }
 
   @override
@@ -272,7 +255,7 @@ class _AnimatedActionsLayout
       _parentChildren.map((c) => c.getMaxIntrinsicHeight(width)).max() ?? 0,
       _childChildren.map((c) => c.getMaxIntrinsicHeight(width)).max() ?? 0,
       t,
-    );
+    )!;
   }
 
   @override
@@ -295,22 +278,22 @@ class _AnimatedActionsLayout
 
       final groupIndex = child.data.groupIndex;
       final width = child.size.width;
-      if (child.data.position == _ActionPosition.parent) {
-        groupWidths[groupIndex] += width * (1 - t);
+      if (child.data.position! == _ActionPosition.parent) {
+        groupWidths[groupIndex!] += width * (1 - t);
         groupParentWidths[groupIndex] += width;
       } else {
-        groupWidths[groupIndex] += width * t;
+        groupWidths[groupIndex!] += width * t;
         groupChildWidths[groupIndex] += width;
       }
     }
 
-    size = Size(groupWidths.sum(), constraints.maxHeight);
+    size = Size(groupWidths.sum, constraints.maxHeight);
 
     final parentChildren = _parentChildren.toList();
     final childChildren = _childChildren.toList();
 
     var x = 0.0;
-    for (final i in groups.indices) {
+    for (var i = 0; i < groups.length; i++) {
       final groupWidth = groupWidths[i];
       final center = x + groupWidth / 2;
 
@@ -338,8 +321,7 @@ class _AnimatedActionsLayout
       final opacity = {
         _ActionPosition.parent: 1 - t,
         _ActionPosition.child: t,
-      }[parentData.position];
-      assert(opacity != null);
+      }[parentData.position!]!;
 
       context.pushOpacity(
         parentData.offset + offset,
@@ -352,5 +334,5 @@ class _AnimatedActionsLayout
 
 extension _ParentData on RenderBox {
   _AnimatedActionsParentData get data =>
-      parentData as _AnimatedActionsParentData;
+      parentData! as _AnimatedActionsParentData;
 }
