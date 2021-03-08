@@ -1,5 +1,4 @@
 import 'package:black_hole_flutter/black_hole_flutter.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:swipeable_page_route/swipeable_page_route.dart';
 
@@ -68,13 +67,13 @@ class SecondPage extends StatelessWidget {
       body: Center(
         child: ElevatedButton(
           onPressed: () {
-            context.navigator.push<void>(CupertinoPageRoute(
+            context.navigator.push<void>(SwipeablePageRoute(
               // This option has to be enabled for pages with horizontally
               // scrollable content, as otherwise, `SwipeablePageRoute`'s
               // swipe-gesture intercepts those gestures in the page. This way,
               // only swipes starting from the left (LTR) or right (RTL) screen
               // edge can be used to navigate back.
-              // canOnlySwipeFromEdge: true,
+              canOnlySwipeFromEdge: true,
               // You can customize the width of the detection area with
               // `backGestureDetectionWidth`.
               builder: (_) => ThirdPage(),
