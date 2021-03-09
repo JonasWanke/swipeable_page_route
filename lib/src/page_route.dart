@@ -31,7 +31,7 @@ class SwipeablePageRoute<T> extends CupertinoPageRoute<T> {
   /// Whether the user can swipe to navigate back.
   ///
   /// Set this to `false` to disable swiping completely.
-  final bool canSwipe;
+  bool canSwipe;
 
   /// Whether only back gestures close to the left (LTR) or right (RTL) screen
   /// edge are counted.

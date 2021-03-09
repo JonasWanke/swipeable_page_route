@@ -72,22 +72,36 @@ class _SecondPageState extends State<SecondPage> {
           ),
         ],
       ),
-      body: Center(
-        child: ElevatedButton(
-          onPressed: () {
-            context.navigator.push<void>(SwipeablePageRoute(
-              // This option has to be enabled for pages with horizontally
-              // scrollable content, as otherwise, `SwipeablePageRoute`'s
-              // swipe-gesture intercepts those gestures in the page. This way,
-              // only swipes starting from the left (LTR) or right (RTL) screen
-              // edge can be used to navigate back.
-              canOnlySwipeFromEdge: true,
-              // You can customize the width of the detection area with
-              // `backGestureDetectionWidth`.
-              builder: (_) => ThirdPage(),
-            ));
-          },
-          child: Text('Open page 3'),
+      body: SizedBox.expand(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text('Can swipe: ${pageRoute.canSwipe}'),
+            TextButton(
+              onPressed: () {
+                // You can disable swiping completely using `canSwipe`:
+                setState(() => pageRoute.canSwipe = !pageRoute.canSwipe);
+              },
+              child: Text('Toggle'),
+            ),
+            SizedBox(height: 32),
+            ElevatedButton(
+              onPressed: () {
+                context.navigator.push<void>(SwipeablePageRoute(
+                  // This option has to be enabled for pages with horizontally
+                  // scrollable content, as otherwise, `SwipeablePageRoute`'s
+                  // swipe-gesture intercepts those gestures in the page. This way,
+                  // only swipes starting from the left (LTR) or right (RTL) screen
+                  // edge can be used to navigate back.
+                  canOnlySwipeFromEdge: true,
+                  // You can customize the width of the detection area with
+                  // `backGestureDetectionWidth`.
+                  builder: (_) => ThirdPage(),
+                ));
+              },
+              child: Text('Open page 3'),
+            ),
+          ],
         ),
       ),
     );
