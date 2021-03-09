@@ -15,12 +15,19 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 -->
 
 
-## [Unreleased](https://github.com/JonasWanke/swipeable_page_route/compare/v0.2.0...master)
+## [Unreleased](https://github.com/JonasWanke/swipeable_page_route/compare/v0.2.1...master)
+
+
+## [0.2.1](https://github.com/JonasWanke/swipeable_page_route/compare/v0.2.0...v0.2.1) · 2021-03-08
+
+### 🎉 New Features
+- make `swipeablePageRoute.canSwipe` mutable, closes: [#8](https://github.com/JonasWanke/swipeable_page_route/issues/8)
+- add `buildContext.getSwipeablePageRoute<T>()`
 
 
 ## [0.2.0](https://github.com/JonasWanke/swipeable_page_route/compare/v0.1.6...v0.2.0) · 2021-03-08
 
-### ⚠ BREAKING CHANGES 
+### ⚠ BREAKING CHANGES
 - migrate to null-safety
 - `swipeablePageRoute.onlySwipeFromEdge` is now called `canOnlySwipeFromEdge`
 

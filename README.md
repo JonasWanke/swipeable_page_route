@@ -22,6 +22,8 @@ Navigator.of(context).push(SwipeablePageRoute(
 ));
 ```
 
+You can get the [`SwipeablePageRoute`] wrapping your current page using `context.getSwipeablePageRoute<T>()`.
+
 ## [`MorphingAppBar`] & [`MorphingSliverAppBar`]
 
 As you can see in the demo above, there's a beautiful animation happening to the AppBar. That's a [`MorphingAppBar`]!
