@@ -18,7 +18,7 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 ## [Unreleased](https://github.com/JonasWanke/swipeable_page_route/compare/v0.2.1...master)
 
 
-## [0.2.1](https://github.com/JonasWanke/swipeable_page_route/compare/v0.2.0...v0.2.1) · 2021-03-08
+## [0.2.1](https://github.com/JonasWanke/swipeable_page_route/compare/v0.2.0...v0.2.1) · 2021-03-09
 
 ### 🎉 New Features
 - make `swipeablePageRoute.canSwipe` mutable, closes: [#8](https://github.com/JonasWanke/swipeable_page_route/issues/8)
