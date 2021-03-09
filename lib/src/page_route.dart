@@ -6,6 +6,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:black_hole_flutter/black_hole_flutter.dart';
 
 /// A specialized [CupertinoPageRoute] that allows for swiping back anywhere on
 /// the page unless `canOnlySwipeFromEdge` is `true`.
@@ -98,6 +99,13 @@ class SwipeablePageRoute<T> extends CupertinoPageRoute<T> {
         ),
       );
     }
+  }
+}
+
+extension BuildContextSwipeablePageRoute on BuildContext {
+  SwipeablePageRoute<T>? getSwipeablePageRoute<T>() {
+    final route = getModalRoute<T>();
+    return route is SwipeablePageRoute<T> ? route : null;
   }
 }
 

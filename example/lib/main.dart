@@ -34,9 +34,17 @@ class FirstPage extends StatelessWidget {
   }
 }
 
-class SecondPage extends StatelessWidget {
+class SecondPage extends StatefulWidget {
+  @override
+  _SecondPageState createState() => _SecondPageState();
+}
+
+class _SecondPageState extends State<SecondPage> {
   @override
   Widget build(BuildContext context) {
+    // Gets the `SwipeablePageRoute` wrapping the current page.
+    final pageRoute = context.getSwipeablePageRoute<void>()!;
+
     return Scaffold(
       appBar: MorphingAppBar(
         title: Text('Page 2'),
