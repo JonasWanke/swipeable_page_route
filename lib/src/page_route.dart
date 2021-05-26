@@ -15,6 +15,7 @@ class SwipeablePageRoute<T> extends CupertinoPageRoute<T> {
     this.canSwipe = true,
     this.canOnlySwipeFromEdge = false,
     this.backGestureDetectionWidth = kMinInteractiveDimension,
+    this.backGestureDetectionStart = 0.0,
     required WidgetBuilder builder,
     String? title,
     RouteSettings? settings,
@@ -43,12 +44,14 @@ class SwipeablePageRoute<T> extends CupertinoPageRoute<T> {
   /// If set to `false`, the user can start dragging anywhere on the screen.
   final bool canOnlySwipeFromEdge;
 
+  /// If [canOnlySwipeFromEdge] is set to `true`, this value controls 
+  /// width of gesture detection area
+  final double backGestureDetectionWidth;
+
   /// If [canOnlySwipeFromEdge] is set to `true`, this value controls how far
   /// away from the left (LTR) or right (RTL) screen edge a gesture must start
   /// to be recognized for back navigation.
-  ///
-  /// In [CupertinoPageRoute], this value is `20`.
-  final double backGestureDetectionWidth;
+  final double backGestureDetectionStart;
 
   @override
   bool get popGestureEnabled => canSwipe && super.popGestureEnabled;
@@ -95,6 +98,7 @@ class SwipeablePageRoute<T> extends CupertinoPageRoute<T> {
           onStartPopGesture: _startPopGesture,
           canOnlySwipeFromEdge: canOnlySwipeFromEdge,
           backGestureDetectionWidth: backGestureDetectionWidth,
+          backGestureDetectionStart: backGestureDetectionStart,
           child: child,
         ),
       );
@@ -128,6 +132,7 @@ class _FancyBackGestureDetector<T> extends StatefulWidget {
     Key? key,
     required this.canOnlySwipeFromEdge,
     required this.backGestureDetectionWidth,
+    required this.backGestureDetectionStart,
     required this.enabledCallback,
     required this.onStartPopGesture,
     required this.child,
@@ -135,6 +140,7 @@ class _FancyBackGestureDetector<T> extends StatefulWidget {
 
   final bool canOnlySwipeFromEdge;
   final double backGestureDetectionWidth;
+  final double backGestureDetectionStart;
 
   final Widget child;
   final ValueGetter<bool> enabledCallback;
@@ -217,6 +223,7 @@ class _FancyBackGestureDetectorState<T>
         : MediaQuery.of(context).padding.right;
     dragAreaWidth = max(dragAreaWidth, widget.backGestureDetectionWidth);
 
+
     final listener = Listener(
       onPointerDown: (event) {
         if (widget.enabledCallback()) _recognizer.addPointer(event);
@@ -229,7 +236,7 @@ class _FancyBackGestureDetectorState<T>
         widget.child,
         if (widget.canOnlySwipeFromEdge)
           PositionedDirectional(
-            start: 0,
+            start: widget.backGestureDetectionStart,
             width: dragAreaWidth,
             top: 0,
             bottom: 0,
