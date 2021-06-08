@@ -21,7 +21,8 @@ class SwipeablePageRoute<T> extends CupertinoPageRoute<T> {
     bool maintainState = true,
     bool fullscreenDialog = false,
     Duration? transitionDuration,
-  }) : _transitionDuration = transitionDuration, super(
+  })  : _transitionDuration = transitionDuration,
+        super(
           builder: builder,
           title: title,
           settings: settings,
