@@ -33,14 +33,12 @@ class SwipeablePageRoute<T> extends CupertinoPageRoute<T> {
   ///
   /// Set this to `false` to disable swiping completely.
   bool canSwipe;
-  
-  /// Forward transition duration. Default is CupertionPageRoute transitionDuration
-  Duration? _transitionDuration;
-  
+  /// An optional override for the [transitionDuration].
+  final Duration? _transitionDuration;
+
   @override
-  Duration get transitionDuration {
-    return _transitionDuration ?? super.transitionDuration;
-  }
+  Duration get transitionDuration =>
+      _transitionDuration ?? super.transitionDuration;
 
   /// Whether only back gestures close to the left (LTR) or right (RTL) screen
   /// edge are counted.
