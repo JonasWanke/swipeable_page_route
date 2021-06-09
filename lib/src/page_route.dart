@@ -35,6 +35,7 @@ class SwipeablePageRoute<T> extends CupertinoPageRoute<T> {
   ///
   /// Set this to `false` to disable swiping completely.
   bool canSwipe;
+
   /// An optional override for the [transitionDuration].
   final Duration? _transitionDuration;
 
@@ -52,8 +53,10 @@ class SwipeablePageRoute<T> extends CupertinoPageRoute<T> {
   /// If set to `false`, the user can start dragging anywhere on the screen.
   final bool canOnlySwipeFromEdge;
 
-  /// If [canOnlySwipeFromEdge] is set to `true`, this value controls 
-  /// width of gesture detection area
+  /// If [canOnlySwipeFromEdge] is set to `true`, this value controls the width
+  /// of the gesture detection area.
+  ///
+  /// For comparison, in [CupertinoPageRoute] this value is `20`.
   final double backGestureDetectionWidth;
 
   /// If [canOnlySwipeFromEdge] is set to `true`, this value controls how far
