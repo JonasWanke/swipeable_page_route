@@ -1,6 +1,6 @@
 🔙 Swipe to navigate back and admire beautifully morphing widgets.
 
-<img src="https://github.com/JonasWanke/swipeable_page_route/raw/master/doc/demo.gif?raw=true" width="400px" alt="swipeable_page_route demo" />
+<img src="https://github.com/JonasWanke/swipeable_page_route/raw/main/doc/demo.gif?raw=true" width="400px" alt="swipeable_page_route demo" />
 
 
 ## [`SwipeablePageRoute`]
