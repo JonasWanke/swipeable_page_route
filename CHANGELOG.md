@@ -14,6 +14,11 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 ### 📦 Build & CI
 -->
 
+## 0.2.2 · 2021-06-09
+
+### 🎉 New Features
+- add `swipeablePageRoute.backGestureDetectionStartOffset` ([#14](https://github.com/JonasWanke/swipeable_page_route/pull/14)), closes: [#13](https://github.com/JonasWanke/swipeable_page_route/issues/13). Thanks to [@zim32](https://github.com/zim32)!
+- add `swipeablePageRoute.transitionDuration` ([#15](https://github.com/JonasWanke/swipeable_page_route/pull/15)). Thanks to [@zim32](https://github.com/zim32)!
 
 ## 0.2.1 · 2021-03-09
 
