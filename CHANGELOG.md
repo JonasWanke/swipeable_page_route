@@ -14,6 +14,11 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 ### 📦 Build & CI
 -->
 
+## 0.2.3 · 2021-08-10
+
+### 🎉 New Features
+- add `swipeablePageRoute.transitionBuilder`, closes: [#16](https://github.com/JonasWanke/swipeable_page_route/issues/16)
+
 ## 0.2.2 · 2021-06-09
 
 ### 🎉 New Features
