@@ -22,7 +22,10 @@ class SwipeablePageRoute<T> extends CupertinoPageRoute<T> {
     bool maintainState = true,
     bool fullscreenDialog = false,
     Duration? transitionDuration,
+    SwipeableTransitionBuilder? transitionBuilder,
   })  : _transitionDuration = transitionDuration,
+        transitionBuilder =
+            transitionBuilder ?? _defaultTransitionBuilder(fullscreenDialog),
         super(
           builder: builder,
           title: title,
@@ -64,6 +67,38 @@ class SwipeablePageRoute<T> extends CupertinoPageRoute<T> {
   /// to be recognized for back navigation.
   final double backGestureDetectionStartOffset;
 
+  /// Custom builder to wrap the child widget.
+  ///
+  /// By default, this wraps the child in a [CupertinoPageTransition], or, if
+  /// it's a full-screen dialog, in a [CupertinoFullscreenDialogTransition].
+  ///
+  /// You can override this to, e.g., customize the position or shadow
+  /// animations.
+  final SwipeableTransitionBuilder transitionBuilder;
+  static SwipeableTransitionBuilder _defaultTransitionBuilder(
+    bool fullscreenDialog,
+  ) {
+    if (fullscreenDialog) {
+      return (context, animation, secondaryAnimation, isSwipeGesture, child) {
+        return CupertinoFullscreenDialogTransition(
+          primaryRouteAnimation: animation,
+          secondaryRouteAnimation: secondaryAnimation,
+          linearTransition: isSwipeGesture,
+          child: child,
+        );
+      };
+    } else {
+      return (context, animation, secondaryAnimation, isSwipeGesture, child) {
+        return CupertinoPageTransition(
+          primaryRouteAnimation: animation,
+          secondaryRouteAnimation: secondaryAnimation,
+          linearTransition: isSwipeGesture,
+          child: child,
+        );
+      };
+    }
+  }
+
   @override
   bool get popGestureEnabled => canSwipe && super.popGestureEnabled;
 
@@ -89,33 +124,38 @@ class SwipeablePageRoute<T> extends CupertinoPageRoute<T> {
     // Check if the route has an animation that's currently participating in a
     // back swipe gesture.
     //
-    // In the middle of a back gesture drag, let the transition be linear to
-    // match finger motions.
-    final linearTransition = popGestureInProgress;
+    // During a back gesture drag, let the transition be linear to match finger
+    // motions.
+    final Widget wrappedChild;
     if (fullscreenDialog) {
-      return CupertinoFullscreenDialogTransition(
-        primaryRouteAnimation: animation,
-        secondaryRouteAnimation: secondaryAnimation,
-        child: child,
-        linearTransition: linearTransition,
-      );
+      wrappedChild = child;
     } else {
-      return CupertinoPageTransition(
-        primaryRouteAnimation: animation,
-        secondaryRouteAnimation: secondaryAnimation,
-        linearTransition: linearTransition,
-        child: _FancyBackGestureDetector<T>(
-          enabledCallback: () => popGestureEnabled,
-          onStartPopGesture: _startPopGesture,
-          canOnlySwipeFromEdge: canOnlySwipeFromEdge,
-          backGestureDetectionWidth: backGestureDetectionWidth,
-          backGestureDetectionStartOffset: backGestureDetectionStartOffset,
-          child: child,
-        ),
+      wrappedChild = _FancyBackGestureDetector<T>(
+        enabledCallback: () => popGestureEnabled,
+        onStartPopGesture: _startPopGesture,
+        canOnlySwipeFromEdge: canOnlySwipeFromEdge,
+        backGestureDetectionWidth: backGestureDetectionWidth,
+        backGestureDetectionStartOffset: backGestureDetectionStartOffset,
+        child: child,
       );
     }
+    return transitionBuilder(
+      context,
+      animation,
+      secondaryAnimation,
+      /* isSwipeGesture: */ popGestureInProgress,
+      wrappedChild,
+    );
   }
 }
+
+typedef SwipeableTransitionBuilder = Widget Function(
+  BuildContext context,
+  Animation<double> animation,
+  Animation<double> secondaryAnimation,
+  bool isSwipeGesture,
+  Widget child,
+);
 
 extension BuildContextSwipeablePageRoute on BuildContext {
   SwipeablePageRoute<T>? getSwipeablePageRoute<T>() {
