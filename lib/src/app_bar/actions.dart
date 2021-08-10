@@ -125,7 +125,7 @@ class AnimatedActions extends MultiChildRenderObjectWidget {
     required this.t,
     required List<_ActionGroupType> groups,
     required List<_AnimatedActionsParentDataWidget> children,
-  })   : _groups = groups,
+  })  : _groups = groups,
         super(children: children);
 
   final double t;
@@ -198,7 +198,7 @@ class _AnimatedActionsLayout
   _AnimatedActionsLayout({
     double t = 0,
     required List<_ActionGroupType> groups,
-  })   : _groups = groups,
+  })  : _groups = groups,
         super(t: t);
 
   List<_ActionGroupType> _groups;

@@ -206,7 +206,7 @@ class _AnimatedAppBar extends AnimatedWidget {
     required this.parent,
     required this.child,
     required this.animation,
-  })   : assert(
+  })  : assert(
           parent.appBar.primary == child.appBar.primary,
           "Can't morph between a primary and a non-primary AppBar.",
         ),
