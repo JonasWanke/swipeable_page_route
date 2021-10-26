@@ -1,12 +1,13 @@
-import 'dart:math';
+import 'dart:developer';
+import 'dart:math' as math;
 import 'dart:ui' show lerpDouble;
 
+import 'package:black_hole_flutter/black_hole_flutter.dart';
 import 'package:flutter/animation.dart' show Curves;
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:black_hole_flutter/black_hole_flutter.dart';
 
 /// A specialized [CupertinoPageRoute] that allows for swiping back anywhere on
 /// the page unless `canOnlySwipeFromEdge` is `true`.
@@ -250,12 +251,6 @@ class _FancyBackGestureDetectorState<T>
   @override
   Widget build(BuildContext context) {
     assert(debugCheckHasDirectionality(context));
-    // For devices with notches, the drag area needs to be larger on the side
-    // that has the notch.
-    var dragAreaWidth = Directionality.of(context) == TextDirection.ltr
-        ? MediaQuery.of(context).padding.left
-        : MediaQuery.of(context).padding.right;
-    dragAreaWidth = max(dragAreaWidth, widget.backGestureDetectionWidth);
 
     final listener = RawGestureDetector(
       behavior: HitTestBehavior.translucent,
@@ -281,20 +276,30 @@ class _FancyBackGestureDetectorState<T>
       },
     );
 
+    final Widget gestureLayer;
+    if (widget.canOnlySwipeFromEdge) {
+      // For devices with notches, the drag area needs to be larger on the side
+      // that has the notch.
+      var dragAreaWidth = Directionality.of(context) == TextDirection.ltr
+          ? MediaQuery.of(context).padding.left
+          : MediaQuery.of(context).padding.right;
+      dragAreaWidth = math.max(dragAreaWidth, widget.backGestureDetectionWidth);
+      gestureLayer = PositionedDirectional(
+        start: widget.backGestureDetectionStartOffset,
+        width: dragAreaWidth,
+        top: 0,
+        bottom: 0,
+        child: listener,
+      );
+    } else {
+      gestureLayer = Positioned.fill(child: listener);
+    }
+
     return Stack(
       fit: StackFit.passthrough,
       children: <Widget>[
         widget.child,
-        if (widget.canOnlySwipeFromEdge)
-          PositionedDirectional(
-            start: widget.backGestureDetectionStartOffset,
-            width: dragAreaWidth,
-            top: 0,
-            bottom: 0,
-            child: listener,
-          )
-        else
-          Positioned.fill(child: listener),
+        gestureLayer,
       ],
     );
   }
@@ -343,7 +348,7 @@ class _CupertinoBackGestureController<T> {
       // The closer the panel is to dismissing, the shorter the animation is.
       // We want to cap the animation time, but we want to use a linear curve
       // to determine it.
-      final droppedPageForwardAnimationTime = min(
+      final droppedPageForwardAnimationTime = math.min(
         lerpDouble(
           _kMaxDroppedSwipePageForwardAnimationTime,
           0,
@@ -413,11 +418,14 @@ class _DirectionDependentDragGestureRecognizer
   @override
   void handleEvent(PointerEvent event) {
     final delta = event.delta.dx;
-    if (enabledCallback() &&
-        ((canDragToLeft || checkStartedCallback()) && delta < 0 ||
-            (canDragToRight || checkStartedCallback()) && delta > 0 ||
-            delta == 0)) {
+    if (checkStartedCallback() ||
+        enabledCallback() &&
+            (canDragToLeft && delta < 0 ||
+                canDragToRight && delta > 0 ||
+                delta == 0)) {
       super.handleEvent(event);
+    } else {
+      stopTrackingPointer(event.pointer);
     }
   }
 }

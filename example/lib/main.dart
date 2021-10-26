@@ -93,7 +93,8 @@ class _SecondPageState extends State<SecondPage> {
                   // swipe-gesture intercepts those gestures in the page. This way,
                   // only swipes starting from the left (LTR) or right (RTL) screen
                   // edge can be used to navigate back.
-                  canOnlySwipeFromEdge: true,
+                  canOnlySwipeFromEdge: false,
+                  canSwipe: true,
                   // You can customize the width of the detection area with
                   // `backGestureDetectionWidth`.
                   builder: (_) => ThirdPage(),
