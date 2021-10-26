@@ -1,4 +1,3 @@
-import 'dart:developer';
 import 'dart:math' as math;
 import 'dart:ui' show lerpDouble;
 
@@ -8,6 +7,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 /// A specialized [CupertinoPageRoute] that allows for swiping back anywhere on
 /// the page unless `canOnlySwipeFromEdge` is `true`.
@@ -252,56 +252,63 @@ class _FancyBackGestureDetectorState<T>
   Widget build(BuildContext context) {
     assert(debugCheckHasDirectionality(context));
 
-    final listener = RawGestureDetector(
-      behavior: HitTestBehavior.translucent,
-      gestures: {
-        _DirectionDependentDragGestureRecognizer:
-            GestureRecognizerFactoryWithHandlers<
-                _DirectionDependentDragGestureRecognizer>(() {
-          final d = Directionality.of(context);
-          return _DirectionDependentDragGestureRecognizer(
-            debugOwner: this,
-            canDragToLeft: d == TextDirection.rtl,
-            canDragToRight: d == TextDirection.ltr,
-            checkStartedCallback: () => _backGestureController != null,
-            enabledCallback: widget.enabledCallback,
-          );
-        }, (instance) {
-          instance
-            ..onStart = _handleDragStart
-            ..onUpdate = _handleDragUpdate
-            ..onEnd = _handleDragEnd
-            ..onCancel = _handleDragCancel;
-        })
+    return Provider(
+      create: (context) => SwipeablePageSettings(
+        canSwipeCallback: widget.enabledCallback,
+      ),
+      builder: (context, child) {
+        final listener = RawGestureDetector(
+          behavior: HitTestBehavior.translucent,
+          gestures: {
+            _DirectionDependentDragGestureRecognizer:
+                GestureRecognizerFactoryWithHandlers<
+                    _DirectionDependentDragGestureRecognizer>(() {
+              final d = Directionality.of(context);
+              return _DirectionDependentDragGestureRecognizer(
+                debugOwner: this,
+                canDragToLeft: d == TextDirection.rtl,
+                canDragToRight: d == TextDirection.ltr,
+                checkStartedCallback: () => _backGestureController != null,
+                enabledCallback:
+                    SwipeablePageSettings.of(context)._resolveCanSwipe,
+              );
+            }, (instance) {
+              instance
+                ..onStart = _handleDragStart
+                ..onUpdate = _handleDragUpdate
+                ..onEnd = _handleDragEnd
+                ..onCancel = _handleDragCancel;
+            })
+          },
+        );
+
+        return Stack(
+          fit: StackFit.passthrough,
+          children: <Widget>[
+            widget.child,
+            if (widget.canOnlySwipeFromEdge)
+              PositionedDirectional(
+                start: widget.backGestureDetectionStartOffset,
+                width: _dragAreaWidth(context),
+                top: 0,
+                bottom: 0,
+                child: listener,
+              )
+            else
+              Positioned.fill(child: listener),
+          ],
+        );
       },
     );
+  }
 
-    final Widget gestureLayer;
-    if (widget.canOnlySwipeFromEdge) {
-      // For devices with notches, the drag area needs to be larger on the side
-      // that has the notch.
-      var dragAreaWidth = Directionality.of(context) == TextDirection.ltr
-          ? MediaQuery.of(context).padding.left
-          : MediaQuery.of(context).padding.right;
-      dragAreaWidth = math.max(dragAreaWidth, widget.backGestureDetectionWidth);
-      gestureLayer = PositionedDirectional(
-        start: widget.backGestureDetectionStartOffset,
-        width: dragAreaWidth,
-        top: 0,
-        bottom: 0,
-        child: listener,
-      );
-    } else {
-      gestureLayer = Positioned.fill(child: listener);
-    }
-
-    return Stack(
-      fit: StackFit.passthrough,
-      children: <Widget>[
-        widget.child,
-        gestureLayer,
-      ],
-    );
+  double _dragAreaWidth(BuildContext context) {
+    // For devices with notches, the drag area needs to be larger on the side
+    // that has the notch.
+    final dragAreaWidth = Directionality.of(context) == TextDirection.ltr
+        ? MediaQuery.of(context).padding.left
+        : MediaQuery.of(context).padding.right;
+    return math.max(dragAreaWidth, widget.backGestureDetectionWidth);
   }
 }
 
@@ -428,4 +435,21 @@ class _DirectionDependentDragGestureRecognizer
       stopTrackingPointer(event.pointer);
     }
   }
+}
+
+class SwipeablePageSettings {
+  SwipeablePageSettings({
+    required bool Function() canSwipeCallback,
+  }) : _canSwipeCallback = canSwipeCallback;
+
+  factory SwipeablePageSettings.of(
+    BuildContext context, {
+    bool listen = false,
+  }) =>
+      Provider.of<SwipeablePageSettings>(context, listen: listen);
+
+  final bool Function() _canSwipeCallback;
+  bool canSwipe = true;
+
+  bool _resolveCanSwipe() => _canSwipeCallback() && canSwipe;
 }
