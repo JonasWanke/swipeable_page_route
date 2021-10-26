@@ -116,13 +116,11 @@ class _ThirdPageState extends State<ThirdPage>
   void initState() {
     super.initState();
     _tabController = TabController(length: _tabCount, vsync: this);
-    WidgetsBinding.instance?.addPostFrameCallback((_) {
-      _tabController.addListener(() {
-        if (mounted) {
-          final canSwipe = _tabController.index == 0;
-          SwipeablePageSettings.of(context).canSwipe = canSwipe;
-        }
-      });
+    _tabController.addListener(() {
+      if (mounted) {
+        final canSwipe = _tabController.index == 0;
+        SwipeablePageSettings.of(context).canSwipe = canSwipe;
+      }
     });
   }
 
