@@ -75,6 +75,7 @@ class SwipeablePageRoute<T> extends CupertinoPageRoute<T> {
   /// You can override this to, e.g., customize the position or shadow
   /// animations.
   final SwipeableTransitionBuilder transitionBuilder;
+
   static SwipeableTransitionBuilder _defaultTransitionBuilder(
     bool fullscreenDialog,
   ) {
@@ -206,24 +207,6 @@ class _FancyBackGestureDetectorState<T>
     extends State<_FancyBackGestureDetector<T>> {
   _CupertinoBackGestureController<T>? _backGestureController;
 
-  late final HorizontalDragGestureRecognizer _recognizer;
-
-  @override
-  void initState() {
-    super.initState();
-    _recognizer = HorizontalDragGestureRecognizer(debugOwner: this)
-      ..onStart = _handleDragStart
-      ..onUpdate = _handleDragUpdate
-      ..onEnd = _handleDragEnd
-      ..onCancel = _handleDragCancel;
-  }
-
-  @override
-  void dispose() {
-    _recognizer.dispose();
-    super.dispose();
-  }
-
   void _handleDragStart(DragStartDetails details) {
     assert(mounted);
     assert(_backGestureController == null);
@@ -274,12 +257,30 @@ class _FancyBackGestureDetectorState<T>
         : MediaQuery.of(context).padding.right;
     dragAreaWidth = max(dragAreaWidth, widget.backGestureDetectionWidth);
 
-    final listener = Listener(
-      onPointerDown: (event) {
-        if (widget.enabledCallback()) _recognizer.addPointer(event);
-      },
+    final listener = RawGestureDetector(
       behavior: HitTestBehavior.translucent,
+      gestures: {
+        _DirectionDependentDragGestureRecognizer:
+            GestureRecognizerFactoryWithHandlers<
+                _DirectionDependentDragGestureRecognizer>(() {
+          final d = Directionality.of(context);
+          return _DirectionDependentDragGestureRecognizer(
+            debugOwner: this,
+            canDragToLeft: d == TextDirection.rtl,
+            canDragToRight: d == TextDirection.ltr,
+            checkStartedCallback: () => _backGestureController != null,
+            enabledCallback: widget.enabledCallback,
+          );
+        }, (instance) {
+          instance
+            ..onStart = _handleDragStart
+            ..onUpdate = _handleDragUpdate
+            ..onEnd = _handleDragEnd
+            ..onCancel = _handleDragCancel;
+        })
+      },
     );
+
     return Stack(
       fit: StackFit.passthrough,
       children: <Widget>[
@@ -390,6 +391,33 @@ class _CupertinoBackGestureController<T> {
       controller.addStatusListener(animationStatusCallback);
     } else {
       navigator.didStopUserGesture();
+    }
+  }
+}
+
+class _DirectionDependentDragGestureRecognizer
+    extends HorizontalDragGestureRecognizer {
+  final bool canDragToLeft;
+  final bool canDragToRight;
+  final bool Function() enabledCallback;
+  final bool Function() checkStartedCallback;
+
+  _DirectionDependentDragGestureRecognizer({
+    required this.canDragToLeft,
+    required this.canDragToRight,
+    required this.enabledCallback,
+    required this.checkStartedCallback,
+    Object? debugOwner,
+  }) : super(debugOwner: debugOwner);
+
+  @override
+  void handleEvent(PointerEvent event) {
+    final delta = event.delta.dx;
+    if (enabledCallback() &&
+        ((canDragToLeft || checkStartedCallback()) && delta < 0 ||
+            (canDragToRight || checkStartedCallback()) && delta > 0 ||
+            delta == 0)) {
+      super.handleEvent(event);
     }
   }
 }
