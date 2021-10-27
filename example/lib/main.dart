@@ -119,7 +119,7 @@ class _ThirdPageState extends State<ThirdPage>
     _tabController.addListener(() {
       if (mounted) {
         final canSwipe = _tabController.index == 0;
-        SwipeablePageSettings.of(context).canSwipe = canSwipe;
+        (ModalRoute.of(context) as SwipeablePageRoute).canSwipe = canSwipe;
       }
     });
   }
