@@ -2,7 +2,6 @@
 
 <img src="https://github.com/JonasWanke/swipeable_page_route/raw/main/doc/demo.gif?raw=true" width="400px" alt="swipeable_page_route demo" />
 
-
 ## [`SwipeablePageRoute`]
 
 [`SwipeablePageRoute`] is a specialized [`CupertinoPageRoute`] that allows your users to go back by swiping anywhere on the current page. Use it instead of [`MaterialPageRoute`] or [`CupertinoPageRoute`]:

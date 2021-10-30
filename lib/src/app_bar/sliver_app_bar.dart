@@ -98,7 +98,7 @@ class _SliverAppBarDelegate extends SliverPersistentHeaderDelegate {
     required this.toolbarTextStyle,
     required this.titleTextStyle,
     required this.systemOverlayStyle,
-  })   : assert(primary || topPadding == 0.0),
+  })  : assert(primary || topPadding == 0.0),
         assert(
           !floating ||
               (snapConfiguration == null &&
@@ -197,7 +197,7 @@ class _SliverAppBarDelegate extends SliverPersistentHeaderDelegate {
         actions: actions,
         flexibleSpace:
             (title == null && flexibleSpace != null && !excludeHeaderSemantics)
-                ? Semantics(child: flexibleSpace, header: true)
+                ? Semantics(header: true, child: flexibleSpace)
                 : flexibleSpace,
         bottom: bottom,
         elevation: forceElevated ||
