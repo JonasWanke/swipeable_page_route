@@ -8,7 +8,7 @@ on:
 
 env:
   JAVA_VERSION: 12.x
-  FLUTTER_CHANNEL: stable
+  FLUTTER_CHANNEL: beta
 
 jobs:
   lint:
