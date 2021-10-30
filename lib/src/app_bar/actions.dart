@@ -1,13 +1,13 @@
 import 'dart:ui';
 
+import 'package:black_hole_flutter/black_hole_flutter.dart';
+import 'package:collection/collection.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/widgets.dart';
-import 'package:collection/collection.dart';
-import 'package:supercharged/supercharged.dart';
-import 'package:black_hole_flutter/black_hole_flutter.dart';
 import 'package:list_diff/list_diff.dart';
-import 'app_bar.dart';
+import 'package:supercharged/supercharged.dart';
 
+import 'app_bar.dart';
 import 'state.dart';
 
 class AnimatedActions extends MultiChildRenderObjectWidget {

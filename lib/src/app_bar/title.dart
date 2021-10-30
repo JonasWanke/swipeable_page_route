@@ -44,17 +44,15 @@ class AnimatedTitle extends MultiChildRenderObjectWidget {
   }
 
   @override
-  RenderObject createRenderObject(BuildContext context) {
-    return _AnimatedTitleLayout(t: t);
-  }
+  RenderObject createRenderObject(BuildContext context) =>
+      _AnimatedTitleLayout(t: t);
 
   @override
   void updateRenderObject(
     BuildContext context,
     covariant _AnimatedTitleLayout renderObject,
-  ) {
-    renderObject.t = t;
-  }
+  ) =>
+      renderObject.t = t;
 }
 
 class _AnimatedTitleParentDataWidget

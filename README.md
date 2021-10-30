@@ -34,7 +34,7 @@ You can construct [`MorphingAppBar`] (corresponds to `AppBar`) and [`MorphingSli
 MorphingAppBar(
   backgroundColor: Colors.green,
   title: Text('My Page'),
-  actions: <Widget>[
+  actions: [
     IconButton(
       key: ValueKey('play'),
       icon: Icon(Icons.play_arrow),
@@ -47,21 +47,17 @@ MorphingAppBar(
     ),
     PopupMenuButton<void>(
       key: ValueKey('overflow'),
-      itemBuilder: (context) {
-        return [
-          PopupMenuItem<void>(child: Text('Overflow action 1')),
-          PopupMenuItem<void>(child: Text('Overflow action 2')),
-        ];
-      },
+      itemBuilder: (context) => [
+        PopupMenuItem<void>(child: Text('Overflow action 1')),
+        PopupMenuItem<void>(child: Text('Overflow action 2')),
+      ],
     ),
   ],
-  bottom: TabBar(
-    tabs: <Widget>[
-      Tab(text: 'Tab 1'),
-      Tab(text: 'Tab 2'),
-      Tab(text: 'Tab 3'),
-    ],
-  ),
+  bottom: TabBar(tabs: [
+    Tab(text: 'Tab 1'),
+    Tab(text: 'Tab 2'),
+    Tab(text: 'Tab 3'),
+  ]),
 )
 ```
 

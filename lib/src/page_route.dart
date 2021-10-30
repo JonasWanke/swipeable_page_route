@@ -239,7 +239,7 @@ class _FancyBackGestureDetectorState<T>
   }
 
   double _convertToLogical(double value) {
-    switch (Directionality.of(context)) {
+    switch (context.directionality) {
       case TextDirection.rtl:
         return -value;
       case TextDirection.ltr:
@@ -251,33 +251,34 @@ class _FancyBackGestureDetectorState<T>
   Widget build(BuildContext context) {
     assert(debugCheckHasDirectionality(context));
 
-    final listener = RawGestureDetector(
+    final gestureDetector = RawGestureDetector(
       behavior: HitTestBehavior.translucent,
       gestures: {
         _DirectionDependentDragGestureRecognizer:
-        GestureRecognizerFactoryWithHandlers<
-            _DirectionDependentDragGestureRecognizer>(() {
-          final d = Directionality.of(context);
-          return _DirectionDependentDragGestureRecognizer(
-            debugOwner: this,
-            canDragToLeft: d == TextDirection.rtl,
-            canDragToRight: d == TextDirection.ltr,
-            checkStartedCallback: () => _backGestureController != null,
-            enabledCallback: widget.enabledCallback,
-          );
-        }, (instance) {
-          instance
+            GestureRecognizerFactoryWithHandlers<
+                _DirectionDependentDragGestureRecognizer>(
+          () {
+            final directionality = context.directionality;
+            return _DirectionDependentDragGestureRecognizer(
+              debugOwner: this,
+              canDragToLeft: directionality == TextDirection.rtl,
+              canDragToRight: directionality == TextDirection.ltr,
+              checkStartedCallback: () => _backGestureController != null,
+              enabledCallback: widget.enabledCallback,
+            );
+          },
+          (instance) => instance
             ..onStart = _handleDragStart
             ..onUpdate = _handleDragUpdate
             ..onEnd = _handleDragEnd
-            ..onCancel = _handleDragCancel;
-        })
+            ..onCancel = _handleDragCancel,
+        )
       },
     );
 
     return Stack(
       fit: StackFit.passthrough,
-      children: <Widget>[
+      children: [
         widget.child,
         if (widget.canOnlySwipeFromEdge)
           PositionedDirectional(
@@ -285,10 +286,10 @@ class _FancyBackGestureDetectorState<T>
             width: _dragAreaWidth(context),
             top: 0,
             bottom: 0,
-            child: listener,
+            child: gestureDetector,
           )
         else
-          Positioned.fill(child: listener),
+          Positioned.fill(child: gestureDetector),
       ],
     );
   }
@@ -296,9 +297,9 @@ class _FancyBackGestureDetectorState<T>
   double _dragAreaWidth(BuildContext context) {
     // For devices with notches, the drag area needs to be larger on the side
     // that has the notch.
-    final dragAreaWidth = Directionality.of(context) == TextDirection.ltr
-        ? MediaQuery.of(context).padding.left
-        : MediaQuery.of(context).padding.right;
+    final dragAreaWidth = context.directionality == TextDirection.ltr
+        ? context.mediaQuery.padding.left
+        : context.mediaQuery.padding.right;
     return math.max(dragAreaWidth, widget.backGestureDetectionWidth);
   }
 }
@@ -400,11 +401,6 @@ class _CupertinoBackGestureController<T> {
 
 class _DirectionDependentDragGestureRecognizer
     extends HorizontalDragGestureRecognizer {
-  final bool canDragToLeft;
-  final bool canDragToRight;
-  final bool Function() enabledCallback;
-  final bool Function() checkStartedCallback;
-
   _DirectionDependentDragGestureRecognizer({
     required this.canDragToLeft,
     required this.canDragToRight,
@@ -412,6 +408,11 @@ class _DirectionDependentDragGestureRecognizer
     required this.checkStartedCallback,
     Object? debugOwner,
   }) : super(debugOwner: debugOwner);
+
+  final bool canDragToLeft;
+  final bool canDragToRight;
+  final ValueGetter<bool> enabledCallback;
+  final ValueGetter<bool> checkStartedCallback;
 
   @override
   void handleEvent(PointerEvent event) {
@@ -427,4 +428,3 @@ class _DirectionDependentDragGestureRecognizer
     }
   }
 }
-
