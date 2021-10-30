@@ -10,7 +10,7 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 ### ⚡ Changes
 ### 🐛 Bug Fixes
 ### 📜 Documentation updates
-### 🏗 Refactoring
+### 🏗️ Refactoring
 ### 📦 Build & CI
 -->
 
@@ -34,7 +34,7 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 
 ## 0.2.0 · 2021-03-08
 
-### ⚠ BREAKING CHANGES
+### ⚠️ BREAKING CHANGES
 - migrate to null-safety
 - `swipeablePageRoute.onlySwipeFromEdge` is now called `canOnlySwipeFromEdge`
 
