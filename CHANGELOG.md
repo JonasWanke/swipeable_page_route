@@ -14,6 +14,11 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 ### 📦 Build & CI
 -->
 
+## 0.2.4 · 2021-10-30
+
+### 🎉 New Features
+- ([#18](https://github.com/JonasWanke/swipeable_page_route/pull/18)). Thanks to [@NaikSoftware](https://github.com/NaikSoftware)!
+
 ## 0.2.3 · 2021-08-10
 
 ### 🎉 New Features
