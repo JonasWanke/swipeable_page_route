@@ -88,12 +88,6 @@ class _SecondPageState extends State<SecondPage> {
             ElevatedButton(
               onPressed: () {
                 context.navigator.push<void>(SwipeablePageRoute(
-                  // This option has to be enabled for pages with horizontally
-                  // scrollable content, as otherwise, `SwipeablePageRoute`'s
-                  // swipe-gesture intercepts those gestures in the page. This way,
-                  // only swipes starting from the left (LTR) or right (RTL) screen
-                  // edge can be used to navigate back.
-                  canOnlySwipeFromEdge: true,
                   // You can customize the width of the detection area with
                   // `backGestureDetectionWidth`.
                   builder: (_) => ThirdPage(),
@@ -122,6 +116,12 @@ class _ThirdPageState extends State<ThirdPage>
   void initState() {
     super.initState();
     _tabController = TabController(length: _tabCount, vsync: this);
+    _tabController.addListener(() {
+      if (mounted) {
+        final canSwipe = _tabController.index == 0;
+        (ModalRoute.of(context) as SwipeablePageRoute).canSwipe = canSwipe;
+      }
+    });
   }
 
   @override
