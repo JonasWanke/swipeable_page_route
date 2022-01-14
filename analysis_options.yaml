@@ -16,6 +16,7 @@ linter:
     avoid_catching_errors: true
     avoid_double_and_int_checks: true
     avoid_field_initializers_in_const_classes: true
+    avoid_final_parameters: true
     avoid_implementing_value_types: true
     avoid_js_rounded_ints: true
     avoid_positional_boolean_parameters: true
@@ -29,11 +30,14 @@ linter:
     cast_nullable_to_non_nullable: true
     close_sinks: true
     comment_references: true
+    conditional_uri_does_not_exist: true
     directives_ordering: true
     flutter_style_todos: true
     invariant_booleans: true
     join_return_with_assignment: true
     no_adjacent_strings_in_list: true
+    no_leading_underscores_for_library_prefixes: true
+    no_leading_underscores_for_local_identifiers: true
     omit_local_variable_types: true
     only_throw_errors: true
     prefer_asserts_in_initializer_lists: true
@@ -47,6 +51,8 @@ linter:
     prefer_interpolation_to_compose_strings: true
     prefer_relative_imports: true
     prefer_single_quotes: true
+    secure_pubspec_urls: true
+    sized_box_shrink_expand: true
     sort_child_properties_last: true
     sort_constructors_first: true
     sort_pub_dependencies: true
@@ -55,12 +61,14 @@ linter:
     throw_in_finally: true
     tighten_type_of_initializing_formals: true
     unawaited_futures: true
-    unnecessary_await_in_return: true
+    unnecessary_await_in_return: false
     unnecessary_lambdas: true
+    unnecessary_late: true
     unnecessary_null_aware_assignments: true
     unnecessary_parenthesis: true
     unnecessary_statements: true
     unsafe_html: true
+    use_decorated_box: true
     use_key_in_widget_constructors: false
     use_setters_to_change_properties: true
     use_string_buffers: true

@@ -2,9 +2,7 @@ import 'dart:math' as math;
 import 'dart:ui' show lerpDouble;
 
 import 'package:black_hole_flutter/black_hole_flutter.dart';
-import 'package:flutter/animation.dart' show Curves;
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 

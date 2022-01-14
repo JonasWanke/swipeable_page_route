@@ -2,7 +2,6 @@ import 'dart:ui';
 
 import 'package:black_hole_flutter/black_hole_flutter.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
 
 import 'app_bar.dart';
 import 'state.dart';

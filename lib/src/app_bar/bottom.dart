@@ -2,7 +2,6 @@ import 'dart:math' as math;
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
 
 import 'app_bar.dart';
 import 'state.dart';
