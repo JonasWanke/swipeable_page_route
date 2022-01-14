@@ -8,6 +8,50 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 
+/// Used by [PageTransitionsTheme] to define a horizontal [MaterialPageRoute]
+/// page transition animation that matches [SwipeablePageRoute].
+///
+/// See [SwipeablePageRoute] for documentation of all properties.
+///
+/// ⚠️ [SwipeablePageTransitionsBuilder] *must* be set for [TargetPlatform.iOS].
+/// For all other platforms, you can decide whether you want to use it. This is
+/// because [PageTransitionsTheme] uses the builder for iOS whenever a pop
+/// gesture is in progress.
+class SwipeablePageTransitionsBuilder extends PageTransitionsBuilder {
+  const SwipeablePageTransitionsBuilder({
+    this.canOnlySwipeFromEdge = false,
+    this.backGestureDetectionWidth = kMinInteractiveDimension,
+    this.backGestureDetectionStartOffset = 0,
+    this.transitionBuilder,
+  });
+
+  final bool canOnlySwipeFromEdge;
+  final double backGestureDetectionWidth;
+  final double backGestureDetectionStartOffset;
+  final SwipeableTransitionBuilder? transitionBuilder;
+
+  @override
+  Widget buildTransitions<T>(
+    PageRoute<T> route,
+    BuildContext context,
+    Animation<double> animation,
+    Animation<double> secondaryAnimation,
+    Widget child,
+  ) {
+    return SwipeablePageRoute.buildPageTransitions<T>(
+      route,
+      context,
+      animation,
+      secondaryAnimation,
+      child,
+      canOnlySwipeFromEdge: canOnlySwipeFromEdge,
+      backGestureDetectionWidth: backGestureDetectionWidth,
+      backGestureDetectionStartOffset: backGestureDetectionStartOffset,
+      transitionBuilder: transitionBuilder,
+    );
+  }
+}
+
 /// A specialized [CupertinoPageRoute] that allows for swiping back anywhere on
 /// the page unless `canOnlySwipeFromEdge` is `true`.
 class SwipeablePageRoute<T> extends CupertinoPageRoute<T> {
@@ -101,17 +145,49 @@ class SwipeablePageRoute<T> extends CupertinoPageRoute<T> {
   }
 
   @override
-  bool get popGestureEnabled => canSwipe && super.popGestureEnabled;
+  bool get popGestureEnabled => _isPopGestureEnabled(this, canSwipe);
+  // Copied and modified from `CupertinoRouteTransitionMixin`
+  static bool _isPopGestureEnabled<T>(PageRoute<T> route, bool canSwipe) {
+    // If there's nothing to go back to, then obviously we don't support
+    // the back gesture.
+    if (route.isFirst) return false;
+    // If the route wouldn't actually pop if we popped it, then the gesture
+    // would be really confusing (or would skip internal routes), so disallow it.
+    if (route.willHandlePopInternally) return false;
+    // If attempts to dismiss this route might be vetoed such as in a page
+    // with forms, then do not allow the user to dismiss the route with a swipe.
+    if (route.hasScopedWillPopCallback) return false;
+    // Fullscreen dialogs aren't dismissible by back swipe.
+    if (route.fullscreenDialog) return false;
+    // If we're in an animation already, we cannot be manually swiped.
+    if (route.animation!.status != AnimationStatus.completed) return false;
+    // If we're being popped into, we also cannot be swiped until the pop above
+    // it completes. This translates to our secondary animation being
+    // dismissed.
+    if (route.secondaryAnimation!.status != AnimationStatus.dismissed) {
+      return false;
+    }
+    // If we're in a gesture already, we cannot start another.
+    if (CupertinoRouteTransitionMixin.isPopGestureInProgress(route)) {
+      return false;
+    }
+
+    // Added
+    if (!canSwipe) return false;
+
+    // Looks like a back gesture would be welcome!
+    return true;
+  }
 
   // Called by `_FancyBackGestureDetector` when a pop ("back") drag start
   // gesture is detected. The returned controller handles all of the subsequent
   // drag events.
-  _CupertinoBackGestureController<T> _startPopGesture() {
-    assert(popGestureEnabled);
-
+  static _CupertinoBackGestureController<T> _startPopGesture<T>(
+    PageRoute<T> route,
+  ) {
     return _CupertinoBackGestureController<T>(
-      navigator: navigator!,
-      controller: controller!, // protected access
+      navigator: route.navigator!,
+      controller: route.controller!, // protected access
     );
   }
 
@@ -122,32 +198,61 @@ class SwipeablePageRoute<T> extends CupertinoPageRoute<T> {
     Animation<double> secondaryAnimation,
     Widget child,
   ) {
-    // Check if the route has an animation that's currently participating in a
-    // back swipe gesture.
-    //
-    // During a back gesture drag, let the transition be linear to match finger
-    // motions.
+    return buildPageTransitions(
+      this,
+      context,
+      animation,
+      secondaryAnimation,
+      child,
+      canSwipe: () => canSwipe,
+      canOnlySwipeFromEdge: canOnlySwipeFromEdge,
+      backGestureDetectionWidth: backGestureDetectionWidth,
+      backGestureDetectionStartOffset: backGestureDetectionStartOffset,
+      transitionBuilder: transitionBuilder,
+    );
+  }
+
+  static Widget buildPageTransitions<T>(
+    PageRoute<T> route,
+    BuildContext context,
+    Animation<double> animation,
+    Animation<double> secondaryAnimation,
+    Widget child, {
+    ValueGetter<bool> canSwipe = _defaultCanSwipe,
+    bool canOnlySwipeFromEdge = false,
+    double backGestureDetectionWidth = kMinInteractiveDimension,
+    double backGestureDetectionStartOffset = 0,
+    SwipeableTransitionBuilder? transitionBuilder,
+  }) {
     final Widget wrappedChild;
-    if (fullscreenDialog) {
+    if (route.fullscreenDialog) {
       wrappedChild = child;
     } else {
       wrappedChild = _FancyBackGestureDetector<T>(
-        enabledCallback: () => popGestureEnabled,
-        onStartPopGesture: _startPopGesture,
+        enabledCallback: () => _isPopGestureEnabled(route, canSwipe()),
+        onStartPopGesture: () {
+          assert(_isPopGestureEnabled(route, canSwipe()));
+          return _startPopGesture(route);
+        },
         canOnlySwipeFromEdge: canOnlySwipeFromEdge,
         backGestureDetectionWidth: backGestureDetectionWidth,
         backGestureDetectionStartOffset: backGestureDetectionStartOffset,
         child: child,
       );
     }
+
+    transitionBuilder ??= _defaultTransitionBuilder(route.fullscreenDialog);
     return transitionBuilder(
       context,
       animation,
       secondaryAnimation,
-      /* isSwipeGesture: */ popGestureInProgress,
+      /* isSwipeGesture: */ CupertinoRouteTransitionMixin
+          .isPopGestureInProgress(route),
       wrappedChild,
     );
   }
+
+  static bool _defaultCanSwipe() => true;
 }
 
 typedef SwipeableTransitionBuilder = Widget Function(
