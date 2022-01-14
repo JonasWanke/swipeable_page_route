@@ -24,6 +24,10 @@ Navigator.of(context).push(SwipeablePageRoute(
 You can get the [`SwipeablePageRoute`] wrapping your current page using `context.getSwipeablePageRoute<T>()`.
 
 > To use swipeable pages with a [`PageTransitionsTheme`], use [`SwipeablePageTransitionsBuilder`].
+>
+> ⚠️ [`SwipeablePageTransitionsBuilder`] *must* be set for [`TargetPlatform.iOS`].
+> For all other platforms, you can decide whether you want to use it.
+> This is because [`PageTransitionsTheme`] uses the builder for iOS whenever a pop gesture is in progress.
 
 ## [`MorphingAppBar`] & [`MorphingSliverAppBar`]
 
@@ -79,6 +83,7 @@ To animate additions, removals, and constants in your `AppBar`s `actions`, we co
 [`HeroController`]: https://api.flutter.dev/flutter/widgets/HeroController-class.html
 [`MaterialPageRoute`]: https://api.flutter.dev/flutter/material/MaterialPageRoute-class.html
 [`PageTransitionsTheme`]: https://api.flutter.dev/flutter/material/PageTransitionsTheme-class.html
+[`TargetPlatform.iOS`]: https://api.flutter.dev/flutter/foundation/TargetPlatform.html#iOS
 [`Widget.canUpdate(Widget old, Widget new)`]: https://api.flutter.dev/flutter/widgets/Widget/canUpdate.html
 <!-- swipeable_page_route -->
 [`MorphingAppBar`]: https://pub.dev/documentation/swipeable_page_route/latest/swipeable_page_route/MorphingAppBar-class.html
