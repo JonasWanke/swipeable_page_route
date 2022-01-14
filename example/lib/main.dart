@@ -48,7 +48,7 @@ class _SecondPageState extends State<SecondPage> {
     return Scaffold(
       appBar: MorphingAppBar(
         title: Text('Page 2'),
-        actions: <Widget>[
+        actions: [
           IconButton(
             key: ValueKey('check'),
             icon: Icon(Icons.check),
@@ -136,7 +136,7 @@ class _ThirdPageState extends State<ThirdPage>
       appBar: MorphingAppBar(
         backgroundColor: Colors.green,
         title: Text('Page 3'),
-        actions: <Widget>[
+        actions: [
           IconButton(
             key: ValueKey('star'),
             icon: Icon(Icons.star),
@@ -163,7 +163,7 @@ class _ThirdPageState extends State<ThirdPage>
           controller: _tabController,
           indicatorColor: Colors.white,
           isScrollable: true,
-          tabs: <Widget>[
+          tabs: [
             for (var i = 0; i < _tabCount; i++) Tab(text: 'Tab ${i + 1}'),
           ],
         ),
