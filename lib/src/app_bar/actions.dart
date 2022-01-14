@@ -5,7 +5,6 @@ import 'package:collection/collection.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/widgets.dart';
 import 'package:list_diff/list_diff.dart';
-import 'package:supercharged/supercharged.dart';
 
 import 'app_bar.dart';
 import 'state.dart';
@@ -225,8 +224,8 @@ class _AnimatedActionsLayout
   @override
   double computeMinIntrinsicWidth(double height) {
     return lerpDouble(
-      _parentChildren.sumByDouble((c) => c.getMinIntrinsicWidth(height)),
-      _childChildren.sumByDouble((c) => c.getMinIntrinsicWidth(height)),
+      _parentChildren.map((c) => c.getMinIntrinsicWidth(height)).sum,
+      _childChildren.map((c) => c.getMinIntrinsicWidth(height)).sum,
       t,
     )!;
   }
@@ -234,8 +233,8 @@ class _AnimatedActionsLayout
   @override
   double computeMaxIntrinsicWidth(double height) {
     return lerpDouble(
-      _parentChildren.sumByDouble((c) => c.getMaxIntrinsicWidth(height)),
-      _childChildren.sumByDouble((c) => c.getMaxIntrinsicWidth(height)),
+      _parentChildren.map((c) => c.getMaxIntrinsicWidth(height)).sum,
+      _childChildren.map((c) => c.getMaxIntrinsicWidth(height)).sum,
       t,
     )!;
   }
@@ -243,8 +242,14 @@ class _AnimatedActionsLayout
   @override
   double computeMinIntrinsicHeight(double width) {
     return lerpDouble(
-      _parentChildren.map((c) => c.getMinIntrinsicHeight(width)).min() ?? 0,
-      _childChildren.map((c) => c.getMinIntrinsicHeight(width)).min() ?? 0,
+      _parentChildren
+              .map<num>((c) => c.getMinIntrinsicHeight(width))
+              .minOrNull ??
+          0,
+      _childChildren
+              .map<num>((c) => c.getMinIntrinsicHeight(width))
+              .minOrNull ??
+          0,
       t,
     )!;
   }
@@ -252,8 +257,14 @@ class _AnimatedActionsLayout
   @override
   double computeMaxIntrinsicHeight(double width) {
     return lerpDouble(
-      _parentChildren.map((c) => c.getMaxIntrinsicHeight(width)).max() ?? 0,
-      _childChildren.map((c) => c.getMaxIntrinsicHeight(width)).max() ?? 0,
+      _parentChildren
+              .map<num>((c) => c.getMaxIntrinsicHeight(width))
+              .maxOrNull ??
+          0,
+      _childChildren
+              .map<num>((c) => c.getMaxIntrinsicHeight(width))
+              .maxOrNull ??
+          0,
       t,
     )!;
   }

@@ -2,9 +2,9 @@ import 'dart:math' as math;
 import 'dart:ui';
 
 import 'package:black_hole_flutter/black_hole_flutter.dart';
+import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
-import 'package:supercharged/supercharged.dart';
 
 import 'app_bar.dart';
 import 'state.dart';
@@ -100,19 +100,19 @@ class _AnimatedTitleLayout
 
   @override
   double computeMinIntrinsicWidth(double height) =>
-      children.map((c) => c.getMinIntrinsicWidth(height)).max()!;
+      children.map<num>((c) => c.getMinIntrinsicWidth(height)).max.toDouble();
 
   @override
   double computeMaxIntrinsicWidth(double height) =>
-      children.map((c) => c.getMaxIntrinsicWidth(height)).max()!;
+      children.map<num>((c) => c.getMaxIntrinsicWidth(height)).max.toDouble();
 
   @override
   double computeMinIntrinsicHeight(double width) =>
-      children.map((c) => c.getMinIntrinsicHeight(width)).max()!;
+      children.map<num>((c) => c.getMinIntrinsicHeight(width)).max.toDouble();
 
   @override
   double computeMaxIntrinsicHeight(double width) =>
-      children.map((c) => c.getMaxIntrinsicHeight(width)).max()!;
+      children.map<num>((c) => c.getMaxIntrinsicHeight(width)).max.toDouble();
 
   @override
   bool get alwaysNeedsCompositing => true;
