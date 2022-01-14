@@ -5,7 +5,7 @@ All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 <!-- Template:
-## NEW · 2021-xx-xx
+## NEW · 2022-xx-xx
 ### 🎉 New Features
 ### ⚡ Changes
 ### 🐛 Bug Fixes
@@ -13,6 +13,14 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 ### 🏗️ Refactoring
 ### 📦 Build & CI
 -->
+
+## 0.2.5 · 2022-01-14
+
+### 🎉 New Features
+- add `SwipeablePageTransitionsBuilder` for usage with `PageTransitionsTheme`, closes: [#19](https://github.com/JonasWanke/swipeable_page_route/issues/19) ([`8a5e677`](https://github.com/JonasWanke/swipeable_page_route/commit/8a5e677e8758608b28b9fcfff4eda0d9b3b3a705))
+
+### 📦 Build & CI
+* remove dependency on the discontinued [<kbd>supercharged</kbd>](https://pub.dev/packages/supercharged) ([`9b0b5ac`](https://github.com/JonasWanke/swipeable_page_route/commit/9b0b5ac332cab3dc56065acdedf7672abd78ab69))
 
 ## 0.2.4 · 2021-10-30
 
