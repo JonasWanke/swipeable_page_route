@@ -50,9 +50,9 @@ class AnimatedTitle extends MultiChildRenderObjectWidget {
   @override
   void updateRenderObject(
     BuildContext context,
-    covariant _AnimatedTitleLayout renderObject,
+    covariant RenderObject renderObject,
   ) =>
-      renderObject.t = t;
+      (renderObject as _AnimatedTitleLayout).t = t;
 }
 
 class _AnimatedTitleParentDataWidget

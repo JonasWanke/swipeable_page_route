@@ -131,16 +131,15 @@ class AnimatedActions extends MultiChildRenderObjectWidget {
   final List<_ActionGroupType> _groups;
 
   @override
-  RenderObject createRenderObject(BuildContext context) {
-    return _AnimatedActionsLayout(t: t, groups: _groups);
-  }
+  RenderObject createRenderObject(BuildContext context) =>
+      _AnimatedActionsLayout(t: t, groups: _groups);
 
   @override
   void updateRenderObject(
     BuildContext context,
-    covariant _AnimatedActionsLayout renderObject,
+    covariant RenderObject renderObject,
   ) {
-    renderObject
+    (renderObject as _AnimatedActionsLayout)
       ..t = t
       ..groups = _groups;
   }
@@ -185,6 +184,7 @@ class _AnimatedActionsParentDataWidget
 }
 
 enum _ActionPosition { parent, child }
+
 enum _ActionGroupType { stays, changes }
 
 class _AnimatedActionsParentData extends ContainerBoxParentData<RenderBox> {

@@ -424,7 +424,7 @@ class MorphingSliverAppBar extends StatefulWidget {
   final SystemUiOverlayStyle? systemOverlayStyle;
 
   @override
-  _SliverAppBarState createState() => _SliverAppBarState();
+  State<MorphingSliverAppBar> createState() => _SliverAppBarState();
 }
 
 // This class is only stateful because it owns the TickerProvider used

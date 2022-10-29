@@ -1,13 +1,10 @@
 include: package:flutter_lints/flutter.yaml
 
 analyzer:
-  strong-mode:
-    implicit-casts: false
-    implicit-dynamic: false
-  exclude:
-    - lib/generated_plugin_registrant.dart
-    - lib/**.g.dart
-    - lib/**.freezed.dart
+  language:
+    strict-casts: true
+    strict-inference: true
+    strict-raw-types: true
 
 linter:
   rules:
@@ -36,8 +33,6 @@ linter:
     invariant_booleans: true
     join_return_with_assignment: true
     no_adjacent_strings_in_list: true
-    no_leading_underscores_for_library_prefixes: true
-    no_leading_underscores_for_local_identifiers: true
     omit_local_variable_types: true
     only_throw_errors: true
     prefer_asserts_in_initializer_lists: true
@@ -48,12 +43,10 @@ linter:
     prefer_foreach: true
     prefer_if_elements_to_conditional_expressions: true
     prefer_int_literals: true
-    prefer_interpolation_to_compose_strings: true
     prefer_relative_imports: true
     prefer_single_quotes: true
     secure_pubspec_urls: true
     sized_box_shrink_expand: true
-    sort_child_properties_last: true
     sort_constructors_first: true
     sort_pub_dependencies: true
     sort_unnamed_constructors_first: true
@@ -61,14 +54,14 @@ linter:
     throw_in_finally: true
     tighten_type_of_initializing_formals: true
     unawaited_futures: true
-    unnecessary_await_in_return: false
     unnecessary_lambdas: true
-    unnecessary_late: true
-    unnecessary_null_aware_assignments: true
     unnecessary_parenthesis: true
     unnecessary_statements: true
     unsafe_html: true
+    use_colored_box: true
     use_decorated_box: true
+    use_enums: true
     use_key_in_widget_constructors: false
     use_setters_to_change_properties: true
     use_string_buffers: true
+    use_super_parameters: true
