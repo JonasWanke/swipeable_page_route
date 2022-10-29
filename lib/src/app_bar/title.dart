@@ -24,7 +24,7 @@ class AnimatedTitle extends MultiChildRenderObjectWidget {
   static Widget _createChild(EndState state) {
     final title = state.appBar.title;
     if (title == null) {
-      return SizedBox();
+      return const SizedBox();
     }
 
     var style = state.appBar.textTheme?.headline6 ??
@@ -50,9 +50,9 @@ class AnimatedTitle extends MultiChildRenderObjectWidget {
   @override
   void updateRenderObject(
     BuildContext context,
-    covariant _AnimatedTitleLayout renderObject,
+    covariant RenderObject renderObject,
   ) =>
-      renderObject.t = t;
+      (renderObject as _AnimatedTitleLayout).t = t;
 }
 
 class _AnimatedTitleParentDataWidget
