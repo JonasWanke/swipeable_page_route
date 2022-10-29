@@ -24,7 +24,7 @@ class AnimatedTitle extends MultiChildRenderObjectWidget {
   static Widget _createChild(EndState state) {
     final title = state.appBar.title;
     if (title == null) {
-      return SizedBox();
+      return const SizedBox();
     }
 
     var style = state.appBar.textTheme?.headline6 ??

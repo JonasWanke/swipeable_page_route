@@ -13,7 +13,9 @@ class AnimatedLeading extends AnimatedAppBarPart {
 
   @override
   Widget build(BuildContext context) {
-    if (parent.leading == null && child.leading == null) return SizedBox();
+    if (parent.leading == null && child.leading == null) {
+      return const SizedBox();
+    }
 
     final canUpdate = parent.leading != null &&
         child.leading != null &&
@@ -61,13 +63,13 @@ class AnimatedLeading extends AnimatedAppBarPart {
     }
 
     if (context.scaffoldOrNull?.hasDrawer ?? false) {
-      return _DrawerButton();
+      return const _DrawerButton();
     } else {
       final parentRoute = context.getModalRoute<dynamic>();
       if (parentRoute?.canPop ?? false) {
         return parentRoute is PageRoute<dynamic> && parentRoute.fullscreenDialog
-            ? CloseButton()
-            : BackButton();
+            ? const CloseButton()
+            : const BackButton();
       }
     }
     return null;
@@ -81,7 +83,7 @@ class _DrawerButton extends StatelessWidget {
   Widget build(BuildContext context) {
     assert(debugCheckHasMaterialLocalizations(context));
     return IconButton(
-      icon: Icon(Icons.menu),
+      icon: const Icon(Icons.menu),
       onPressed: context.scaffold.openDrawer,
       tooltip: context.materialLocalizations.openAppDrawerTooltip,
     );

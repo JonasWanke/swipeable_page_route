@@ -27,7 +27,7 @@ class AnimatedBottom extends AnimatedAppBarPart implements PreferredSizeWidget {
   Widget build(BuildContext context) {
     final hasParent = parent.appBar.bottom != null;
     final hasChild = child.appBar.bottom != null;
-    if (!hasParent && !hasChild) return SizedBox();
+    if (!hasParent && !hasChild) return const SizedBox();
 
     if (hasParent &&
         hasChild &&
