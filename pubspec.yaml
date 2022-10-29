@@ -1,7 +1,7 @@
 name: swipeable_page_route
 description: '🔙 Swipe to navigate back and admire beautifully morphing widgets'
 version: 0.2.6
-homepage: https://github.com/JonasWanke/swipeable_page_route
+repository: https://github.com/JonasWanke/swipeable_page_route
 
 environment:
   sdk: '>=2.12.0 <3.0.0'
