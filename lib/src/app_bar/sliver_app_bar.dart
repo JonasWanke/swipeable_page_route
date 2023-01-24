@@ -78,7 +78,6 @@ class _SliverAppBarDelegate extends SliverPersistentHeaderDelegate {
     required this.foregroundColor,
     required this.iconTheme,
     required this.actionsIconTheme,
-    required this.textTheme,
     required this.primary,
     required this.centerTitle,
     required this.excludeHeaderSemantics,
@@ -122,7 +121,6 @@ class _SliverAppBarDelegate extends SliverPersistentHeaderDelegate {
   final Color? foregroundColor;
   final IconThemeData? iconTheme;
   final IconThemeData? actionsIconTheme;
-  final TextTheme? textTheme;
   final bool primary;
   final bool? centerTitle;
   final bool excludeHeaderSemantics;
@@ -210,7 +208,6 @@ class _SliverAppBarDelegate extends SliverPersistentHeaderDelegate {
         foregroundColor: foregroundColor,
         iconTheme: iconTheme,
         actionsIconTheme: actionsIconTheme,
-        textTheme: textTheme,
         primary: primary,
         centerTitle: centerTitle,
         excludeHeaderSemantics: excludeHeaderSemantics,
@@ -246,7 +243,6 @@ class _SliverAppBarDelegate extends SliverPersistentHeaderDelegate {
         foregroundColor != oldDelegate.foregroundColor ||
         iconTheme != oldDelegate.iconTheme ||
         actionsIconTheme != oldDelegate.actionsIconTheme ||
-        textTheme != oldDelegate.textTheme ||
         primary != oldDelegate.primary ||
         centerTitle != oldDelegate.centerTitle ||
         titleSpacing != oldDelegate.titleSpacing ||
@@ -294,7 +290,6 @@ class MorphingSliverAppBar extends StatefulWidget {
     this.foregroundColor,
     this.iconTheme,
     this.actionsIconTheme,
-    this.textTheme,
     this.primary = true,
     this.centerTitle,
     this.excludeHeaderSemantics = false,
@@ -364,9 +359,6 @@ class MorphingSliverAppBar extends StatefulWidget {
 
   /// See [SliverAppBar.actionsIconTheme].
   final IconThemeData? actionsIconTheme;
-
-  /// See [SliverAppBar.textTheme].
-  final TextTheme? textTheme;
 
   /// See [SliverAppBar.primary].
   final bool primary;
@@ -513,7 +505,6 @@ class _SliverAppBarState extends State<MorphingSliverAppBar>
           foregroundColor: widget.foregroundColor,
           iconTheme: widget.iconTheme,
           actionsIconTheme: widget.actionsIconTheme,
-          textTheme: widget.textTheme,
           primary: widget.primary,
           centerTitle: widget.centerTitle,
           excludeHeaderSemantics: widget.excludeHeaderSemantics,

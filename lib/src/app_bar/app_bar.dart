@@ -27,7 +27,6 @@ class MorphingAppBar extends StatelessWidget implements PreferredSizeWidget {
     this.foregroundColor,
     this.iconTheme,
     this.actionsIconTheme,
-    this.textTheme,
     this.primary = true,
     this.centerTitle,
     this.excludeHeaderSemantics = false,
@@ -85,9 +84,6 @@ class MorphingAppBar extends StatelessWidget implements PreferredSizeWidget {
 
   /// See [AppBar.actionsIconTheme]
   final IconThemeData? actionsIconTheme;
-
-  /// See [AppBar.textTheme]
-  final TextTheme? textTheme;
 
   /// See [AppBar.primary]
   final bool primary;
@@ -156,7 +152,6 @@ class MorphingAppBar extends StatelessWidget implements PreferredSizeWidget {
         foregroundColor: foregroundColor,
         iconTheme: iconTheme,
         actionsIconTheme: actionsIconTheme,
-        textTheme: textTheme,
         primary: primary,
         centerTitle: centerTitle,
         excludeHeaderSemantics: excludeHeaderSemantics,
@@ -165,7 +160,6 @@ class MorphingAppBar extends StatelessWidget implements PreferredSizeWidget {
         bottomOpacity: bottomOpacity,
         toolbarHeight: toolbarHeight,
         leadingWidth: leadingWidth,
-        backwardsCompatibility: false,
         toolbarTextStyle: toolbarTextStyle,
         titleTextStyle: titleTextStyle,
         systemOverlayStyle: actualSystemOverlayStyle,
@@ -232,11 +226,8 @@ class _AnimatedAppBar extends AnimatedWidget {
       shape: state.shape,
       backgroundColor: state.backgroundColor,
       foregroundColor: state.foregroundColor,
-      // `brightness` is obsolete.
       iconTheme: state.iconTheme,
       actionsIconTheme: state.actionsIconTheme,
-      // We don't need to set `textTheme` as that's only used as fallback for
-      // `toolbarTextStyle` and `titleTextStyle`.
       // The value is the same for parent and child, so it doesn't matter which
       // one we use.
       primary: parent.appBar.primary,
@@ -247,7 +238,6 @@ class _AnimatedAppBar extends AnimatedWidget {
       bottomOpacity: state.bottomOpacity,
       toolbarHeight: state.toolbarHeight,
       leadingWidth: state.leadingWidth,
-      backwardsCompatibility: false,
       toolbarTextStyle: state.toolbarTextStyle,
       titleTextStyle: state.titleTextStyle,
       systemOverlayStyle: state.systemOverlayStyle,
