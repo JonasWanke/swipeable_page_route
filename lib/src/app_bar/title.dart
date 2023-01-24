@@ -27,9 +27,11 @@ class AnimatedTitle extends MultiChildRenderObjectWidget {
       return const SizedBox();
     }
 
-    var style = state.appBar.textTheme?.headline6 ??
-        state.appBarTheme.textTheme?.headline6 ??
-        state.theme.primaryTextTheme.headline6;
+    var style = state.appBar.titleTextStyle ??
+        state.appBarTheme.titleTextStyle ??
+        (state.theme.useMaterial3
+            ? state.theme.textTheme.titleLarge
+            : state.theme.textTheme.headline6);
     if (style?.color != null) {
       style = style!.copyWith(color: style.color!.withOpacity(state.opacity));
     }
