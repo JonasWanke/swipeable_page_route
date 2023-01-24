@@ -13,10 +13,7 @@ class AnimatedTitle extends MultiChildRenderObjectWidget {
   AnimatedTitle(MorphingState state)
       : t = state.t,
         super(
-          children: [
-            _createChild(state.parent),
-            _createChild(state.child),
-          ],
+          children: [_createChild(state.parent), _createChild(state.child)],
         );
 
   final double t;
@@ -38,10 +35,7 @@ class AnimatedTitle extends MultiChildRenderObjectWidget {
 
     return _AnimatedTitleParentDataWidget(
       hasLeading: state.leading != null,
-      child: DefaultTextStyle.merge(
-        style: style,
-        child: title,
-      ),
+      child: DefaultTextStyle.merge(style: style, child: title),
     );
   }
 
@@ -73,14 +67,11 @@ class _AnimatedTitleParentDataWidget
   void applyParentData(RenderObject renderObject) {
     assert(renderObject.parentData is _AnimatedTitleParentData);
     final parentData = renderObject.parentData! as _AnimatedTitleParentData;
-
     if (parentData.hasLeading == hasLeading) return;
 
     parentData.hasLeading = hasLeading;
     final targetParent = renderObject.parent;
-    if (targetParent is RenderObject) {
-      targetParent.markNeedsLayout();
-    }
+    if (targetParent is RenderObject) targetParent.markNeedsLayout();
   }
 }
 
@@ -102,15 +93,12 @@ class _AnimatedTitleLayout
   @override
   double computeMinIntrinsicWidth(double height) =>
       children.map((c) => c.getMinIntrinsicWidth(height)).max.toDouble();
-
   @override
   double computeMaxIntrinsicWidth(double height) =>
       children.map((c) => c.getMaxIntrinsicWidth(height)).max.toDouble();
-
   @override
   double computeMinIntrinsicHeight(double width) =>
       children.map((c) => c.getMinIntrinsicHeight(width)).max.toDouble();
-
   @override
   double computeMaxIntrinsicHeight(double width) =>
       children.map((c) => c.getMaxIntrinsicHeight(width)).max.toDouble();
