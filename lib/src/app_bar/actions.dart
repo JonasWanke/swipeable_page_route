@@ -240,14 +240,8 @@ class _AnimatedActionsLayout
   @override
   double computeMinIntrinsicHeight(double width) {
     return lerpDouble(
-      _parentChildren
-              .map<num>((c) => c.getMinIntrinsicHeight(width))
-              .minOrNull ??
-          0,
-      _childChildren
-              .map<num>((c) => c.getMinIntrinsicHeight(width))
-              .minOrNull ??
-          0,
+      _parentChildren.map((c) => c.getMinIntrinsicHeight(width)).minOrNull ?? 0,
+      _childChildren.map((c) => c.getMinIntrinsicHeight(width)).minOrNull ?? 0,
       t,
     )!;
   }
@@ -255,14 +249,8 @@ class _AnimatedActionsLayout
   @override
   double computeMaxIntrinsicHeight(double width) {
     return lerpDouble(
-      _parentChildren
-              .map<num>((c) => c.getMaxIntrinsicHeight(width))
-              .maxOrNull ??
-          0,
-      _childChildren
-              .map<num>((c) => c.getMaxIntrinsicHeight(width))
-              .maxOrNull ??
-          0,
+      _parentChildren.map((c) => c.getMaxIntrinsicHeight(width)).maxOrNull ?? 0,
+      _childChildren.map((c) => c.getMaxIntrinsicHeight(width)).maxOrNull ?? 0,
       t,
     )!;
   }

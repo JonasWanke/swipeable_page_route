@@ -99,19 +99,19 @@ class _AnimatedTitleLayout
 
   @override
   double computeMinIntrinsicWidth(double height) =>
-      children.map<num>((c) => c.getMinIntrinsicWidth(height)).max.toDouble();
+      children.map((c) => c.getMinIntrinsicWidth(height)).max.toDouble();
 
   @override
   double computeMaxIntrinsicWidth(double height) =>
-      children.map<num>((c) => c.getMaxIntrinsicWidth(height)).max.toDouble();
+      children.map((c) => c.getMaxIntrinsicWidth(height)).max.toDouble();
 
   @override
   double computeMinIntrinsicHeight(double width) =>
-      children.map<num>((c) => c.getMinIntrinsicHeight(width)).max.toDouble();
+      children.map((c) => c.getMinIntrinsicHeight(width)).max.toDouble();
 
   @override
   double computeMaxIntrinsicHeight(double width) =>
-      children.map<num>((c) => c.getMaxIntrinsicHeight(width)).max.toDouble();
+      children.map((c) => c.getMaxIntrinsicHeight(width)).max.toDouble();
 
   @override
   bool get alwaysNeedsCompositing => true;
