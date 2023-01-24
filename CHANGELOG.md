@@ -5,7 +5,9 @@ All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 <!-- Template:
-## NEW · 2022-xx-xx
+## NEW · 2023-xx-xx
+
+### ⚠️ BREAKING CHANGES
 ### 🎉 New Features
 ### ⚡ Changes
 ### 🐛 Bug Fixes
@@ -13,6 +15,18 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 ### 🏗️ Refactoring
 ### 📦 Build & CI
 -->
+
+## 0.3.0 · 2023-01-24
+
+### ⚠️ BREAKING CHANGES
+* remove deprecated `appBar.`/`sliverAppBar.textTheme` ([`c0cb638`](https://github.com/JonasWanke/swipeable_page_route/commit/c0cb638b85025d3d9b30fac6c43bd547e8bb2614))
+
+### 🐛 Bug Fixes
+* use Flutter's update logic/fields for `AnimatedTitle`'s title style ([`341dc68`](https://github.com/JonasWanke/swipeable_page_route/commit/341dc687b56380fabe94143f3f99843c4f285673)), closes: [#21](https://github.com/JonasWanke/swipeable_page_route/issues/21)
+
+### 📦 Build & CI
+* upgrade to Flutter: `>=3.3.0`, Dart `>=2.18.0 <3.0.0` ([`0ad5c9e`](https://github.com/JonasWanke/swipeable_page_route/commit/0ad5c9e7cd29a0b4c85df16219978f7eeaad9c95))
+* update `black_hole_flutter` to `^1.0.0` ([`9a43d1b`](https://github.com/JonasWanke/swipeable_page_route/commit/9a43d1bc7a19d338950eba2d789953523418d20d))
 
 ## 0.2.6 · 2022-01-14
 
