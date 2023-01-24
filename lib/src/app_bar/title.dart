@@ -58,10 +58,10 @@ class AnimatedTitle extends MultiChildRenderObjectWidget {
 class _AnimatedTitleParentDataWidget
     extends ParentDataWidget<_AnimatedTitleParentData> {
   const _AnimatedTitleParentDataWidget({
-    Key? key,
+    super.key,
     required this.hasLeading,
-    required Widget child,
-  }) : super(key: key, child: child);
+    required super.child,
+  });
 
   final bool hasLeading;
 
@@ -89,7 +89,7 @@ class _AnimatedTitleParentData extends ContainerBoxParentData<RenderBox> {
 
 class _AnimatedTitleLayout
     extends AnimatedAppBarLayout<_AnimatedTitleParentData> {
-  _AnimatedTitleLayout({double t = 0}) : super(t: t);
+  _AnimatedTitleLayout({super.t});
 
   @override
   void setupParentData(RenderObject child) {

@@ -4,10 +4,9 @@ import 'package:black_hole_flutter/black_hole_flutter.dart';
 import 'package:flutter/material.dart';
 
 import 'app_bar.dart';
-import 'state.dart';
 
 class AnimatedLeading extends AnimatedAppBarPart {
-  const AnimatedLeading(MorphingState state) : super(state);
+  const AnimatedLeading(super.state);
 
   static const _halfInterval = Interval(0.5, 1);
 

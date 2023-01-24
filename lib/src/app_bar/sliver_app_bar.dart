@@ -13,7 +13,7 @@ import 'app_bar.dart';
 // `_SliverAppBarDelegate` and `_FloatingAppBar` is private…
 
 class _FloatingAppBar extends StatefulWidget {
-  const _FloatingAppBar({Key? key, required this.child}) : super(key: key);
+  const _FloatingAppBar({required this.child});
 
   final Widget child;
 
@@ -279,7 +279,7 @@ class MorphingSliverAppBar extends StatefulWidget {
   /// The arguments [forceElevated], [primary], [floating], [pinned], [snap]
   /// and [automaticallyImplyLeading] must not be null.
   const MorphingSliverAppBar({
-    Key? key,
+    super.key,
     this.heroTag = 'MorphingAppBar',
     this.leading,
     this.automaticallyImplyLeading = true,
@@ -321,8 +321,7 @@ class MorphingSliverAppBar extends StatefulWidget {
         assert(
           collapsedHeight == null || collapsedHeight >= toolbarHeight,
           'The "collapsedHeight" argument has to be larger than or equal to [toolbarHeight].',
-        ),
-        super(key: key);
+        );
 
   /// Tag used for the internally created [Hero] widget.
   final Object heroTag;

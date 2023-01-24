@@ -4,7 +4,8 @@ version: 0.2.6
 repository: https://github.com/JonasWanke/swipeable_page_route
 
 environment:
-  sdk: '>=2.12.0 <3.0.0'
+  sdk: '>=2.18.0 <3.0.0'
+  flutter: '>=3.3.0'
 
 dependencies:
   black_hole_flutter: ^0.3.0

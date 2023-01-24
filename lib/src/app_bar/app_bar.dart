@@ -12,7 +12,7 @@ import 'title.dart';
 /// An adapted version of [AppBar] that morphs while navigating.
 class MorphingAppBar extends StatelessWidget implements PreferredSizeWidget {
   MorphingAppBar({
-    Key? key,
+    super.key,
     this.heroTag = 'MorphingAppBar',
     this.leading,
     this.automaticallyImplyLeading = true,
@@ -42,8 +42,7 @@ class MorphingAppBar extends StatelessWidget implements PreferredSizeWidget {
   })  : assert(elevation == null || elevation >= 0.0),
         preferredSize = Size.fromHeight(
           toolbarHeight ?? kToolbarHeight + (bottom?.preferredSize.height ?? 0),
-        ),
-        super(key: key);
+        );
 
   /// Tag used for the internally created [Hero] widget.
   final Object heroTag;

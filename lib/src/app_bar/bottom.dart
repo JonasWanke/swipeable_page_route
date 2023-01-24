@@ -7,7 +7,7 @@ import 'app_bar.dart';
 import 'state.dart';
 
 class AnimatedBottom extends AnimatedAppBarPart implements PreferredSizeWidget {
-  const AnimatedBottom(MorphingState state) : super(state);
+  const AnimatedBottom(super.state);
 
   @override
   Size get preferredSize => Size.fromHeight(preferredHeight);

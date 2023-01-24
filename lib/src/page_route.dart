@@ -58,23 +58,16 @@ class SwipeablePageRoute<T> extends CupertinoPageRoute<T> {
     this.canOnlySwipeFromEdge = false,
     this.backGestureDetectionWidth = kMinInteractiveDimension,
     this.backGestureDetectionStartOffset = 0.0,
-    required WidgetBuilder builder,
-    String? title,
-    RouteSettings? settings,
-    bool maintainState = true,
-    bool fullscreenDialog = false,
+    required super.builder,
+    super.title,
+    super.settings,
+    super.maintainState,
+    super.fullscreenDialog,
     Duration? transitionDuration,
     SwipeableTransitionBuilder? transitionBuilder,
   })  : _transitionDuration = transitionDuration,
         transitionBuilder =
-            transitionBuilder ?? _defaultTransitionBuilder(fullscreenDialog),
-        super(
-          builder: builder,
-          title: title,
-          settings: settings,
-          maintainState: maintainState,
-          fullscreenDialog: fullscreenDialog,
-        );
+            transitionBuilder ?? _defaultTransitionBuilder(fullscreenDialog);
 
   /// Whether the user can swipe to navigate back.
   ///
@@ -284,14 +277,14 @@ const int _kMaxPageBackAnimationTime = 300; // Milliseconds.
 // An adapted version of `_CupertinoBackGestureDetector`.
 class _FancyBackGestureDetector<T> extends StatefulWidget {
   const _FancyBackGestureDetector({
-    Key? key,
+    super.key,
     required this.canOnlySwipeFromEdge,
     required this.backGestureDetectionWidth,
     required this.backGestureDetectionStartOffset,
     required this.enabledCallback,
     required this.onStartPopGesture,
     required this.child,
-  }) : super(key: key);
+  });
 
   final bool canOnlySwipeFromEdge;
   final double backGestureDetectionWidth;
@@ -509,8 +502,8 @@ class _DirectionDependentDragGestureRecognizer
     required this.canDragToRight,
     required this.enabledCallback,
     required this.checkStartedCallback,
-    Object? debugOwner,
-  }) : super(debugOwner: debugOwner);
+    super.debugOwner,
+  });
 
   final bool canDragToLeft;
   final bool canDragToRight;

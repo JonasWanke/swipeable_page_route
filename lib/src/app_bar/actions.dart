@@ -148,11 +148,10 @@ class AnimatedActions extends MultiChildRenderObjectWidget {
 class _AnimatedActionsParentDataWidget
     extends ParentDataWidget<_AnimatedActionsParentData> {
   const _AnimatedActionsParentDataWidget({
-    Key? key,
     required this.position,
     required this.groupIndex,
-    required Widget child,
-  }) : super(key: key, child: child);
+    required super.child,
+  });
 
   final _ActionPosition position;
   final int groupIndex;
@@ -195,10 +194,9 @@ class _AnimatedActionsParentData extends ContainerBoxParentData<RenderBox> {
 class _AnimatedActionsLayout
     extends AnimatedAppBarLayout<_AnimatedActionsParentData> {
   _AnimatedActionsLayout({
-    double t = 0,
+    super.t,
     required List<_ActionGroupType> groups,
-  })  : _groups = groups,
-        super(t: t);
+  }) : _groups = groups;
 
   List<_ActionGroupType> _groups;
   List<_ActionGroupType> get groups => _groups;
