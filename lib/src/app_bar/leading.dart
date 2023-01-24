@@ -20,40 +20,38 @@ class AnimatedLeading extends AnimatedAppBarPart {
         child.leading != null &&
         Widget.canUpdate(parent.leading!, child.leading!);
 
-    return Stack(
-      children: <Widget>[
-        if (parent.leading != null)
-          Positioned.fill(
-            child: Transform.translate(
-              offset: canUpdate
-                  ? Offset.zero
-                  : Offset(lerpDouble(0, -kToolbarHeight, t)!, 0),
-              child: Opacity(
-                opacity: canUpdate ? 1 - t : _halfInterval.transform(1 - t),
-                child: IconTheme.merge(
-                  data: parent.overallIconTheme,
-                  child: parent.leading!,
-                ),
+    return Stack(children: [
+      if (parent.leading != null)
+        Positioned.fill(
+          child: Transform.translate(
+            offset: canUpdate
+                ? Offset.zero
+                : Offset(lerpDouble(0, -kToolbarHeight, t)!, 0),
+            child: Opacity(
+              opacity: canUpdate ? 1 - t : _halfInterval.transform(1 - t),
+              child: IconTheme.merge(
+                data: parent.overallIconTheme,
+                child: parent.leading!,
               ),
             ),
           ),
-        if (child.leading != null)
-          Positioned.fill(
-            child: Transform.translate(
-              offset: canUpdate
-                  ? Offset.zero
-                  : Offset(lerpDouble(kToolbarHeight, 0, t)!, 0),
-              child: Opacity(
-                opacity: canUpdate ? t : _halfInterval.transform(t),
-                child: IconTheme.merge(
-                  data: child.overallIconTheme,
-                  child: child.leading!,
-                ),
+        ),
+      if (child.leading != null)
+        Positioned.fill(
+          child: Transform.translate(
+            offset: canUpdate
+                ? Offset.zero
+                : Offset(lerpDouble(kToolbarHeight, 0, t)!, 0),
+            child: Opacity(
+              opacity: canUpdate ? t : _halfInterval.transform(t),
+              child: IconTheme.merge(
+                data: child.overallIconTheme,
+                child: child.leading!,
               ),
             ),
           ),
-      ],
-    );
+        ),
+    ]);
   }
 
   static Widget? resolveLeading(BuildContext context, AppBar appBar) {

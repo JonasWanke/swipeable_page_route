@@ -58,7 +58,6 @@ class AnimatedTitle extends MultiChildRenderObjectWidget {
 class _AnimatedTitleParentDataWidget
     extends ParentDataWidget<_AnimatedTitleParentData> {
   const _AnimatedTitleParentDataWidget({
-    super.key,
     required this.hasLeading,
     required super.child,
   });
