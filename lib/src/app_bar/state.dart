@@ -137,13 +137,13 @@ class EndState {
   TextStyle? get toolbarTextStyle {
     return appBar.toolbarTextStyle ??
         appBarTheme.toolbarTextStyle ??
-        theme.textTheme.bodyText2?.copyWith(color: foregroundColor);
+        theme.textTheme.bodyMedium?.copyWith(color: foregroundColor);
   }
 
   TextStyle? get titleTextStyle {
     return appBar.titleTextStyle ??
         appBarTheme.titleTextStyle ??
-        theme.textTheme.headline6?.copyWith(color: foregroundColor);
+        theme.textTheme.titleLarge?.copyWith(color: foregroundColor);
   }
 
   SystemUiOverlayStyle get systemOverlayStyle =>

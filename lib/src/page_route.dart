@@ -302,8 +302,56 @@ class _FancyBackGestureDetector<T> extends StatefulWidget {
 class _FancyBackGestureDetectorState<T>
     extends State<_FancyBackGestureDetector<T>> {
   _CupertinoBackGestureController<T>? _backGestureController;
+  @override
+  Widget build(BuildContext context) {
+    assert(debugCheckHasDirectionality(context));
 
-  void _handleDragStart(DragStartDetails details) {
+    final gestureDetector = RawGestureDetector(
+      behavior: HitTestBehavior.translucent,
+      gestures: {
+        _DirectionDependentDragGestureRecognizer:
+            GestureRecognizerFactoryWithHandlers<
+                _DirectionDependentDragGestureRecognizer>(
+          _gestureRecognizerConstructor,
+          (instance) => instance
+            ..onStart = _handleDragStart
+            ..onUpdate = _handleDragUpdate
+            ..onEnd = _handleDragEnd
+            ..onCancel = _handleDragCancel,
+        ),
+      },
+    );
+
+    return Stack(
+      fit: StackFit.passthrough,
+      children: [
+        widget.child,
+        if (widget.canOnlySwipeFromEdge)
+          PositionedDirectional(
+            start: widget.backGestureDetectionStartOffset,
+            width: _dragAreaWidth(context),
+            top: 0,
+            bottom: 0,
+            child: gestureDetector,
+          )
+        else
+          Positioned.fill(child: gestureDetector),
+      ],
+    );
+  }
+
+  _DirectionDependentDragGestureRecognizer _gestureRecognizerConstructor() {
+    final directionality = context.directionality;
+    return _DirectionDependentDragGestureRecognizer(
+      debugOwner: this,
+      canDragToLeft: directionality == TextDirection.rtl,
+      canDragToRight: directionality == TextDirection.ltr,
+      checkStartedCallback: () => _backGestureController != null,
+      enabledCallback: widget.enabledCallback,
+    );
+  }
+
+  void _handleDragStart(DragStartDetails _) {
     assert(mounted);
     assert(_backGestureController == null);
     _backGestureController = widget.onStartPopGesture();
@@ -341,53 +389,6 @@ class _FancyBackGestureDetectorState<T>
       case TextDirection.ltr:
         return value;
     }
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    assert(debugCheckHasDirectionality(context));
-
-    final gestureDetector = RawGestureDetector(
-      behavior: HitTestBehavior.translucent,
-      gestures: {
-        _DirectionDependentDragGestureRecognizer:
-            GestureRecognizerFactoryWithHandlers<
-                _DirectionDependentDragGestureRecognizer>(
-          () {
-            final directionality = context.directionality;
-            return _DirectionDependentDragGestureRecognizer(
-              debugOwner: this,
-              canDragToLeft: directionality == TextDirection.rtl,
-              canDragToRight: directionality == TextDirection.ltr,
-              checkStartedCallback: () => _backGestureController != null,
-              enabledCallback: widget.enabledCallback,
-            );
-          },
-          (instance) => instance
-            ..onStart = _handleDragStart
-            ..onUpdate = _handleDragUpdate
-            ..onEnd = _handleDragEnd
-            ..onCancel = _handleDragCancel,
-        )
-      },
-    );
-
-    return Stack(
-      fit: StackFit.passthrough,
-      children: [
-        widget.child,
-        if (widget.canOnlySwipeFromEdge)
-          PositionedDirectional(
-            start: widget.backGestureDetectionStartOffset,
-            width: _dragAreaWidth(context),
-            top: 0,
-            bottom: 0,
-            child: gestureDetector,
-          )
-        else
-          Positioned.fill(child: gestureDetector),
-      ],
-    );
   }
 
   double _dragAreaWidth(BuildContext context) {

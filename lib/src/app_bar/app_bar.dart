@@ -44,6 +44,7 @@ class MorphingAppBar extends StatelessWidget implements PreferredSizeWidget {
         );
 
   /// Tag used for the internally created [Hero] widget.
+  // ignore: no-object-declaration
   final Object heroTag;
 
   /// See [AppBar.leading]
@@ -168,7 +169,7 @@ class MorphingAppBar extends StatelessWidget implements PreferredSizeWidget {
   }
 
   Widget _flightShuttleBuilder(
-    BuildContext context,
+    BuildContext _,
     Animation<double> animation,
     HeroFlightDirection direction,
     BuildContext fromContext,

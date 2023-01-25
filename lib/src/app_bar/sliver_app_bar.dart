@@ -107,6 +107,7 @@ class _SliverAppBarDelegate extends SliverPersistentHeaderDelegate {
         ),
         _bottomHeight = bottom?.preferredSize.height ?? 0;
 
+  // ignore: no-object-declaration
   final Object heroTag;
   final Widget? leading;
   final bool automaticallyImplyLeading;
@@ -142,9 +143,12 @@ class _SliverAppBarDelegate extends SliverPersistentHeaderDelegate {
   double get minExtent => collapsedHeight;
 
   @override
-  double get maxExtent => math.max(
+  double get maxExtent {
+    return math.max(
       topPadding + (expandedHeight ?? kToolbarHeight + _bottomHeight),
-      minExtent);
+      minExtent,
+    );
+  }
 
   @override
   final TickerProvider? vsync;
@@ -319,6 +323,7 @@ class MorphingSliverAppBar extends StatefulWidget {
         );
 
   /// Tag used for the internally created [Hero] widget.
+  // ignore: no-object-declaration
   final Object heroTag;
 
   /// See [SliverAppBar.leading].
@@ -438,7 +443,8 @@ class _SliverAppBarState extends State<MorphingSliverAppBar>
 
     _showOnScreenConfiguration = widget.floating & widget.snap
         ? const PersistentHeaderShowOnScreenConfiguration(
-            minShowOnScreenExtent: double.infinity)
+            minShowOnScreenExtent: double.infinity,
+          )
         : null;
   }
 

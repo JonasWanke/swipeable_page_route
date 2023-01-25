@@ -20,15 +20,11 @@ class AnimatedTitle extends MultiChildRenderObjectWidget {
 
   static Widget _createChild(EndState state) {
     final title = state.appBar.title;
-    if (title == null) {
-      return const SizedBox();
-    }
+    if (title == null) return const SizedBox();
 
     var style = state.appBar.titleTextStyle ??
         state.appBarTheme.titleTextStyle ??
-        (state.theme.useMaterial3
-            ? state.theme.textTheme.titleLarge
-            : state.theme.textTheme.headline6);
+        state.theme.textTheme.titleLarge;
     if (style?.color != null) {
       style = style!.copyWith(color: style.color!.withOpacity(state.opacity));
     }
@@ -137,12 +133,12 @@ class _AnimatedTitleLayout
     context
       ..pushOpacity(
         parent.data.offset + offset,
-        math.max<double>(0, 1 - 2 * t).opacityToAlpha,
+        math.max<double>(0, 1 - t * 2).opacityToAlpha,
         (context, offset) => context.paintChild(parent, offset),
       )
       ..pushOpacity(
         child.data.offset + offset,
-        math.max<double>(0, 2 * t - 1).opacityToAlpha,
+        math.max<double>(0, t * 2 - 1).opacityToAlpha,
         (context, offset) => context.paintChild(child, offset),
       );
   }
