@@ -30,7 +30,7 @@ class _FloatingAppBarState extends State<_FloatingAppBar> {
   void didChangeDependencies() {
     super.didChangeDependencies();
     _position?.isScrollingNotifier.removeListener(_isScrollingListener);
-    _position = Scrollable.of(context)?.position;
+    _position = Scrollable.of(context).position;
     _position?.isScrollingNotifier.addListener(_isScrollingListener);
   }
 
