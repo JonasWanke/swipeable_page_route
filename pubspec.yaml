@@ -8,7 +8,7 @@ environment:
   flutter: '>=3.10.0'
 
 dependencies:
-  black_hole_flutter: ^1.0.0
+  black_hole_flutter: ^1.0.3
   collection: ^1.15.0
   flutter:
     sdk: flutter
