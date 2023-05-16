@@ -120,7 +120,7 @@ class AnimatedActions extends MultiChildRenderObjectWidget {
       children: children,
     );
   }
-  AnimatedActions._({
+  const AnimatedActions._({
     required this.t,
     required List<_ActionGroupType> groups,
     required List<_AnimatedActionsParentDataWidget> children,

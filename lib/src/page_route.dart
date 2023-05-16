@@ -250,6 +250,7 @@ typedef SwipeableTransitionBuilder = Widget Function(
   BuildContext context,
   Animation<double> animation,
   Animation<double> secondaryAnimation,
+  // ignore: avoid_positional_boolean_parameters
   bool isSwipeGesture,
   Widget child,
 );
