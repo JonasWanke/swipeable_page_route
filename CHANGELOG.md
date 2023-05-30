@@ -16,6 +16,14 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 ### 📦 Build & CI
 -->
 
+## 0.4.0 · 2023-05-30
+
+### ⚠️ BREAKING CHANGES
+- make `swipeablePageRoute.canOnlySwipeFromEdge`, `.backGestureDetectionWidth`, and `.backGestureDetectionStartOffset` mutable and change `SwipeablePageRoute.buildPageTransitions(…)`'s corresponding parameters to `ValueGetter`s ([`2ad8bfb`](https://github.com/JonasWanke/swipeable_page_route/commit/2ad8bfb986ff687b169930d762925c1fb4adbafd)), closes: [#27](https://github.com/JonasWanke/swipeable_page_route/issues/27)
+
+### 🐛 Bug Fixes
+- fix `MorphingAppBar`'s title text color during swipe ([`fb0466d`](https://github.com/JonasWanke/swipeable_page_route/commit/fb0466d4e37cda4e1b64383de6ea90d77644c547))
+
 ## 0.3.1 · 2023-05-16
 
 ### 📦 Build & CI
