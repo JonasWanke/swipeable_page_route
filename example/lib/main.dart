@@ -23,10 +23,8 @@ class FirstPage extends StatelessWidget {
       ),
       body: Center(
         child: ElevatedButton(
-          onPressed: () {
-            context.navigator
-                .push<void>(SwipeablePageRoute(builder: (_) => SecondPage()));
-          },
+          onPressed: () => context.navigator
+              .push<void>(SwipeablePageRoute(builder: (_) => SecondPage())),
           child: const Text('Open page 2'),
         ),
       ),
@@ -125,10 +123,10 @@ class _ThirdPageState extends State<ThirdPage>
     super.initState();
     _tabController = TabController(length: _tabCount, vsync: this);
     _tabController.addListener(() {
-      if (mounted) {
-        final canSwipe = _tabController.index == 0;
-        context.getSwipeablePageRoute<void>()!.canSwipe = canSwipe;
-      }
+      if (!mounted) return;
+
+      final canSwipe = _tabController.index == 0;
+      context.getSwipeablePageRoute<void>()!.canSwipe = canSwipe;
     });
   }
 

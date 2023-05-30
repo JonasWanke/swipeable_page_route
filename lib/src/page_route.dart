@@ -382,20 +382,19 @@ class _FancyBackGestureDetectorState<T>
   }
 
   double _convertToLogical(double value) {
-    switch (context.directionality) {
-      case TextDirection.rtl:
-        return -value;
-      case TextDirection.ltr:
-        return value;
-    }
+    return switch (context.directionality) {
+      TextDirection.rtl => -value,
+      TextDirection.ltr => value,
+    };
   }
 
   double _dragAreaWidth(BuildContext context) {
     // For devices with notches, the drag area needs to be larger on the side
     // that has the notch.
-    final dragAreaWidth = context.directionality == TextDirection.ltr
-        ? context.mediaQuery.padding.left
-        : context.mediaQuery.padding.right;
+    final dragAreaWidth = switch (context.directionality) {
+      TextDirection.ltr => context.mediaQuery.padding.left,
+      TextDirection.rtl => context.mediaQuery.padding.right,
+    };
     return math.max(dragAreaWidth, widget.backGestureDetectionWidth());
   }
 }

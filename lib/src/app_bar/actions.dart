@@ -15,7 +15,7 @@ class AnimatedActions extends MultiChildRenderObjectWidget {
     final childIconTheme = state.child.actionsIconTheme;
     final parentActions = state.parent.appBar.actions ?? [];
     final childActions = state.child.appBar.actions ?? [];
-    Iterable<Operation<Widget>> difference = diffSync<Widget>(
+    Iterable<Operation<Widget>> difference = diffSync(
       parentActions,
       childActions,
       areEqual: Widget.canUpdate,
