@@ -84,6 +84,14 @@ class _SecondPageState extends State<SecondPage> {
               },
               child: const Text('Toggle'),
             ),
+            Text('Can only swipe from edge: ${pageRoute.canOnlySwipeFromEdge}'),
+            TextButton(
+              onPressed: () => setState(
+                () => pageRoute.canOnlySwipeFromEdge =
+                    !pageRoute.canOnlySwipeFromEdge,
+              ),
+              child: const Text('Toggle'),
+            ),
             const SizedBox(height: 32),
             ElevatedButton(
               onPressed: () {
