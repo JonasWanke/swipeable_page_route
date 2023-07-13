@@ -23,7 +23,7 @@ class FirstPage extends StatelessWidget {
       ),
       body: Center(
         child: ElevatedButton(
-          onPressed: () => context.navigator
+          onPressed: () async => context.navigator
               .push<void>(SwipeablePageRoute(builder: (_) => SecondPage())),
           child: const Text('Open page 2'),
         ),
@@ -92,8 +92,8 @@ class _SecondPageState extends State<SecondPage> {
             ),
             const SizedBox(height: 32),
             ElevatedButton(
-              onPressed: () {
-                context.navigator.push<void>(SwipeablePageRoute(
+              onPressed: () async {
+                await context.navigator.push<void>(SwipeablePageRoute(
                   // You can customize the width of the detection area with
                   // `backGestureDetectionWidth`.
                   builder: (_) => ThirdPage(),
@@ -183,8 +183,8 @@ class _ThirdPageState extends State<ThirdPage>
               children: [
                 Text('This is tab ${i + 1}'),
                 ElevatedButton(
-                  onPressed: () {
-                    context.navigator.push<void>(
+                  onPressed: () async {
+                    await context.navigator.push<void>(
                       SwipeablePageRoute(builder: (_) => SecondPage()),
                     );
                   },

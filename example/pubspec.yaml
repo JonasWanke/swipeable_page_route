@@ -12,7 +12,11 @@ dependencies:
     path: ../
 
 dev_dependencies:
-  flutter_lints: ^2.0.2
+  supernova:
+    git:
+      url: https://github.com/JonasWanke/supernova.git
+      path: supernova
+      ref: 622728f6ed745c8d9c3744293cdc157f7bdb3833
 
 flutter:
   uses-material-design: true
