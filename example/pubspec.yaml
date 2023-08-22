@@ -16,7 +16,7 @@ dev_dependencies:
     git:
       url: https://github.com/JonasWanke/supernova.git
       path: supernova
-      ref: 622728f6ed745c8d9c3744293cdc157f7bdb3833
+      ref: 281f167123facb724d112ffc84349cf39d8f691f
 
 flutter:
   uses-material-design: true
