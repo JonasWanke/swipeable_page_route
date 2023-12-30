@@ -16,6 +16,18 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 ### 📦 Build & CI
 -->
 
+## 0.4.1 · 2023-12-30
+
+### 🎉 New Features
+- add `SwipeablePage` and a [Go Router](https://pub.dev/packages/go_router) example ([`ea49c3e`](https://github.com/JonasWanke/swipeable_page_route/commit/ea49c3e598e6a5e506ead98b5220a578b2ff749b)), closes [#29](https://github.com/JonasWanke/swipeable_page_route/issues/29). Thanks to [@110](https://github.com/110), [@kamranbekirovyz](https://github.com/kamranbekirovyz), and [@gustavjohansen98](https://github.com/gustavjohansen98) for exploring this!
+- expose `swipeablePageRoute.allowSnapshotting`, `.barrierDismissible` ([#35](https://github.com/JonasWanke/swipeable_page_route/pull/35)). Thanks to [@MagTuxGit](https://github.com/MagTuxGit)!
+
+### ⚡ Changes
+- interpolate colors in the [Oklab color space](https://bottosson.github.io/posts/oklab/) instead of HSV ([`65f2a5d`](https://github.com/JonasWanke/swipeable_page_route/commit/65f2a5d60b12ed127a99497e713f0257ad7b7c03))
+
+### 🐛 Bug Fixes
+- honor `themeData.useMaterial3` with different defaults compared to Material 2 ([`cc98d3f`](https://github.com/JonasWanke/swipeable_page_route/commit/cc98d3f3ea0539c1eeb8c013dc425d2443283ed7))
+
 ## 0.4.0 · 2023-05-30
 
 ### ⚠️ BREAKING CHANGES
