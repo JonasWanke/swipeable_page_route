@@ -271,8 +271,8 @@ typedef SwipeableTransitionBuilder = Widget Function(
   Widget child,
 );
 
-/// A specialized [CupertinoPage] that allows for swiping back anywhere on the
-/// page unless `canOnlySwipeFromEdge` is `true`.
+/// A specialized variant of [CupertinoPage] that allows for swiping back
+/// anywhere on the page unless `canOnlySwipeFromEdge` is `true`.
 ///
 /// See also:
 ///
