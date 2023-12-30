@@ -3,6 +3,7 @@ import 'dart:ui';
 import 'package:black_hole_flutter/black_hole_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_color_models/flutter_color_models.dart';
 
 import 'leading.dart';
 
@@ -55,8 +56,12 @@ class MorphingState {
   SystemUiOverlayStyle get systemOverlayStyle =>
       t < 0.5 ? parent.systemOverlayStyle : child.systemOverlayStyle;
 
-  static Color _lerpColor(Color a, Color b, double t) =>
-      HSVColor.lerp(HSVColor.fromColor(a), HSVColor.fromColor(b), t)!.toColor();
+  /// Interpolate between colors in Oklab space.
+  static Color _lerpColor(Color a, Color b, double t) {
+    return OklabColor.fromColor(a)
+        .interpolate(OklabColor.fromColor(b), t)
+        .toColor();
+  }
 }
 
 @immutable
