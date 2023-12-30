@@ -9,6 +9,12 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: '🔙 swipeable_page_route example',
+      theme: ThemeData(
+        appBarTheme: const AppBarTheme(
+          color: Colors.green,
+          foregroundColor: Colors.white,
+        ),
+      ),
       home: FirstPage(),
     );
   }
