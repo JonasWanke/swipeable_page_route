@@ -25,9 +25,29 @@ You can get the [`SwipeablePageRoute`] wrapping your current page using `context
 
 > To use swipeable pages with a [`PageTransitionsTheme`], use [`SwipeablePageTransitionsBuilder`].
 >
-> ⚠️ [`SwipeablePageTransitionsBuilder`] *must* be set for [`TargetPlatform.iOS`].
+> ⚠️ [`SwipeablePageTransitionsBuilder`] _must_ be set for [`TargetPlatform.iOS`].
 > For all other platforms, you can decide whether you want to use it.
 > This is because [`PageTransitionsTheme`] uses the builder for iOS whenever a pop gesture is in progress.
+
+### Usage with Go Router
+
+To use swipeable pages with Flutter's [<kbd>Go Router</kbd>], use [`SwipeablePage`] and the `pageBuilder` parameter in [`GoRoute`] instead of `builder`:
+
+```dart
+// Before, without swipeable pages:
+GoRoute(
+  builder: (context, state) => const MyScreen(),
+  // ...
+)
+
+// After, with swipeable pages:
+GoRoute(
+  pageBuilder: (context, state) => SwipeablePage(
+    builder: (context) => MyScreen(),
+  ),
+  // ...
+)
+```
 
 ## [`MorphingAppBar`] & [`MorphingSliverAppBar`]
 
@@ -77,6 +97,8 @@ Navigator(
 
 To animate additions, removals, and constants in your `AppBar`s `actions`, we compare them using [`Widget.canUpdate(Widget old, Widget new)`]. It compares `Widget`s based on their type and `key`, so it's recommended to give every action `Widget` a key (that you reuse across pages) for correct animations.
 
+[<kbd>Go Router</kbd>]: https://pub.dev/packages/go_router
+[`GoRoute`]: https://pub.dev/documentation/go_router/latest/go_router/GoRoute-class.html
 <!-- Flutter -->
 [`CupertinoPageRoute`]: https://api.flutter.dev/flutter/cupertino/CupertinoPageRoute-class.html
 [`Hero`]: https://api.flutter.dev/flutter/widgets/Hero-class.html
@@ -88,5 +110,6 @@ To animate additions, removals, and constants in your `AppBar`s `actions`, we co
 <!-- swipeable_page_route -->
 [`MorphingAppBar`]: https://pub.dev/documentation/swipeable_page_route/latest/swipeable_page_route/MorphingAppBar-class.html
 [`MorphingSliverAppBar`]: https://pub.dev/documentation/swipeable_page_route/latest/swipeable_page_route/MorphingSliverAppBar-class.html
+[`SwipeablePage`]: https://pub.dev/documentation/swipeable_page_route/latest/swipeable_page_route/SwipeablePage-class.html
 [`SwipeablePageRoute`]: https://pub.dev/documentation/swipeable_page_route/latest/swipeable_page_route/SwipeablePageRoute-class.html
 [`SwipeablePageTransitionsBuilder`]: https://pub.dev/documentation/swipeable_page_route/latest/swipeable_page_route/SwipeablePageTransitionsBuilder-class.html

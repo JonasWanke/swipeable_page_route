@@ -52,12 +52,18 @@ class SwipeablePageTransitionsBuilder extends PageTransitionsBuilder {
 
 /// A specialized [CupertinoPageRoute] that allows for swiping back anywhere on
 /// the page unless `canOnlySwipeFromEdge` is `true`.
+///
+/// See also:
+///
+///  * [SwipeablePage], for a [Page] version of this class.
 class SwipeablePageRoute<T> extends CupertinoPageRoute<T> {
   SwipeablePageRoute({
     this.canSwipe = true,
     this.canOnlySwipeFromEdge = false,
     this.backGestureDetectionWidth = kMinInteractiveDimension,
     this.backGestureDetectionStartOffset = 0.0,
+    Duration? transitionDuration,
+    SwipeableTransitionBuilder? transitionBuilder,
     required super.builder,
     super.title,
     super.settings,
@@ -65,8 +71,6 @@ class SwipeablePageRoute<T> extends CupertinoPageRoute<T> {
     super.fullscreenDialog,
     super.allowSnapshotting,
     super.barrierDismissible,
-    Duration? transitionDuration,
-    SwipeableTransitionBuilder? transitionBuilder,
   })  : _transitionDuration = transitionDuration,
         transitionBuilder =
             transitionBuilder ?? _defaultTransitionBuilder(fullscreenDialog);
@@ -75,13 +79,6 @@ class SwipeablePageRoute<T> extends CupertinoPageRoute<T> {
   ///
   /// Set this to `false` to disable swiping completely.
   bool canSwipe;
-
-  /// An optional override for the [transitionDuration].
-  final Duration? _transitionDuration;
-
-  @override
-  Duration get transitionDuration =>
-      _transitionDuration ?? super.transitionDuration;
 
   /// Whether only back gestures close to the left (LTR) or right (RTL) screen
   /// edge are counted.
@@ -96,13 +93,20 @@ class SwipeablePageRoute<T> extends CupertinoPageRoute<T> {
   /// If [canOnlySwipeFromEdge] is set to `true`, this value controls the width
   /// of the gesture detection area.
   ///
-  /// For comparison, in [CupertinoPageRoute] this value is `20`.
+  /// For comparison, in [CupertinoPageRoute], this value is `20`.
   double backGestureDetectionWidth;
 
   /// If [canOnlySwipeFromEdge] is set to `true`, this value controls how far
   /// away from the left (LTR) or right (RTL) screen edge a gesture must start
   /// to be recognized for back navigation.
   double backGestureDetectionStartOffset;
+
+  /// An optional override for the [transitionDuration].
+  final Duration? _transitionDuration;
+
+  @override
+  Duration get transitionDuration =>
+      _transitionDuration ?? super.transitionDuration;
 
   /// Custom builder to wrap the child widget.
   ///
@@ -266,6 +270,84 @@ typedef SwipeableTransitionBuilder = Widget Function(
   bool isSwipeGesture,
   Widget child,
 );
+
+/// A specialized [CupertinoPage] that allows for swiping back anywhere on the
+/// page unless `canOnlySwipeFromEdge` is `true`.
+///
+/// See also:
+///
+///  * [SwipeablePageRoute], for a [PageRoute] version of this class.
+class SwipeablePage<T> extends Page<T> {
+  SwipeablePage({
+    this.canSwipe = true,
+    this.canOnlySwipeFromEdge = false,
+    this.backGestureDetectionWidth = kMinInteractiveDimension,
+    this.backGestureDetectionStartOffset = 0.0,
+    this.transitionDuration,
+    SwipeableTransitionBuilder? transitionBuilder,
+    this.title,
+    super.key,
+    super.name,
+    super.arguments,
+    super.restorationId,
+    this.maintainState = true,
+    this.fullscreenDialog = false,
+    this.allowSnapshotting = true,
+    required this.builder,
+  }) : transitionBuilder = transitionBuilder ??
+            SwipeablePageRoute._defaultTransitionBuilder(fullscreenDialog);
+
+  /// {@macro swipeable_page_route.SwipeablePageRoute.canSwipe}
+  final bool canSwipe;
+
+  /// {@macro swipeable_page_route.SwipeablePageRoute.canOnlySwipeFromEdge}
+  final bool canOnlySwipeFromEdge;
+
+  /// {@macro swipeable_page_route.SwipeablePageRoute.backGestureDetectionWidth}
+  final double backGestureDetectionWidth;
+
+  /// {@macro swipeable_page_route.SwipeablePageRoute.backGestureDetectionStartOffset}
+  final double backGestureDetectionStartOffset;
+
+  /// {@macro swipeable_page_route.SwipeablePageRoute.transitionDuration}
+  final Duration? transitionDuration;
+
+  /// {@macro swipeable_page_route.SwipeablePageRoute.transitionBuilder}
+  final SwipeableTransitionBuilder transitionBuilder;
+
+  /// {@macro flutter.cupertino.CupertinoRouteTransitionMixin.title}
+  final String? title;
+
+  /// {@macro flutter.widgets.ModalRoute.maintainState}
+  final bool maintainState;
+
+  /// {@macro flutter.widgets.PageRoute.fullscreenDialog}
+  final bool fullscreenDialog;
+
+  /// {@macro flutter.widgets.TransitionRoute.allowSnapshotting}
+  final bool allowSnapshotting;
+
+  /// The content to be shown in the [Route] created by this page.
+  final WidgetBuilder builder;
+
+  @override
+  Route<T> createRoute(BuildContext context) {
+    return SwipeablePageRoute(
+      canSwipe: canSwipe,
+      canOnlySwipeFromEdge: canOnlySwipeFromEdge,
+      backGestureDetectionWidth: backGestureDetectionWidth,
+      backGestureDetectionStartOffset: backGestureDetectionStartOffset,
+      transitionDuration: transitionDuration,
+      transitionBuilder: transitionBuilder,
+      builder: builder,
+      title: title,
+      settings: this,
+      maintainState: maintainState,
+      fullscreenDialog: fullscreenDialog,
+      allowSnapshotting: allowSnapshotting,
+    );
+  }
+}
 
 extension BuildContextSwipeablePageRoute on BuildContext {
   SwipeablePageRoute<T>? getSwipeablePageRoute<T>() {
