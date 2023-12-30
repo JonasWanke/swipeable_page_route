@@ -2,7 +2,7 @@
 name: "\U0001F41E Bug report"
 about: Create a report to help us improve
 title: ''
-labels: 'T: fix'
+labels: 'T: Fix'
 assignees: ''
 
 ---
@@ -23,6 +23,6 @@ assignees: ''
 
 **Environment:**
 <!-- Please complete the following information: -->
-* OS version:  <!-- e.g. Android 9.0.0 -->
-* Flutter version:  <!-- e.g. 2.5.0 -->
-* Package version:  <!-- e.g. 1.0.2 -->
+- OS version:  <!-- e.g. Android 9.0.0 -->
+- Flutter version:  <!-- e.g. 2.5.0 -->
+- Package version:  <!-- e.g. 1.0.2 -->
