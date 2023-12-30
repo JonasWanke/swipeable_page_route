@@ -17,7 +17,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = ThemeData(
       appBarTheme: const AppBarTheme(
-        color: Colors.green,
+        color: Colors.blue,
         foregroundColor: Colors.white,
       ),
     );
