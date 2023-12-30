@@ -21,6 +21,8 @@ class MorphingState {
 
   double get elevation => lerpDouble(parent.elevation, child.elevation, t)!;
   Color get shadowColor => _lerpColor(parent.shadowColor, child.shadowColor, t);
+  Color get surfaceTintColor =>
+      _lerpColor(parent.surfaceTintColor, child.surfaceTintColor, t);
   ShapeBorder? get shape => ShapeBorder.lerp(parent.shape, child.shape, t);
 
   Color get backgroundColor =>
@@ -56,10 +58,15 @@ class MorphingState {
   SystemUiOverlayStyle get systemOverlayStyle =>
       t < 0.5 ? parent.systemOverlayStyle : child.systemOverlayStyle;
 
-  /// Interpolate between colors in Oklab space.
-  static Color _lerpColor(Color a, Color b, double t) {
-    return OklabColor.fromColor(a)
-        .interpolate(OklabColor.fromColor(b), t)
+  /// Interpolate between colors in Oklab space, where `null` values are treated
+  /// as transparent.
+  static Color _lerpColor(Color? a, Color? b, double t) {
+    if (a == null && b == null) return Colors.transparent;
+
+    final aAsOklab = a == null ? null : OklabColor.fromColor(a);
+    final bAsOklab = b == null ? null : OklabColor.fromColor(b);
+    return (aAsOklab ?? bAsOklab!.withAlpha(0))
+        .interpolate(bAsOklab ?? aAsOklab!.withAlpha(0), t)
         .toColor();
   }
 }
@@ -77,36 +84,68 @@ class EndState {
 
   final Widget? leading;
 
-  double get elevation => appBar.elevation ?? appBarTheme.elevation ?? 4;
-  Color get shadowColor =>
-      appBar.shadowColor ?? appBarTheme.shadowColor ?? Colors.black;
+  double get elevation =>
+      appBar.elevation ?? appBarTheme.elevation ?? (theme.useMaterial3 ? 0 : 4);
+  double? get scrolledUnderElevation {
+    return appBar.elevation ??
+        appBarTheme.elevation ??
+        (theme.useMaterial3 ? 3 : null);
+  }
+
+  Color get shadowColor {
+    return appBar.shadowColor ??
+        appBarTheme.shadowColor ??
+        (theme.useMaterial3 ? Colors.transparent : Colors.black);
+  }
+
+  Color? get surfaceTintColor {
+    return appBar.surfaceTintColor ??
+        appBarTheme.surfaceTintColor ??
+        (theme.useMaterial3 ? theme.colorScheme.surfaceTint : null);
+  }
+
   ShapeBorder? get shape => appBar.shape;
 
   Color get backgroundColor {
     return appBar.backgroundColor ??
         appBarTheme.backgroundColor ??
-        (theme.colorScheme.brightness == Brightness.dark
+        (theme.useMaterial3
             ? theme.colorScheme.surface
-            : theme.colorScheme.primary);
+            : theme.colorScheme.brightness == Brightness.dark
+                ? theme.colorScheme.surface
+                : theme.colorScheme.primary);
   }
 
   Color get foregroundColor {
     return appBar.foregroundColor ??
         appBarTheme.foregroundColor ??
-        (theme.colorScheme.brightness == Brightness.dark
+        (theme.useMaterial3
             ? theme.colorScheme.onSurface
-            : theme.colorScheme.onPrimary);
+            : theme.colorScheme.brightness == Brightness.dark
+                ? theme.colorScheme.onSurface
+                : theme.colorScheme.onPrimary);
   }
 
   IconThemeData get overallIconTheme {
     return appBar.iconTheme ??
         appBarTheme.iconTheme ??
-        theme.iconTheme.copyWith(color: foregroundColor);
+        (theme.useMaterial3 ? const IconThemeData(size: 24) : theme.iconTheme)
+            .copyWith(color: foregroundColor);
   }
 
   IconThemeData get actionsIconTheme {
     return appBar.actionsIconTheme ??
         appBarTheme.actionsIconTheme ??
+        appBar.iconTheme ??
+        appBarTheme.iconTheme ??
+        (theme.useMaterial3
+            ? IconThemeData(
+                color: appBar.foregroundColor ??
+                    appBarTheme.foregroundColor ??
+                    theme.colorScheme.onSurfaceVariant,
+                size: 24,
+              )
+            : null) ??
         overallIconTheme;
   }
 
@@ -136,7 +175,8 @@ class EndState {
   double get opacity => appBar.toolbarOpacity;
   double get bottomOpacity => appBar.bottomOpacity;
 
-  double get toolbarHeight => appBar.toolbarHeight ?? kToolbarHeight;
+  double get toolbarHeight =>
+      appBar.toolbarHeight ?? (theme.useMaterial3 ? 64 : kToolbarHeight);
   double get leadingWidth => appBar.leadingWidth ?? kToolbarHeight;
 
   TextStyle? get toolbarTextStyle {

@@ -22,6 +22,7 @@ class MorphingAppBar extends StatelessWidget implements PreferredSizeWidget {
     this.bottom,
     this.elevation,
     this.shadowColor,
+    this.surfaceTintColor,
     this.shape,
     this.backgroundColor,
     this.foregroundColor,
@@ -70,6 +71,9 @@ class MorphingAppBar extends StatelessWidget implements PreferredSizeWidget {
 
   /// See [AppBar.shadowColor]
   final Color? shadowColor;
+
+  /// See [AppBar.surfaceTintColor]
+  final Color? surfaceTintColor;
 
   /// See [AppBar.shape]
   final ShapeBorder? shape;
@@ -128,9 +132,11 @@ class MorphingAppBar extends StatelessWidget implements PreferredSizeWidget {
 
     final actualBackgroundColor = backgroundColor ??
         theme.appBarTheme.backgroundColor ??
-        (theme.colorScheme.brightness == Brightness.dark
+        (theme.useMaterial3
             ? theme.colorScheme.surface
-            : theme.colorScheme.primary);
+            : theme.colorScheme.brightness == Brightness.dark
+                ? theme.colorScheme.surface
+                : theme.colorScheme.primary);
     final actualSystemOverlayStyle = systemOverlayStyle ??
         context.theme.appBarTheme.systemOverlayStyle ??
         actualBackgroundColor.contrastSystemUiOverlayStyle;
@@ -148,6 +154,7 @@ class MorphingAppBar extends StatelessWidget implements PreferredSizeWidget {
         bottom: bottom,
         elevation: elevation,
         shadowColor: shadowColor,
+        surfaceTintColor: surfaceTintColor,
         shape: shape,
         backgroundColor: actualBackgroundColor,
         foregroundColor: foregroundColor,
@@ -224,6 +231,7 @@ class _AnimatedAppBar extends AnimatedWidget {
       bottom: AnimatedBottom(state),
       elevation: state.elevation,
       shadowColor: state.shadowColor,
+      surfaceTintColor: state.surfaceTintColor,
       shape: state.shape,
       backgroundColor: state.backgroundColor,
       foregroundColor: state.foregroundColor,
