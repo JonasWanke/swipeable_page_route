@@ -75,11 +75,14 @@ class SwipeablePageRoute<T> extends CupertinoPageRoute<T> {
         transitionBuilder =
             transitionBuilder ?? _defaultTransitionBuilder(fullscreenDialog);
 
+  /// {@template swipeable_page_route.SwipeablePageRoute.canSwipe}
   /// Whether the user can swipe to navigate back.
   ///
   /// Set this to `false` to disable swiping completely.
+  /// {@endtemplate}
   bool canSwipe;
 
+  /// {@template swipeable_page_route.SwipeablePageRoute.canOnlySwipeFromEdge}
   /// Whether only back gestures close to the left (LTR) or right (RTL) screen
   /// edge are counted.
   ///
@@ -88,17 +91,22 @@ class SwipeablePageRoute<T> extends CupertinoPageRoute<T> {
   /// If set to `true`, this distance can be controlled via
   /// [backGestureDetectionWidth].
   /// If set to `false`, the user can start dragging anywhere on the screen.
+  /// {@endtemplate}
   bool canOnlySwipeFromEdge;
 
+  /// {@template swipeable_page_route.SwipeablePageRoute.backGestureDetectionWidth}
   /// If [canOnlySwipeFromEdge] is set to `true`, this value controls the width
   /// of the gesture detection area.
   ///
   /// For comparison, in [CupertinoPageRoute], this value is `20`.
+  /// {@endtemplate}
   double backGestureDetectionWidth;
 
+  /// {@template swipeable_page_route.SwipeablePageRoute.backGestureDetectionStartOffset}
   /// If [canOnlySwipeFromEdge] is set to `true`, this value controls how far
   /// away from the left (LTR) or right (RTL) screen edge a gesture must start
   /// to be recognized for back navigation.
+  /// {@endtemplate}
   double backGestureDetectionStartOffset;
 
   /// An optional override for the [transitionDuration].
@@ -108,6 +116,7 @@ class SwipeablePageRoute<T> extends CupertinoPageRoute<T> {
   Duration get transitionDuration =>
       _transitionDuration ?? super.transitionDuration;
 
+  /// {@template swipeable_page_route.SwipeablePageRoute.transitionBuilder}
   /// Custom builder to wrap the child widget.
   ///
   /// By default, this wraps the child in a [CupertinoPageTransition], or, if
@@ -115,6 +124,7 @@ class SwipeablePageRoute<T> extends CupertinoPageRoute<T> {
   ///
   /// You can override this to, e.g., customize the position or shadow
   /// animations.
+  /// {@endtemplate}
   final SwipeableTransitionBuilder transitionBuilder;
 
   static SwipeableTransitionBuilder _defaultTransitionBuilder(
@@ -309,7 +319,6 @@ class SwipeablePage<T> extends Page<T> {
   /// {@macro swipeable_page_route.SwipeablePageRoute.backGestureDetectionStartOffset}
   final double backGestureDetectionStartOffset;
 
-  /// {@macro swipeable_page_route.SwipeablePageRoute.transitionDuration}
   final Duration? transitionDuration;
 
   /// {@macro swipeable_page_route.SwipeablePageRoute.transitionBuilder}
