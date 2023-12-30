@@ -63,6 +63,8 @@ class SwipeablePageRoute<T> extends CupertinoPageRoute<T> {
     super.settings,
     super.maintainState,
     super.fullscreenDialog,
+    super.allowSnapshotting,
+    super.barrierDismissible,
     Duration? transitionDuration,
     SwipeableTransitionBuilder? transitionBuilder,
   })  : _transitionDuration = transitionDuration,
