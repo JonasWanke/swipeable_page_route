@@ -5,7 +5,7 @@ All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 <!-- Template:
-## NEW · 2023-xx-xx
+## NEW · 2024-xx-xx
 
 ### ⚠️ BREAKING CHANGES
 ### 🎉 New Features
@@ -15,6 +15,15 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 ### 🏗️ Refactoring
 ### 📦 Build & CI
 -->
+
+## 0.4.2 · 20234-01-20
+
+### 🎉 New Features
+- handle new `pageRoute.popDisposition` ([`9cee84a`](https://github.com/JonasWanke/swipeable_page_route/commit/9cee84a1c12e50f91c46c0a2487d155f5183fe6e))
+- expose `swipeablePageRoute.`, `swipeablePage.reverseTransitionDuration` ([`4f6e398`](https://github.com/JonasWanke/swipeable_page_route/commit/4f6e398a17f117b058d7162e4a94ba23d1f1ce99)), closes [#38](https://github.com/JonasWanke/swipeable_page_route/issues/38)
+
+### 📦 Build & CI
+- upgrade to Flutter `>=3.16.0` ([`8dd381c`](https://github.com/JonasWanke/swipeable_page_route/commit/8dd381c1f046fc30490c5457e7fce3a73926e772)), closes [#36](https://github.com/JonasWanke/swipeable_page_route/issues/36)
 
 ## 0.4.1 · 2023-12-30
 

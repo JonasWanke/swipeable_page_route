@@ -1,6 +1,6 @@
 name: swipeable_page_route
 description: Swipe to navigate back and admire beautifully morphing widgets
-version: 0.4.1
+version: 0.4.2
 repository: https://github.com/JonasWanke/swipeable_page_route
 screenshots:
   - description: Users can swipe to navigate back anywhere on the page and the app bar transitions beautifully
