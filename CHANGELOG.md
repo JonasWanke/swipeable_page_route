@@ -16,7 +16,7 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 ### 📦 Build & CI
 -->
 
-## 0.4.2 · 20234-01-20
+## 0.4.2 · 2024-01-20
 
 ### 🎉 New Features
 - handle new `pageRoute.popDisposition` ([`9cee84a`](https://github.com/JonasWanke/swipeable_page_route/commit/9cee84a1c12e50f91c46c0a2487d155f5183fe6e))
