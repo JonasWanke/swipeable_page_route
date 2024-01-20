@@ -163,12 +163,9 @@ class SwipeablePageRoute<T> extends CupertinoPageRoute<T> {
     if (route.willHandlePopInternally) return false;
     // If attempts to dismiss this route might be vetoed such as in a page
     // with forms, then do not allow the user to dismiss the route with a swipe.
-    //
-    // TODO(JonasWanke): Use `route.hasScopedWillPopCallback ||
-    // route.popDisposition == RoutePopDisposition.doNotPop` after upgrading
-    // Flutter.
     // ignore: deprecated_member_use
-    if (route.hasScopedWillPopCallback) return false;
+    if (route.hasScopedWillPopCallback ||
+        route.popDisposition == RoutePopDisposition.doNotPop) return false;
     // Fullscreen dialogs aren't dismissible by back swipe.
     if (route.fullscreenDialog) return false;
     // If we're in an animation already, we cannot be manually swiped.
