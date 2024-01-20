@@ -16,7 +16,6 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        flutter-channel: [stable, beta]
         include:
           - flutter-channel: stable
           - flutter-channel: beta
@@ -41,7 +40,6 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        flutter-channel: [stable, beta]
         include:
           - flutter-channel: stable
           - flutter-channel: beta
