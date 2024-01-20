@@ -63,6 +63,7 @@ class SwipeablePageRoute<T> extends CupertinoPageRoute<T> {
     this.backGestureDetectionWidth = kMinInteractiveDimension,
     this.backGestureDetectionStartOffset = 0.0,
     Duration? transitionDuration,
+    Duration? reverseTransitionDuration,
     SwipeableTransitionBuilder? transitionBuilder,
     required super.builder,
     super.title,
@@ -72,6 +73,7 @@ class SwipeablePageRoute<T> extends CupertinoPageRoute<T> {
     super.allowSnapshotting,
     super.barrierDismissible,
   })  : _transitionDuration = transitionDuration,
+        _reverseTransitionDuration = reverseTransitionDuration,
         transitionBuilder =
             transitionBuilder ?? _defaultTransitionBuilder(fullscreenDialog);
 
@@ -111,10 +113,15 @@ class SwipeablePageRoute<T> extends CupertinoPageRoute<T> {
 
   /// An optional override for the [transitionDuration].
   final Duration? _transitionDuration;
-
   @override
   Duration get transitionDuration =>
       _transitionDuration ?? super.transitionDuration;
+
+  /// An optional override for the [reverseTransitionDuration].
+  final Duration? _reverseTransitionDuration;
+  @override
+  Duration get reverseTransitionDuration =>
+      _reverseTransitionDuration ?? super.reverseTransitionDuration;
 
   /// {@template swipeable_page_route.SwipeablePageRoute.transitionBuilder}
   /// Custom builder to wrap the child widget.
@@ -291,6 +298,7 @@ class SwipeablePage<T> extends Page<T> {
     this.backGestureDetectionWidth = kMinInteractiveDimension,
     this.backGestureDetectionStartOffset = 0.0,
     this.transitionDuration,
+    this.reverseTransitionDuration,
     SwipeableTransitionBuilder? transitionBuilder,
     this.title,
     super.key,
@@ -317,6 +325,7 @@ class SwipeablePage<T> extends Page<T> {
   final double backGestureDetectionStartOffset;
 
   final Duration? transitionDuration;
+  final Duration? reverseTransitionDuration;
 
   /// {@macro swipeable_page_route.SwipeablePageRoute.transitionBuilder}
   final SwipeableTransitionBuilder transitionBuilder;
@@ -344,6 +353,7 @@ class SwipeablePage<T> extends Page<T> {
       backGestureDetectionWidth: backGestureDetectionWidth,
       backGestureDetectionStartOffset: backGestureDetectionStartOffset,
       transitionDuration: transitionDuration,
+      reverseTransitionDuration: reverseTransitionDuration,
       transitionBuilder: transitionBuilder,
       builder: builder,
       title: title,
