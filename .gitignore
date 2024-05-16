@@ -1,3 +1,5 @@
+.direnv/
+
 ### Dart ###
 
 # Files and directories created by pub
