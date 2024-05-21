@@ -2,19 +2,23 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:swipeable_page_route/swipeable_page_route.dart';
 
+import 'go_router.dart';
+
 void main() => runApp(MyApp());
 
 enum NavigationMode {
   navigator,
-  goRouter;
+  goRouter,
+  goRouterBuilder;
 
-  /// Change this value to switch between the two navigation modes.
+  /// Change this value to switch between the navigation modes.
   static const current = NavigationMode.navigator;
 }
 
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    const title = '🔙 swipeable_page_route example';
     final theme = ThemeData(
       appBarTheme: const AppBarTheme(
         color: Colors.blue,
@@ -24,43 +28,27 @@ class MyApp extends StatelessWidget {
 
     return switch (NavigationMode.current) {
       NavigationMode.navigator => MaterialApp(
-          title: '🔙 swipeable_page_route example',
+          title: title,
           theme: theme,
-          home: FirstPage(),
+          home: const FirstPage(),
         ),
       NavigationMode.goRouter => MaterialApp.router(
-          title: '🔙 swipeable_page_route example',
+          title: title,
           theme: theme,
           routerConfig: goRouter,
+        ),
+      NavigationMode.goRouterBuilder => MaterialApp.router(
+          title: title,
+          theme: theme,
+          routerConfig: goRouterBuilder,
         ),
     };
   }
 }
 
-final goRouter = GoRouter(
-  routes: [
-    GoRoute(
-      path: '/',
-      pageBuilder: (context, state) => SwipeablePage(
-        builder: (context) => FirstPage(),
-      ),
-    ),
-    GoRoute(
-      path: '/page2',
-      pageBuilder: (context, state) => SwipeablePage(
-        builder: (context) => SecondPage(),
-      ),
-    ),
-    GoRoute(
-      path: '/page3',
-      pageBuilder: (context, state) => SwipeablePage(
-        builder: (context) => ThirdPage(),
-      ),
-    ),
-  ],
-);
-
 class FirstPage extends StatelessWidget {
+  const FirstPage();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -79,13 +67,16 @@ class FirstPage extends StatelessWidget {
   Future<void> _pushSecondPage(BuildContext context) async {
     return switch (NavigationMode.current) {
       NavigationMode.navigator => Navigator.of(context)
-          .push<void>(SwipeablePageRoute(builder: (_) => SecondPage())),
+          .push<void>(SwipeablePageRoute(builder: (_) => const SecondPage())),
       NavigationMode.goRouter => GoRouter.of(context).push<void>('/page2'),
+      NavigationMode.goRouterBuilder => SecondPageRoute().push(context),
     };
   }
 }
 
 class SecondPage extends StatefulWidget {
+  const SecondPage();
+
   @override
   State<SecondPage> createState() => _SecondPageState();
 }
@@ -157,13 +148,16 @@ class _SecondPageState extends State<SecondPage> {
   Future<void> _pushThirdPage(BuildContext context) async {
     return switch (NavigationMode.current) {
       NavigationMode.navigator => Navigator.of(context)
-          .push<void>(SwipeablePageRoute(builder: (_) => ThirdPage())),
+          .push<void>(SwipeablePageRoute(builder: (_) => const ThirdPage())),
       NavigationMode.goRouter => GoRouter.of(context).push<void>('/page3'),
+      NavigationMode.goRouterBuilder => ThirdPageRoute().push(context),
     };
   }
 }
 
 class ThirdPage extends StatefulWidget {
+  const ThirdPage();
+
   @override
   State<ThirdPage> createState() => _ThirdPageState();
 }
@@ -251,8 +245,9 @@ class _ThirdPageState extends State<ThirdPage>
   Future<void> _pushSecondPage(BuildContext context) async {
     return switch (NavigationMode.current) {
       NavigationMode.navigator => Navigator.of(context)
-          .push<void>(SwipeablePageRoute(builder: (_) => SecondPage())),
+          .push<void>(SwipeablePageRoute(builder: (_) => const SecondPage())),
       NavigationMode.goRouter => GoRouter.of(context).push<void>('/page2'),
+      NavigationMode.goRouterBuilder => SecondPageRoute().push(context),
     };
   }
 }
