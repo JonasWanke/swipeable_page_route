@@ -12,7 +12,3 @@ build/
 
 # Directory created by dartdoc
 doc/api/
-
-# Generated dart files
-*.g.dart
-*.pb*.dart
