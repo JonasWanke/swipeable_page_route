@@ -7,8 +7,8 @@ screenshots:
     path: doc/demo.gif
 
 environment:
-  sdk: ^3.4.0
-  flutter: ^3.22.0
+  sdk: ^3.4.0-0
+  flutter: ^3.22.0-0
 
 dependencies:
   black_hole_flutter: ^1.0.3
