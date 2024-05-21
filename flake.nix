@@ -17,6 +17,8 @@
           };
         };
 
+        flutter = pkgs.flutterPackages.v3_22;
+
         # Android
         androidSdkArgs = {
           buildToolsVersions = [ "30.0.3" ];
@@ -44,8 +46,8 @@
         devShell = with pkgs;
           mkShell {
             ANDROID_SDK_ROOT = "${androidSdk}/libexec/android-sdk";
-            FLUTTER_ROOT = flutterPackages.v3_19;
-            buildInputs = [ androidEmulator androidSdk flutterPackages.v3_19 ];
+            FLUTTER_ROOT = flutter;
+            buildInputs = [ androidEmulator androidSdk flutter ];
           };
       });
 }
