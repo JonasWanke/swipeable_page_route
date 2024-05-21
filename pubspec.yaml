@@ -8,7 +8,7 @@ screenshots:
 
 environment:
   sdk: ^3.4.0
-  flutter: ^3.22.0
+  flutter: '>=3.22.0'
 
 dependencies:
   black_hole_flutter: ^1.0.3
