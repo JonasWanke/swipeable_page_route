@@ -72,7 +72,9 @@ class _SliverAppBarDelegate extends SliverPersistentHeaderDelegate {
     required this.flexibleSpace,
     required this.bottom,
     required this.elevation,
+    required this.scrolledUnderElevation,
     required this.shadowColor,
+    required this.surfaceTintColor,
     required this.forceElevated,
     required this.backgroundColor,
     required this.foregroundColor,
@@ -97,6 +99,8 @@ class _SliverAppBarDelegate extends SliverPersistentHeaderDelegate {
     required this.toolbarTextStyle,
     required this.titleTextStyle,
     required this.systemOverlayStyle,
+    required this.forceMaterialTransparency,
+    required this.clipBehavior,
   })  : assert(primary || topPadding == 0.0),
         assert(
           !floating ||
@@ -116,7 +120,9 @@ class _SliverAppBarDelegate extends SliverPersistentHeaderDelegate {
   final Widget? flexibleSpace;
   final PreferredSizeWidget? bottom;
   final double? elevation;
+  final double? scrolledUnderElevation;
   final Color? shadowColor;
+  final Color? surfaceTintColor;
   final bool forceElevated;
   final Color? backgroundColor;
   final Color? foregroundColor;
@@ -137,6 +143,8 @@ class _SliverAppBarDelegate extends SliverPersistentHeaderDelegate {
   final TextStyle? toolbarTextStyle;
   final TextStyle? titleTextStyle;
   final SystemUiOverlayStyle? systemOverlayStyle;
+  final bool forceMaterialTransparency;
+  final Clip? clipBehavior;
   final double _bottomHeight;
 
   @override
@@ -207,7 +215,9 @@ class _SliverAppBarDelegate extends SliverPersistentHeaderDelegate {
                 (pinned && shrinkOffset > maxExtent - minExtent)
             ? elevation ?? 4
             : 0,
+        scrolledUnderElevation: scrolledUnderElevation,
         shadowColor: shadowColor,
+        surfaceTintColor: surfaceTintColor,
         backgroundColor: backgroundColor,
         foregroundColor: foregroundColor,
         iconTheme: iconTheme,
@@ -226,6 +236,8 @@ class _SliverAppBarDelegate extends SliverPersistentHeaderDelegate {
         toolbarTextStyle: toolbarTextStyle,
         titleTextStyle: titleTextStyle,
         systemOverlayStyle: systemOverlayStyle,
+        forceMaterialTransparency: forceMaterialTransparency,
+        clipBehavior: clipBehavior,
       ),
     );
     return floating ? _FloatingAppBar(child: appBar) : appBar;
@@ -242,7 +254,9 @@ class _SliverAppBarDelegate extends SliverPersistentHeaderDelegate {
         bottom != oldDelegate.bottom ||
         _bottomHeight != oldDelegate._bottomHeight ||
         elevation != oldDelegate.elevation ||
+        scrolledUnderElevation != oldDelegate.scrolledUnderElevation ||
         shadowColor != oldDelegate.shadowColor ||
+        surfaceTintColor != oldDelegate.surfaceTintColor ||
         backgroundColor != oldDelegate.backgroundColor ||
         foregroundColor != oldDelegate.foregroundColor ||
         iconTheme != oldDelegate.iconTheme ||
@@ -263,7 +277,9 @@ class _SliverAppBarDelegate extends SliverPersistentHeaderDelegate {
         leadingWidth != oldDelegate.leadingWidth ||
         toolbarTextStyle != oldDelegate.toolbarTextStyle ||
         titleTextStyle != oldDelegate.titleTextStyle ||
-        systemOverlayStyle != oldDelegate.systemOverlayStyle;
+        systemOverlayStyle != oldDelegate.systemOverlayStyle ||
+        forceMaterialTransparency != oldDelegate.forceMaterialTransparency ||
+        clipBehavior != oldDelegate.clipBehavior;
   }
 
   @override
@@ -288,7 +304,9 @@ class MorphingSliverAppBar extends StatefulWidget {
     this.flexibleSpace,
     this.bottom,
     this.elevation,
+    this.scrolledUnderElevation,
     this.shadowColor,
+    this.surfaceTintColor,
     this.forceElevated = false,
     this.backgroundColor,
     this.foregroundColor,
@@ -312,6 +330,8 @@ class MorphingSliverAppBar extends StatefulWidget {
     this.toolbarTextStyle,
     this.titleTextStyle,
     this.systemOverlayStyle,
+    this.forceMaterialTransparency = false,
+    this.clipBehavior,
   })  : assert(
           floating || !snap,
           'The "snap" argument only makes sense for floating app bars.',
@@ -347,8 +367,14 @@ class MorphingSliverAppBar extends StatefulWidget {
   /// See [SliverAppBar.elevation].
   final double? elevation;
 
+  /// See [SliverAppBar.scrolledUnderElevation].
+  final double? scrolledUnderElevation;
+
   /// See [SliverAppBar.shadowColor].
   final Color? shadowColor;
+
+  /// See [SliverAppBar.surfaceTintColor].
+  final Color? surfaceTintColor;
 
   /// See [SliverAppBar.forceElevated].
   final bool forceElevated;
@@ -418,6 +444,12 @@ class MorphingSliverAppBar extends StatefulWidget {
 
   /// See [SliverAppBar.systemOverlayStyle].
   final SystemUiOverlayStyle? systemOverlayStyle;
+
+  /// See [SliverAppBar.forceMaterialTransparency].
+  final bool forceMaterialTransparency;
+
+  /// See [SliverAppBar.clipBehavior].
+  final Clip? clipBehavior;
 
   @override
   State<MorphingSliverAppBar> createState() => _SliverAppBarState();
@@ -505,7 +537,9 @@ class _SliverAppBarState extends State<MorphingSliverAppBar>
           flexibleSpace: widget.flexibleSpace,
           bottom: widget.bottom,
           elevation: widget.elevation,
+          scrolledUnderElevation: widget.scrolledUnderElevation,
           shadowColor: widget.shadowColor,
+          surfaceTintColor: widget.surfaceTintColor,
           forceElevated: widget.forceElevated,
           backgroundColor: widget.backgroundColor,
           foregroundColor: widget.foregroundColor,
@@ -529,6 +563,8 @@ class _SliverAppBarState extends State<MorphingSliverAppBar>
           toolbarTextStyle: widget.toolbarTextStyle,
           titleTextStyle: widget.titleTextStyle,
           systemOverlayStyle: widget.systemOverlayStyle,
+          forceMaterialTransparency: widget.forceMaterialTransparency,
+          clipBehavior: widget.clipBehavior,
         ),
       ),
     );

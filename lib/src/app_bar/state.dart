@@ -20,6 +20,18 @@ class MorphingState {
   final double t;
 
   double get elevation => lerpDouble(parent.elevation, child.elevation, t)!;
+  double get scrolledUnderElevation {
+    return lerpDouble(
+      parent.scrolledUnderElevation,
+      child.scrolledUnderElevation,
+      t,
+    )!;
+  }
+
+  ScrollNotificationPredicate get notificationPredicate => t < 0.5
+      ? parent.appBar.notificationPredicate
+      : child.appBar.notificationPredicate;
+
   Color get shadowColor => _lerpColor(parent.shadowColor, child.shadowColor, t);
   Color get surfaceTintColor =>
       _lerpColor(parent.surfaceTintColor, child.surfaceTintColor, t);
@@ -57,6 +69,12 @@ class MorphingState {
 
   SystemUiOverlayStyle get systemOverlayStyle =>
       t < 0.5 ? parent.systemOverlayStyle : child.systemOverlayStyle;
+
+  bool get forceMaterialTransparency => t < 0.5
+      ? parent.forceMaterialTransparency
+      : child.forceMaterialTransparency;
+
+  Clip? get clipBehavior => t < 0.5 ? parent.clipBehavior : child.clipBehavior;
 
   /// Interpolate between colors in Oklab space, where `null` values are treated
   /// as transparent.
@@ -195,4 +213,8 @@ class EndState {
       appBar.systemOverlayStyle ??
       appBarTheme.systemOverlayStyle ??
       backgroundColor.contrastSystemUiOverlayStyle;
+
+  bool get forceMaterialTransparency => appBar.forceMaterialTransparency;
+
+  Clip? get clipBehavior => appBar.clipBehavior;
 }
