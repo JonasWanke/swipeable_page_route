@@ -16,6 +16,17 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 ### 📦 Build & CI
 -->
 
+## 0.4.3 · 2024-05-21
+
+### 🎉 New Features
+- support Flutter ^3.22 ([#54](https://github.com/JonasWanke/swipeable_page_route/pull/54)), closes: [#52](https://github.com/JonasWanke/swipeable_page_route/issues/52). Thanks to [@1l0](https://github.com/1l0) and [@nimr77](https://github.com/nimr77)!
+- add remaining properties from `AppBar` and `SliverAppBar` ([`b4ebae5`](https://github.com/JonasWanke/swipeable_page_route/commit/b4ebae5e1be5bf3bac64244bf2f185a56caa283d)), closes [#44](https://github.com/JonasWanke/swipeable_page_route/issues/44):
+  - `morphingAppBar.scrolledUnderElevation`, `.notificationPredicate`, `.forceMaterialTransparency`, and `.clipBehavior`
+  - `morphingSliverAppBar.scrolledUnderElevation`, `.surfaceTintColor`, `.forceMaterialTransparency`, and `.clipBehavior`
+
+### 📦 Build & CI
+- upgrade to Flutter `^3.22.0`, Dart `^3.4.0` ([`587a08a`](https://github.com/JonasWanke/swipeable_page_route/commit/587a08afda3ea13ec36cda092a252dbfef6ae250))
+
 ## 0.4.2 · 2024-01-20
 
 ### 🎉 New Features
