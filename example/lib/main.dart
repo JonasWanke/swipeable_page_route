@@ -53,7 +53,19 @@ class FirstPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: MorphingAppBar(
+        leading: Icon(Icons.menu),
         title: const Text('🔙 swipeable_page_route example'),
+        flexibleSpace: Container(
+          decoration: const BoxDecoration(
+            gradient: LinearGradient(
+              colors: [
+                Color.fromARGB(255, 0, 92, 157),
+                Color(0xff0078C1),
+                Color.fromARGB(255, 9, 149, 224),
+              ],
+            ),
+          ),
+        ),
       ),
       body: Center(
         child: ElevatedButton(
@@ -90,6 +102,17 @@ class _SecondPageState extends State<SecondPage> {
     return Scaffold(
       appBar: MorphingAppBar(
         title: const Text('Page 2'),
+        flexibleSpace: Container(
+          decoration: const BoxDecoration(
+            gradient: LinearGradient(
+              colors: [
+                Color(0xffFF5733),
+                Color(0xffC70039),
+                Color(0xff900C3F),
+              ],
+            ),
+          ),
+        ),
         actions: [
           IconButton(
             key: const ValueKey('check'),
