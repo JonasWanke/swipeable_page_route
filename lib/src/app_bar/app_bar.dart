@@ -5,7 +5,7 @@ import 'package:flutter/services.dart';
 
 import 'actions.dart';
 import 'bottom.dart';
-import 'flexible.dart';
+import 'flexible_space.dart';
 import 'leading.dart';
 import 'state.dart';
 import 'title.dart';
