@@ -18,8 +18,7 @@ jobs:
       matrix:
         include:
           - flutter-channel: stable
-          # TODO: Re-enable when a beta after 3.22.0 is released
-          # - flutter-channel: beta
+          - flutter-channel: beta
           - flutter-version: 3.22.0
       fail-fast: false
     steps:
@@ -44,8 +43,7 @@ jobs:
       matrix:
         include:
           - flutter-channel: stable
-          # TODO: Re-enable when a beta after 3.22.0 is released
-          # - flutter-channel: beta
+          - flutter-channel: beta
           - flutter-version: 3.22.0
       fail-fast: false
     steps:
