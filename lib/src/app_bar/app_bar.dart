@@ -5,6 +5,7 @@ import 'package:flutter/services.dart';
 
 import 'actions.dart';
 import 'bottom.dart';
+import 'flexible_space.dart';
 import 'leading.dart';
 import 'state.dart';
 import 'title.dart';
@@ -247,7 +248,7 @@ class _AnimatedAppBar extends AnimatedWidget {
       automaticallyImplyLeading: false,
       title: AnimatedTitle(state),
       actions: [AnimatedActions(state)],
-      // TODO(JonasWanke): Animate `flexibleSpace`
+      flexibleSpace: AnimatedFlexibleSpace(state),
       bottom: AnimatedBottom(state),
       elevation: state.elevation,
       scrolledUnderElevation: state.scrolledUnderElevation,
