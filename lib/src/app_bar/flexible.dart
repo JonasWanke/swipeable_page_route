@@ -12,17 +12,13 @@ class AnimatedFlexibleSpace extends MultiChildRenderObjectWidget {
   AnimatedFlexibleSpace(MorphingState state)
       : t = state.t,
         super(
-          children: [_createChild(state.parent), _createChild(state.child)],
+          children: [
+            state.parent.appBar.flexibleSpace ?? const SizedBox(),
+            state.child.appBar.flexibleSpace ?? const SizedBox(),
+          ],
         );
 
   final double t;
-
-  static Widget _createChild(EndState state) {
-    final flexibleSpace = state.appBar.flexibleSpace;
-    if (flexibleSpace == null) return const SizedBox();
-
-    return DefaultTextStyle.merge(child: flexibleSpace);
-  }
 
   @override
   RenderObject createRenderObject(BuildContext context) =>
