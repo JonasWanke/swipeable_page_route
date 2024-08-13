@@ -53,16 +53,12 @@ class FirstPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: MorphingAppBar(
-        leading: Icon(Icons.menu),
+        leading: const Icon(Icons.menu),
         title: const Text('🔙 swipeable_page_route example'),
         flexibleSpace: Container(
           decoration: const BoxDecoration(
             gradient: LinearGradient(
-              colors: [
-                Color.fromARGB(255, 0, 92, 157),
-                Color(0xff0078C1),
-                Color.fromARGB(255, 9, 149, 224),
-              ],
+              colors: [Color(0xFF005C9D), Color(0xff0078C1), Color(0xFF0995E0)],
             ),
           ),
         ),
@@ -105,11 +101,7 @@ class _SecondPageState extends State<SecondPage> {
         flexibleSpace: Container(
           decoration: const BoxDecoration(
             gradient: LinearGradient(
-              colors: [
-                Color(0xffFF5733),
-                Color(0xffC70039),
-                Color(0xff900C3F),
-              ],
+              colors: [Color(0xFFFF5733), Color(0xFFC70039), Color(0xFF900C3F)],
             ),
           ),
         ),
