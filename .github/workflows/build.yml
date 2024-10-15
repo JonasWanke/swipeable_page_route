@@ -5,10 +5,10 @@ on:
   push:
     branches: [main]
   schedule:
-    - cron: 0 4 * * *
+    - cron: 0 4 * * 1
 
 env:
-  JAVA_VERSION: 12.x
+  JAVA_VERSION: 17
 
 jobs:
   lint:
@@ -18,7 +18,9 @@ jobs:
       matrix:
         include:
           - flutter-channel: stable
-          - flutter-channel: beta
+          # TODO(JonasWanke): re-enable beta CI when next stable Flutter version
+          # including breaking changes to Color are released
+          # - flutter-channel: beta
           - flutter-version: 3.22.0
       fail-fast: false
     steps:
@@ -31,6 +33,7 @@ jobs:
         with:
           channel: ${{ matrix.flutter-channel }}
           flutter-version: ${{ matrix.flutter-version }}
+      - run: flutter --version
 
       - run: flutter pub get
 
@@ -43,7 +46,9 @@ jobs:
       matrix:
         include:
           - flutter-channel: stable
-          - flutter-channel: beta
+          # TODO(JonasWanke): re-enable beta CI when next stable Flutter version
+          # including breaking changes to Color are released
+          # - flutter-channel: beta
           - flutter-version: 3.22.0
       fail-fast: false
     steps:
@@ -56,6 +61,7 @@ jobs:
         with:
           channel: ${{ matrix.flutter-channel }}
           flutter-version: ${{ matrix.flutter-version }}
+      - run: flutter --version
 
       - run: flutter pub get
         working-directory: example
