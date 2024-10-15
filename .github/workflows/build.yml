@@ -5,7 +5,7 @@ on:
   push:
     branches: [main]
   schedule:
-    - cron: 0 4 * * *
+    - cron: 0 4 * * 1
 
 env:
   JAVA_VERSION: 12.x
