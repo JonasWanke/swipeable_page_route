@@ -31,6 +31,7 @@ jobs:
         with:
           channel: ${{ matrix.flutter-channel }}
           flutter-version: ${{ matrix.flutter-version }}
+      - run: flutter --version
 
       - run: flutter pub get
 
@@ -56,6 +57,7 @@ jobs:
         with:
           channel: ${{ matrix.flutter-channel }}
           flutter-version: ${{ matrix.flutter-version }}
+      - run: flutter --version
 
       - run: flutter pub get
         working-directory: example
