@@ -51,7 +51,7 @@ GoRoute(
 
 ## [`MorphingAppBar`] & [`MorphingSliverAppBar`]
 
-As you can see in the demo above, there's a beautiful animation happening to the AppBar. That's a [`MorphingAppBar`]!
+As you can see in the demo above, there's a beautiful animation happening to the app bar. That's a [`MorphingAppBar`]!
 
 You can construct [`MorphingAppBar`] (corresponds to `AppBar`) and [`MorphingSliverAppBar`] (corresponds to `SliverAppBar`) just like the originals:
 
@@ -99,7 +99,9 @@ To animate additions, removals, and constants in your `AppBar`s `actions`, we co
 
 [<kbd>Go Router</kbd>]: https://pub.dev/packages/go_router
 [`GoRoute`]: https://pub.dev/documentation/go_router/latest/go_router/GoRoute-class.html
+
 <!-- Flutter -->
+
 [`CupertinoPageRoute`]: https://api.flutter.dev/flutter/cupertino/CupertinoPageRoute-class.html
 [`Hero`]: https://api.flutter.dev/flutter/widgets/Hero-class.html
 [`HeroController`]: https://api.flutter.dev/flutter/widgets/HeroController-class.html
@@ -107,7 +109,9 @@ To animate additions, removals, and constants in your `AppBar`s `actions`, we co
 [`PageTransitionsTheme`]: https://api.flutter.dev/flutter/material/PageTransitionsTheme-class.html
 [`TargetPlatform.iOS`]: https://api.flutter.dev/flutter/foundation/TargetPlatform.html#iOS
 [`Widget.canUpdate(Widget old, Widget new)`]: https://api.flutter.dev/flutter/widgets/Widget/canUpdate.html
+
 <!-- swipeable_page_route -->
+
 [`MorphingAppBar`]: https://pub.dev/documentation/swipeable_page_route/latest/swipeable_page_route/MorphingAppBar-class.html
 [`MorphingSliverAppBar`]: https://pub.dev/documentation/swipeable_page_route/latest/swipeable_page_route/MorphingSliverAppBar-class.html
 [`SwipeablePage`]: https://pub.dev/documentation/swipeable_page_route/latest/swipeable_page_route/SwipeablePage-class.html
