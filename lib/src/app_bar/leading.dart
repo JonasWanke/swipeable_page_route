@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 import 'app_bar.dart';
 
 class AnimatedLeading extends AnimatedAppBarPart {
-  const AnimatedLeading(super.state);
+  const AnimatedLeading(super.state, {super.key});
 
   static const _halfInterval = Interval(0.5, 1);
 

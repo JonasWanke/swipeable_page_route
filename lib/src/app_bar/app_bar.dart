@@ -280,7 +280,7 @@ class _AnimatedAppBar extends AnimatedWidget {
 }
 
 abstract class AnimatedAppBarPart extends StatelessWidget {
-  const AnimatedAppBarPart(this.state);
+  const AnimatedAppBarPart(this.state, {super.key});
 
   final MorphingState state;
 

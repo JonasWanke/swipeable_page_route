@@ -10,7 +10,7 @@ import 'app_bar.dart';
 import 'state.dart';
 
 class AnimatedTitle extends MultiChildRenderObjectWidget {
-  AnimatedTitle(MorphingState state)
+  AnimatedTitle(MorphingState state, {super.key})
       : t = state.t,
         super(
           children: [_createChild(state.parent), _createChild(state.child)],

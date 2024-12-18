@@ -9,7 +9,7 @@ import 'app_bar.dart';
 import 'state.dart';
 
 class AnimatedFlexibleSpace extends MultiChildRenderObjectWidget {
-  AnimatedFlexibleSpace(MorphingState state)
+  AnimatedFlexibleSpace(MorphingState state, {super.key})
       : t = state.t,
         super(
           children: [
