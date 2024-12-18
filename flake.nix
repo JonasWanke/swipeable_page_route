@@ -19,15 +19,15 @@
 
         # Android
         androidSdkArgs = {
-          buildToolsVersions = [ "30.0.3" ];
-          platformVersions = [ "34" ];
+          buildToolsVersions = [ "33.0.1" ];
+          platformVersions = [ "33" "34" "35" ];
         };
         androidComposition =
           pkgs.androidenv.composeAndroidPackages androidSdkArgs;
         androidSdk = androidComposition.androidsdk;
         androidEmulator = pkgs.androidenv.emulateApp {
           name = "Emulator";
-          platformVersion = "34";
+          platformVersion = "35";
           systemImageType = "google_apis_playstore";
           abiVersion = "x86_64";
           configOptions = {
