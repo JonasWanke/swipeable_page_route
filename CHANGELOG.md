@@ -34,7 +34,7 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 
 ### 🎉 New Features
 
-- animate `appBar.flexiblespace` ([#64](https://github.com/JonasWanke/swipeable_page_route/pull/64)), closes: [#63](https://github.com/JonasWanke/swipeable_page_route/issues/63). Thanks to [@proformance](https://github.com/proformance)
+- animate `appBar.flexibleSpace` ([#64](https://github.com/JonasWanke/swipeable_page_route/pull/64)), closes: [#63](https://github.com/JonasWanke/swipeable_page_route/issues/63). Thanks to [@proformance](https://github.com/proformance)
 
 ## 0.4.3 · 2024-05-21
 
