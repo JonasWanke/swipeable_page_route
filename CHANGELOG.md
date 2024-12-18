@@ -16,6 +16,20 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 ### 📦 Build & CI
 -->
 
+## 0.4.5 · 2024-12-18
+
+### 🎉 New Features
+
+- add `key` parameter to public widgets ([`53eccb1`](https://github.com/JonasWanke/swipeable_page_route/commit/53eccb10b21d00243e3e8f4fabce955ec9354a68))
+
+### ⚡ Changes
+
+- remove dependency on `flutter_color_models` ([`0b50afa`](https://github.com/JonasWanke/swipeable_page_route/commit/0b50afadcd55e21d3ce1660a3e5d0ef94d38bce0)), closes: [#79](https://github.com/JonasWanke/swipeable_page_route/issues/79)
+
+### 📦 Build & CI
+
+- upgrade to Flutter `^3.27.0-0`, Dart `^3.6.0-0` ([`c065d66`](https://github.com/JonasWanke/swipeable_page_route/commit/c065d662b86d10f150d58ca235b0dd25bf59421a))
+
 ## 0.4.4 · 2024-08-13
 
 ### 🎉 New Features
