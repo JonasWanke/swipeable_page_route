@@ -44,22 +44,26 @@ class AnimatedActions extends MultiChildRenderObjectWidget {
       while ((difference.isEmpty || difference.first.index != changeIndex) &&
           itemsLeft()) {
         children
-          ..add(_AnimatedActionsParentDataWidget(
-            position: _ActionPosition.child,
-            groupIndex: groupIndex,
-            child: IconTheme.merge(
-              data: childIconTheme,
-              child: childActions[childIndex],
+          ..add(
+            _AnimatedActionsParentDataWidget(
+              position: _ActionPosition.child,
+              groupIndex: groupIndex,
+              child: IconTheme.merge(
+                data: childIconTheme,
+                child: childActions[childIndex],
+              ),
             ),
-          ))
-          ..add(_AnimatedActionsParentDataWidget(
-            position: _ActionPosition.parent,
-            groupIndex: groupIndex,
-            child: IconTheme.merge(
-              data: parentIconTheme,
-              child: parentActions[parentIndex],
+          )
+          ..add(
+            _AnimatedActionsParentDataWidget(
+              position: _ActionPosition.parent,
+              groupIndex: groupIndex,
+              child: IconTheme.merge(
+                data: parentIconTheme,
+                child: parentActions[parentIndex],
+              ),
             ),
-          ));
+          );
         parentIndex++;
         childIndex++;
         changeIndex++;
@@ -78,26 +82,30 @@ class AnimatedActions extends MultiChildRenderObjectWidget {
           difference.first.index == changeIndex &&
           itemsLeft()) {
         if (difference.first.isInsertion) {
-          children.add(_AnimatedActionsParentDataWidget(
-            position: _ActionPosition.child,
-            groupIndex: groupIndex,
-            child: IconTheme.merge(
-              data: childIconTheme,
-              child: childActions[childIndex],
+          children.add(
+            _AnimatedActionsParentDataWidget(
+              position: _ActionPosition.child,
+              groupIndex: groupIndex,
+              child: IconTheme.merge(
+                data: childIconTheme,
+                child: childActions[childIndex],
+              ),
             ),
-          ));
+          );
           childIndex++;
           changeIndex++;
         } else {
           assert(difference.first.isDeletion);
-          children.add(_AnimatedActionsParentDataWidget(
-            position: _ActionPosition.parent,
-            groupIndex: groupIndex,
-            child: IconTheme.merge(
-              data: parentIconTheme,
-              child: parentActions[parentIndex],
+          children.add(
+            _AnimatedActionsParentDataWidget(
+              position: _ActionPosition.parent,
+              groupIndex: groupIndex,
+              child: IconTheme.merge(
+                data: parentIconTheme,
+                child: parentActions[parentIndex],
+              ),
             ),
-          ));
+          );
           parentIndex++;
         }
 

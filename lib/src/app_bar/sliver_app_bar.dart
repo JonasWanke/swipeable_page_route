@@ -107,7 +107,8 @@ class _SliverAppBarDelegate extends SliverPersistentHeaderDelegate {
               (snapConfiguration == null &&
                   showOnScreenConfiguration == null) ||
               vsync != null,
-          'vsync cannot be null when snapConfiguration or showOnScreenConfiguration is not null, and floating is true',
+          'vsync cannot be null when snapConfiguration or '
+          'showOnScreenConfiguration is not null, and floating is true',
         ),
         _bottomHeight = bottom?.preferredSize.height ?? 0;
 
@@ -284,13 +285,16 @@ class _SliverAppBarDelegate extends SliverPersistentHeaderDelegate {
 
   @override
   String toString() {
-    return '${describeIdentity(this)}(topPadding: ${topPadding.toStringAsFixed(1)}, bottomHeight: ${_bottomHeight.toStringAsFixed(1)}, ...)';
+    return '${describeIdentity(this)}('
+        'topPadding: ${topPadding.toStringAsFixed(1)}, '
+        'bottomHeight: ${_bottomHeight.toStringAsFixed(1)}, ...)';
   }
 }
 
 /// An adapted version of [SliverAppBar] that morphs while navigating.
 class MorphingSliverAppBar extends StatefulWidget {
-  /// Creates a material design app bar that can be placed in a [CustomScrollView].
+  /// Creates a Material Design app bar that can be placed in a
+  /// [CustomScrollView].
   ///
   /// The arguments [forceElevated], [primary], [floating], [pinned], [snap]
   /// and [automaticallyImplyLeading] must not be null.
@@ -339,7 +343,8 @@ class MorphingSliverAppBar extends StatefulWidget {
         assert(stretchTriggerOffset > 0.0),
         assert(
           collapsedHeight == null || collapsedHeight >= toolbarHeight,
-          'The "collapsedHeight" argument has to be larger than or equal to [toolbarHeight].',
+          'The "collapsedHeight" argument has to be larger than or equal to '
+          '[toolbarHeight].',
         );
 
   /// Tag used for the internally created [Hero] widget.

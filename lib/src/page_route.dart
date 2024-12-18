@@ -96,6 +96,7 @@ class SwipeablePageRoute<T> extends CupertinoPageRoute<T> {
   /// {@endtemplate}
   bool canOnlySwipeFromEdge;
 
+  // ignore: lines_longer_than_80_chars
   /// {@template swipeable_page_route.SwipeablePageRoute.backGestureDetectionWidth}
   /// If [canOnlySwipeFromEdge] is set to `true`, this value controls the width
   /// of the gesture detection area.
@@ -104,6 +105,7 @@ class SwipeablePageRoute<T> extends CupertinoPageRoute<T> {
   /// {@endtemplate}
   double backGestureDetectionWidth;
 
+  // ignore: lines_longer_than_80_chars
   /// {@template swipeable_page_route.SwipeablePageRoute.backGestureDetectionStartOffset}
   /// If [canOnlySwipeFromEdge] is set to `true`, this value controls how far
   /// away from the left (LTR) or right (RTL) screen edge a gesture must start
@@ -166,7 +168,8 @@ class SwipeablePageRoute<T> extends CupertinoPageRoute<T> {
     // the back gesture.
     if (route.isFirst) return false;
     // If the route wouldn't actually pop if we popped it, then the gesture
-    // would be really confusing (or would skip internal routes), so disallow it.
+    // would be really confusing (or would skip internal routes), so disallow
+    // it.
     if (route.willHandlePopInternally) return false;
     // If attempts to dismiss this route might be vetoed such as in a page
     // with forms, then do not allow the user to dismiss the route with a swipe.
@@ -322,6 +325,7 @@ class SwipeablePage<T> extends Page<T> {
   /// {@macro swipeable_page_route.SwipeablePageRoute.backGestureDetectionWidth}
   final double backGestureDetectionWidth;
 
+  // ignore: lines_longer_than_80_chars
   /// {@macro swipeable_page_route.SwipeablePageRoute.backGestureDetectionStartOffset}
   final double backGestureDetectionStartOffset;
 
@@ -473,9 +477,11 @@ class _FancyBackGestureDetectorState<T>
   void _handleDragEnd(DragEndDetails details) {
     assert(mounted);
     assert(_backGestureController != null);
-    _backGestureController!.dragEnd(_convertToLogical(
-      details.velocity.pixelsPerSecond.dx / context.size!.width,
-    ));
+    _backGestureController!.dragEnd(
+      _convertToLogical(
+        details.velocity.pixelsPerSecond.dx / context.size!.width,
+      ),
+    );
     _backGestureController = null;
   }
 

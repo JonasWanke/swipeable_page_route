@@ -35,16 +35,18 @@ class AnimatedBottom extends AnimatedAppBarPart implements PreferredSizeWidget {
       // Do a simple crossfade.
       return SizedBox(
         height: preferredHeight,
-        child: Stack(children: [
-          Positioned.fill(
-            top: null,
-            child: Opacity(opacity: 1 - t, child: parent.appBar.bottom),
-          ),
-          Positioned.fill(
-            top: null,
-            child: Opacity(opacity: t, child: child.appBar.bottom),
-          ),
-        ]),
+        child: Stack(
+          children: [
+            Positioned.fill(
+              top: null,
+              child: Opacity(opacity: 1 - t, child: parent.appBar.bottom),
+            ),
+            Positioned.fill(
+              top: null,
+              child: Opacity(opacity: t, child: child.appBar.bottom),
+            ),
+          ],
+        ),
       );
     }
 
@@ -60,18 +62,20 @@ class AnimatedBottom extends AnimatedAppBarPart implements PreferredSizeWidget {
           hasChild: hasChild,
         ),
         blendMode: BlendMode.dstOut,
-        child: Stack(children: [
-          if (hasParent && t < parentEnd)
-            Positioned.fill(
-              top: null,
-              child: Center(child: parent.appBar.bottom),
-            ),
-          if (hasChild && t > childStart)
-            Positioned.fill(
-              top: null,
-              child: Center(child: child.appBar.bottom),
-            ),
-        ]),
+        child: Stack(
+          children: [
+            if (hasParent && t < parentEnd)
+              Positioned.fill(
+                top: null,
+                child: Center(child: parent.appBar.bottom),
+              ),
+            if (hasChild && t > childStart)
+              Positioned.fill(
+                top: null,
+                child: Center(child: child.appBar.bottom),
+              ),
+          ],
+        ),
       ),
     );
   }

@@ -48,16 +48,16 @@ class _AnimatedFlexibleSpaceLayout
 
   @override
   double computeMinIntrinsicWidth(double height) =>
-      children.map((c) => c.getMinIntrinsicWidth(height)).max.toDouble();
+      children.map((c) => c.getMinIntrinsicWidth(height)).max;
   @override
   double computeMaxIntrinsicWidth(double height) =>
-      children.map((c) => c.getMaxIntrinsicWidth(height)).max.toDouble();
+      children.map((c) => c.getMaxIntrinsicWidth(height)).max;
   @override
   double computeMinIntrinsicHeight(double width) =>
-      children.map((c) => c.getMinIntrinsicHeight(width)).max.toDouble();
+      children.map((c) => c.getMinIntrinsicHeight(width)).max;
   @override
   double computeMaxIntrinsicHeight(double width) =>
-      children.map((c) => c.getMaxIntrinsicHeight(width)).max.toDouble();
+      children.map((c) => c.getMaxIntrinsicHeight(width)).max;
 
   @override
   bool get alwaysNeedsCompositing => true;
