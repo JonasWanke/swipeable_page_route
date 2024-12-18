@@ -16,6 +16,12 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 ### 📦 Build & CI
 -->
 
+## 0.4.6 · 2024-12-18
+
+### 📜 Documentation updates
+
+- update outdated sample code in the README ([`69b1f81`](https://github.com/JonasWanke/swipeable_page_route/commit/69b1f8136ad27920cd04eaf0c0b7882280364b39)), closes: [#76](https://github.com/JonasWanke/swipeable_page_route/issues/76)
+
 ## 0.4.5 · 2024-12-18
 
 ### 🎉 New Features
