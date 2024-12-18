@@ -18,10 +18,8 @@ jobs:
       matrix:
         include:
           - flutter-channel: stable
-          # TODO(JonasWanke): re-enable beta CI when next stable Flutter version
-          # including breaking changes to Color are released
-          # - flutter-channel: beta
-          - flutter-version: 3.22.0
+          - flutter-channel: beta
+          - flutter-version: 3.27.0
       fail-fast: false
     steps:
       - uses: actions/checkout@v4
@@ -46,10 +44,8 @@ jobs:
       matrix:
         include:
           - flutter-channel: stable
-          # TODO(JonasWanke): re-enable beta CI when next stable Flutter version
-          # including breaking changes to Color are released
-          # - flutter-channel: beta
-          - flutter-version: 3.22.0
+          - flutter-channel: beta
+          - flutter-version: 3.27.0
       fail-fast: false
     steps:
       - uses: actions/checkout@v4

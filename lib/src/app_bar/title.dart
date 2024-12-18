@@ -24,7 +24,9 @@ class AnimatedTitle extends MultiChildRenderObjectWidget {
 
     var style = state.titleTextStyle;
     if (style?.color != null) {
-      style = style!.copyWith(color: style.color!.withOpacity(state.opacity));
+      style = style!.copyWith(
+        color: style.color!.withValues(alpha: state.opacity),
+      );
     }
 
     return _AnimatedTitleParentDataWidget(
