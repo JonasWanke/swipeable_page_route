@@ -16,7 +16,7 @@ If your page contains horizontally scrollable content, you can limit [`Swipeable
 
 ```dart
 Navigator.of(context).push(SwipeablePageRoute(
-  onlySwipeFromEdge: true,
+  canOnlySwipeFromEdge: true,
   builder: (BuildContext context) => MyHorizontallyScrollablePageContent(),
 ));
 ```
