@@ -19,9 +19,6 @@ class AnimatedTitle extends MultiChildRenderObjectWidget {
   final double t;
 
   static Widget _createChild(EndState state) {
-    final title = state.appBar.title;
-    if (title == null) return const SizedBox();
-
     var style = state.titleTextStyle;
     if (style?.color != null) {
       style = style!.copyWith(
@@ -31,7 +28,10 @@ class AnimatedTitle extends MultiChildRenderObjectWidget {
 
     return _AnimatedTitleParentDataWidget(
       hasLeading: state.leading != null,
-      child: DefaultTextStyle.merge(style: style, child: title),
+      child: DefaultTextStyle.merge(
+        style: style,
+        child: state.appBar.title ?? const SizedBox.shrink(),
+      ),
     );
   }
 
