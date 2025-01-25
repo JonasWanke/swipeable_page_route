@@ -240,9 +240,9 @@ class _AnimatedAppBar extends AnimatedWidget {
 
   @override
   Widget build(BuildContext context) {
-    final state = MorphingState(parent: parent, child: child, t: t);
+    final state = MorphingState(parent: parent, child: this.child, t: t);
 
-    return AppBar(
+    Widget child = AppBar(
       leading: AnimatedLeading(state),
       // We manually determine the leadings to be able to animate between them.
       automaticallyImplyLeading: false,
@@ -276,6 +276,18 @@ class _AnimatedAppBar extends AnimatedWidget {
       forceMaterialTransparency: state.forceMaterialTransparency,
       clipBehavior: state.clipBehavior,
     );
+    if (state.flexibleSpaceBarSettings case final settings?) {
+      child = FlexibleSpaceBar.createSettings(
+        toolbarOpacity: settings.toolbarOpacity,
+        minExtent: settings.minExtent,
+        maxExtent: settings.maxExtent,
+        isScrolledUnder: settings.isScrolledUnder,
+        hasLeading: settings.hasLeading,
+        currentExtent: settings.currentExtent,
+        child: child,
+      );
+    }
+    return child;
   }
 }
 

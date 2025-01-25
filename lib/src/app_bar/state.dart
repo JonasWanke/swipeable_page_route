@@ -88,6 +88,41 @@ class MorphingState {
         )?.toRgb() ??
         Colors.transparent;
   }
+
+  FlexibleSpaceBarSettings? get flexibleSpaceBarSettings {
+    final parentSettings = parent.flexibleSpaceBarSettings;
+    final childSettings = child.flexibleSpaceBarSettings;
+    if (parentSettings == null && childSettings == null) return null;
+
+    return FlexibleSpaceBarSettings(
+      toolbarOpacity: lerpDouble(
+        parentSettings?.toolbarOpacity,
+        childSettings?.toolbarOpacity,
+        t,
+      )!,
+      minExtent: lerpDouble(
+        parentSettings?.minExtent,
+        childSettings?.minExtent,
+        t,
+      )!,
+      maxExtent: lerpDouble(
+        parentSettings?.maxExtent,
+        childSettings?.maxExtent,
+        t,
+      )!,
+      currentExtent: lerpDouble(
+        parentSettings?.currentExtent,
+        childSettings?.currentExtent,
+        t,
+      )!,
+      isScrolledUnder: t < 0.5
+          ? parentSettings?.isScrolledUnder
+          : childSettings?.isScrolledUnder,
+      hasLeading:
+          t < 0.5 ? parentSettings?.hasLeading : childSettings?.hasLeading,
+      child: const SizedBox(),
+    );
+  }
 }
 
 extension type _OklabColor(
@@ -190,10 +225,13 @@ extension type _OklabColor(
 class EndState {
   EndState(BuildContext context, this.appBar)
       : theme = context.theme,
-        leading = AnimatedLeading.resolveLeading(context, appBar);
+        leading = AnimatedLeading.resolveLeading(context, appBar),
+        flexibleSpaceBarSettings = context
+            .dependOnInheritedWidgetOfExactType<FlexibleSpaceBarSettings>();
 
   final ThemeData theme;
   AppBarTheme get appBarTheme => theme.appBarTheme;
+  final FlexibleSpaceBarSettings? flexibleSpaceBarSettings;
 
   final AppBar appBar;
 

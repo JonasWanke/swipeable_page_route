@@ -101,6 +101,7 @@ class _SliverAppBarDelegate extends SliverPersistentHeaderDelegate {
     required this.systemOverlayStyle,
     required this.forceMaterialTransparency,
     required this.clipBehavior,
+    required this.accessibleNavigation,
   })  : assert(primary || topPadding == 0.0),
         assert(
           !floating ||
@@ -147,6 +148,7 @@ class _SliverAppBarDelegate extends SliverPersistentHeaderDelegate {
   final bool forceMaterialTransparency;
   final Clip? clipBehavior;
   final double _bottomHeight;
+  final bool accessibleNavigation;
 
   @override
   double get minExtent => collapsedHeight;
@@ -188,18 +190,27 @@ class _SliverAppBarDelegate extends SliverPersistentHeaderDelegate {
     final visibleToolbarHeight =
         visibleMainHeight - _bottomHeight - extraToolbarHeight;
 
+    final isScrolledUnder = overlapsContent ||
+        forceElevated ||
+        (pinned && shrinkOffset > maxExtent - minExtent);
     final isPinnedWithOpacityFade =
         pinned && floating && bottom != null && extraToolbarHeight == 0.0;
-    final toolbarOpacity = !pinned || isPinnedWithOpacityFade
-        ? (visibleToolbarHeight / (toolbarHeight ?? kToolbarHeight))
-            .clamp(0.0, 1.0)
-        : 1.0;
+    final toolbarOpacity =
+        !accessibleNavigation && (!pinned || isPinnedWithOpacityFade)
+            ? clampDouble(
+                visibleToolbarHeight / (toolbarHeight ?? kToolbarHeight),
+                0,
+                1,
+              )
+            : 1.0;
 
     final appBar = FlexibleSpaceBar.createSettings(
       minExtent: minExtent,
       maxExtent: maxExtent,
       currentExtent: math.max(minExtent, maxExtent - shrinkOffset),
       toolbarOpacity: toolbarOpacity,
+      isScrolledUnder: isScrolledUnder,
+      hasLeading: leading != null || automaticallyImplyLeading,
       child: MorphingAppBar(
         heroTag: heroTag,
         leading: leading,
@@ -211,11 +222,7 @@ class _SliverAppBarDelegate extends SliverPersistentHeaderDelegate {
                 ? Semantics(header: true, child: flexibleSpace)
                 : flexibleSpace,
         bottom: bottom,
-        elevation: forceElevated ||
-                overlapsContent ||
-                (pinned && shrinkOffset > maxExtent - minExtent)
-            ? elevation ?? 4
-            : 0,
+        elevation: isScrolledUnder ? elevation : 0.0,
         scrolledUnderElevation: scrolledUnderElevation,
         shadowColor: shadowColor,
         surfaceTintColor: surfaceTintColor,
@@ -280,7 +287,8 @@ class _SliverAppBarDelegate extends SliverPersistentHeaderDelegate {
         titleTextStyle != oldDelegate.titleTextStyle ||
         systemOverlayStyle != oldDelegate.systemOverlayStyle ||
         forceMaterialTransparency != oldDelegate.forceMaterialTransparency ||
-        clipBehavior != oldDelegate.clipBehavior;
+        clipBehavior != oldDelegate.clipBehavior ||
+        accessibleNavigation != oldDelegate.accessibleNavigation;
   }
 
   @override
@@ -570,6 +578,7 @@ class _SliverAppBarState extends State<MorphingSliverAppBar>
           systemOverlayStyle: widget.systemOverlayStyle,
           forceMaterialTransparency: widget.forceMaterialTransparency,
           clipBehavior: widget.clipBehavior,
+          accessibleNavigation: MediaQuery.accessibleNavigationOf(context),
         ),
       ),
     );
