@@ -2,8 +2,8 @@ name: swipeable_page_route_example
 publish_to: none
 
 environment:
-  sdk: ^3.6.0-0
-  flutter: '>=3.27.0-0'
+  sdk: ^3.6.0
+  flutter: '>=3.27.0'
 
 dependencies:
   flutter:
