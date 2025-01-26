@@ -15,11 +15,11 @@ dependencies:
 dev_dependencies:
   build_runner: ^2.4.14
   go_router_builder: ^2.7.3
-  supernova:
+  supernova_lints:
     git:
       url: https://github.com/JonasWanke/supernova.git
-      path: supernova
-      ref: 281f167123facb724d112ffc84349cf39d8f691f
+      path: supernova_lints
+      ref: 797fee80506223c712e232017ac705336eecedf2
 
 flutter:
   uses-material-design: true
