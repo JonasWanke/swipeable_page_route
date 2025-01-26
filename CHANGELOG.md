@@ -5,7 +5,7 @@ All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 <!-- Template:
-## NEW · 2024-xx-xx
+## NEW · 2025-xx-xx
 
 ### ⚠️ BREAKING CHANGES
 ### 🎉 New Features
@@ -15,6 +15,17 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 ### 🏗️ Refactoring
 ### 📦 Build & CI
 -->
+
+## 0.4.7 · 2025-01-26
+
+### 🐛 Bug Fixes
+
+- fix exception for `MorphingAppBar`/`MorphingSliverAppBar` without title ([`9d5a213`](https://github.com/JonasWanke/swipeable_page_route/commit/9d5a21341a95cbc4c46b8227fa301b6e37f859b8))
+- fix `FlexibleSpaceBar` exception during animation ([`50808c7`](https://github.com/JonasWanke/swipeable_page_route/commit/50808c7bcbfe097fc847a91df54160adf9e474bb))
+
+### 📦 Build & CI
+
+- upgrade to Flutter `^3.27.0`, Dart `^3.6.0` ([`ce6924d`](https://github.com/JonasWanke/swipeable_page_route/commit/ce6924da47ff11eb1d5e7349d4c3e3afc7901689))
 
 ## 0.4.6 · 2024-12-18
 
