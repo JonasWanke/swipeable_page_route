@@ -8,7 +8,7 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  go_router: ^14.7.2
+  go_router: ^14.8.0
   swipeable_page_route:
     path: ../
 
