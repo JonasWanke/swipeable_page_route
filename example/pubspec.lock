@@ -261,18 +261,18 @@ packages:
     dependency: "direct main"
     description:
       name: go_router
-      sha256: "04539267a740931c6d4479a10d466717ca5901c6fdfd3fcda09391bbb8ebd651"
+      sha256: f02fd7d2a4dc512fec615529824fdd217fecb3a3d3de68360293a551f21634b3
       url: "https://pub.dev"
     source: hosted
-    version: "14.8.0"
+    version: "14.8.1"
   go_router_builder:
     dependency: "direct dev"
     description:
       name: go_router_builder
-      sha256: "8f2c92accbd2d335a25ec7273d01d74d594aa272609c8975781f50d8e0db68e1"
+      sha256: d094b60c654aa9a303f93ed627f139753ef582a83d43c1f247d2173d6727e285
       url: "https://pub.dev"
     source: hosted
-    version: "2.8.0"
+    version: "2.8.1"
   graphs:
     dependency: transitive
     description:
