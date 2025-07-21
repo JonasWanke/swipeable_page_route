@@ -14,7 +14,7 @@ dependencies:
 
 dev_dependencies:
   build_runner: ^2.4.15
-  go_router_builder: ^2.8.2
+  go_router_builder: ^3.0.1
   supernova_lints:
     git:
       url: https://github.com/JonasWanke/supernova.git
