@@ -230,7 +230,7 @@ class EndState {
             .dependOnInheritedWidgetOfExactType<FlexibleSpaceBarSettings>();
 
   final ThemeData theme;
-  AppBarTheme get appBarTheme => theme.appBarTheme;
+  AppBarThemeData get appBarTheme => theme.appBarTheme;
   final FlexibleSpaceBarSettings? flexibleSpaceBarSettings;
 
   final AppBar appBar;
