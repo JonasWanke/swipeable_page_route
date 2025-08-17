@@ -2,8 +2,8 @@ name: swipeable_page_route_example
 publish_to: none
 
 environment:
-  sdk: ^3.6.0
-  flutter: '>=3.27.0'
+  sdk: ^3.9.0
+  flutter: '>=3.35.0'
 
 dependencies:
   flutter:
@@ -19,7 +19,7 @@ dev_dependencies:
     git:
       url: https://github.com/JonasWanke/supernova.git
       path: supernova_lints
-      ref: 797fee80506223c712e232017ac705336eecedf2
+      ref: 242858be0a25782f633d28f08b84d1d4515a5ee2
 
 flutter:
   uses-material-design: true
