@@ -22,28 +22,28 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     const title = '🔙 swipeable_page_route example';
     final theme = ThemeData(
-      appBarTheme: const AppBarTheme(
-        color: Colors.blue,
+      appBarTheme: const AppBarThemeData(
+        backgroundColor: Colors.blue,
         foregroundColor: Colors.white,
       ),
     );
 
     return switch (NavigationMode.current) {
       NavigationMode.navigator => MaterialApp(
-          title: title,
-          theme: theme,
-          home: const FirstPage(),
-        ),
+        title: title,
+        theme: theme,
+        home: const FirstPage(),
+      ),
       NavigationMode.goRouter => MaterialApp.router(
-          title: title,
-          theme: theme,
-          routerConfig: goRouter,
-        ),
+        title: title,
+        theme: theme,
+        routerConfig: goRouter,
+      ),
       NavigationMode.goRouterBuilder => MaterialApp.router(
-          title: title,
-          theme: theme,
-          routerConfig: goRouterBuilder,
-        ),
+        title: title,
+        theme: theme,
+        routerConfig: goRouterBuilder,
+      ),
     };
   }
 }
@@ -76,8 +76,9 @@ class FirstPage extends StatelessWidget {
 
   Future<void> _pushSecondPage(BuildContext context) async {
     return switch (NavigationMode.current) {
-      NavigationMode.navigator => Navigator.of(context)
-          .push<void>(SwipeablePageRoute(builder: (_) => const SecondPage())),
+      NavigationMode.navigator => Navigator.of(
+        context,
+      ).push<void>(SwipeablePageRoute(builder: (_) => const SecondPage())),
       NavigationMode.goRouter => GoRouter.of(context).push<void>('/page2'),
       NavigationMode.goRouterBuilder => SecondPageRoute().push(context),
     };
@@ -164,8 +165,9 @@ class _SecondPageState extends State<SecondPage> {
 
   Future<void> _pushThirdPage(BuildContext context) async {
     return switch (NavigationMode.current) {
-      NavigationMode.navigator => Navigator.of(context)
-          .push<void>(SwipeablePageRoute(builder: (_) => const ThirdPage())),
+      NavigationMode.navigator => Navigator.of(
+        context,
+      ).push<void>(SwipeablePageRoute(builder: (_) => const ThirdPage())),
       NavigationMode.goRouter => GoRouter.of(context).push<void>('/page3'),
       NavigationMode.goRouterBuilder => ThirdPageRoute().push(context),
     };
@@ -235,9 +237,7 @@ class _ThirdPageState extends State<ThirdPage>
           controller: _tabController,
           indicatorColor: Colors.white,
           isScrollable: true,
-          tabs: [
-            for (var i = 0; i < _tabCount; i++) Tab(text: 'Tab ${i + 1}'),
-          ],
+          tabs: [for (var i = 0; i < _tabCount; i++) Tab(text: 'Tab ${i + 1}')],
         ),
       ),
       body: TabBarView(
@@ -261,8 +261,9 @@ class _ThirdPageState extends State<ThirdPage>
 
   Future<void> _pushSecondPage(BuildContext context) async {
     return switch (NavigationMode.current) {
-      NavigationMode.navigator => Navigator.of(context)
-          .push<void>(SwipeablePageRoute(builder: (_) => const SecondPage())),
+      NavigationMode.navigator => Navigator.of(
+        context,
+      ).push<void>(SwipeablePageRoute(builder: (_) => const SecondPage())),
       NavigationMode.goRouter => GoRouter.of(context).push<void>('/page2'),
       NavigationMode.goRouterBuilder => SecondPageRoute().push(context),
     };
