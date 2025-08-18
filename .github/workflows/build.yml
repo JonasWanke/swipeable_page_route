@@ -19,7 +19,7 @@ jobs:
         include:
           - flutter-channel: stable
           - flutter-channel: beta
-          - flutter-version: 3.27.0
+          - flutter-version: 3.35.1
       fail-fast: false
     steps:
       - uses: actions/checkout@v4
@@ -45,7 +45,7 @@ jobs:
         include:
           - flutter-channel: stable
           - flutter-channel: beta
-          - flutter-version: 3.27.0
+          - flutter-version: 3.35.1
       fail-fast: false
     steps:
       - uses: actions/checkout@v4
