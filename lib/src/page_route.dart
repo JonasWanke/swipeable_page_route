@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:math' as math;
 import 'dart:ui' show lerpDouble;
 
@@ -72,10 +73,10 @@ class SwipeablePageRoute<T> extends CupertinoPageRoute<T> {
     super.fullscreenDialog,
     super.allowSnapshotting,
     super.barrierDismissible,
-  })  : _transitionDuration = transitionDuration,
-        _reverseTransitionDuration = reverseTransitionDuration,
-        transitionBuilder =
-            transitionBuilder ?? _defaultTransitionBuilder(fullscreenDialog);
+  }) : _transitionDuration = transitionDuration,
+       _reverseTransitionDuration = reverseTransitionDuration,
+       transitionBuilder =
+           transitionBuilder ?? _defaultTransitionBuilder(fullscreenDialog);
 
   /// {@template swipeable_page_route.SwipeablePageRoute.canSwipe}
   /// Whether the user can swipe to navigate back.
@@ -280,14 +281,15 @@ class SwipeablePageRoute<T> extends CupertinoPageRoute<T> {
   static double _defaultBackGestureDetectionStartOffset() => 0;
 }
 
-typedef SwipeableTransitionBuilder = Widget Function(
-  BuildContext context,
-  Animation<double> animation,
-  Animation<double> secondaryAnimation,
-  // ignore: avoid_positional_boolean_parameters
-  bool isSwipeGesture,
-  Widget child,
-);
+typedef SwipeableTransitionBuilder =
+    Widget Function(
+      BuildContext context,
+      Animation<double> animation,
+      Animation<double> secondaryAnimation,
+      // ignore: avoid_positional_boolean_parameters
+      bool isSwipeGesture,
+      Widget child,
+    );
 
 /// A specialized variant of [CupertinoPage] that allows for swiping back
 /// anywhere on the page unless `canOnlySwipeFromEdge` is `true`.
@@ -313,8 +315,9 @@ class SwipeablePage<T> extends Page<T> {
     this.fullscreenDialog = false,
     this.allowSnapshotting = true,
     required this.builder,
-  }) : transitionBuilder = transitionBuilder ??
-            SwipeablePageRoute._defaultTransitionBuilder(fullscreenDialog);
+  }) : transitionBuilder =
+           transitionBuilder ??
+           SwipeablePageRoute._defaultTransitionBuilder(fullscreenDialog);
 
   /// {@macro swipeable_page_route.SwipeablePageRoute.canSwipe}
   final bool canSwipe;
@@ -427,20 +430,24 @@ class _FancyBackGestureDetectorState<T>
       gestures: {
         _DirectionDependentDragGestureRecognizer:
             GestureRecognizerFactoryWithHandlers<
-                _DirectionDependentDragGestureRecognizer>(
-          _gestureRecognizerConstructor,
-          (instance) => instance
-            ..onStart = _handleDragStart
-            ..onUpdate = _handleDragUpdate
-            ..onEnd = _handleDragEnd
-            ..onCancel = _handleDragCancel,
-        ),
+              _DirectionDependentDragGestureRecognizer
+            >(
+              _gestureRecognizerConstructor,
+              (instance) => instance
+                ..onStart = _handleDragStart
+                ..onUpdate = _handleDragUpdate
+                ..onEnd = _handleDragEnd
+                ..onCancel = _handleDragCancel,
+            ),
       },
     );
 
     return Stack(
       fit: StackFit.passthrough,
-      children: [widget.child, Positioned.fill(child: gestureDetector)],
+      children: [
+        widget.child,
+        Positioned.fill(child: gestureDetector),
+      ],
     );
   }
 
@@ -559,14 +566,15 @@ class _CupertinoBackGestureController<T> {
           _kMaxDroppedSwipePageForwardAnimationTime,
           0,
           controller.value,
-        )!
-            .floor(),
+        )!.floor(),
         _kMaxPageBackAnimationTime,
       );
-      controller.animateTo(
-        1,
-        duration: Duration(milliseconds: droppedPageForwardAnimationTime),
-        curve: animationCurve,
+      unawaited(
+        controller.animateTo(
+          1,
+          duration: Duration(milliseconds: droppedPageForwardAnimationTime),
+          curve: animationCurve,
+        ),
       );
     } else {
       // This route is destined to pop at this point. Reuse navigator's pop.
@@ -580,12 +588,13 @@ class _CupertinoBackGestureController<T> {
           0,
           _kMaxDroppedSwipePageForwardAnimationTime,
           controller.value,
-        )!
-            .floor();
-        controller.animateBack(
-          0,
-          duration: Duration(milliseconds: droppedPageBackAnimationTime),
-          curve: animationCurve,
+        )!.floor();
+        unawaited(
+          controller.animateBack(
+            0,
+            duration: Duration(milliseconds: droppedPageBackAnimationTime),
+            curve: animationCurve,
+          ),
         );
       }
     }
@@ -635,9 +644,7 @@ class _DirectionDependentDragGestureRecognizer
     if (!enabledCallback()) return false;
 
     final isCorrectDirection = switch ((directionality, event.delta.dx)) {
-      (TextDirection.ltr, > 0) => true,
-      (TextDirection.rtl, < 0) => true,
-      (_, 0) => true,
+      (TextDirection.ltr, > 0) || (TextDirection.rtl, < 0) || (_, 0) => true,
       _ => false,
     };
     if (!isCorrectDirection) return false;

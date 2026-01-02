@@ -10,21 +10,18 @@ final goRouter = GoRouter(
   routes: [
     GoRoute(
       path: '/',
-      pageBuilder: (context, state) => SwipeablePage(
-        builder: (context) => const FirstPage(),
-      ),
+      pageBuilder: (context, state) =>
+          SwipeablePage(builder: (context) => const FirstPage()),
     ),
     GoRoute(
       path: '/page2',
-      pageBuilder: (context, state) => SwipeablePage(
-        builder: (context) => const SecondPage(),
-      ),
+      pageBuilder: (context, state) =>
+          SwipeablePage(builder: (context) => const SecondPage()),
     ),
     GoRoute(
       path: '/page3',
-      pageBuilder: (context, state) => SwipeablePage(
-        builder: (context) => const ThirdPage(),
-      ),
+      pageBuilder: (context, state) =>
+          SwipeablePage(builder: (context) => const ThirdPage()),
     ),
   ],
 );

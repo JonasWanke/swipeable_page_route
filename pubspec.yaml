@@ -7,8 +7,8 @@ screenshots:
     path: doc/demo.gif
 
 environment:
-  sdk: ^3.6.0
-  flutter: '>=3.27.0'
+  sdk: ^3.9.0
+  flutter: '>=3.35.0'
 
 dependencies:
   black_hole_flutter: ^1.0.3
@@ -22,4 +22,4 @@ dev_dependencies:
     git:
       url: https://github.com/JonasWanke/supernova.git
       path: supernova_lints
-      ref: 797fee80506223c712e232017ac705336eecedf2
+      ref: 5c5d14476ede3db10f30463ee681f8c547b4ceb2

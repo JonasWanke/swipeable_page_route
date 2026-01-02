@@ -7,22 +7,18 @@ part of 'go_router.dart';
 // **************************************************************************
 
 List<RouteBase> get $appRoutes => [
-      $firstPageRoute,
-      $secondPageRoute,
-      $thirdPageRoute,
-    ];
+  $firstPageRoute,
+  $secondPageRoute,
+  $thirdPageRoute,
+];
 
-RouteBase get $firstPageRoute => GoRouteData.$route(
-      path: '/',
-      factory: $FirstPageRouteExtension._fromState,
-    );
+RouteBase get $firstPageRoute =>
+    GoRouteData.$route(path: '/', factory: $FirstPageRouteExtension._fromState);
 
 extension $FirstPageRouteExtension on FirstPageRoute {
   static FirstPageRoute _fromState(GoRouterState state) => FirstPageRoute();
 
-  String get location => GoRouteData.$location(
-        '/',
-      );
+  String get location => GoRouteData.$location('/');
 
   void go(BuildContext context) => context.go(location);
 
@@ -35,16 +31,14 @@ extension $FirstPageRouteExtension on FirstPageRoute {
 }
 
 RouteBase get $secondPageRoute => GoRouteData.$route(
-      path: '/page2',
-      factory: $SecondPageRouteExtension._fromState,
-    );
+  path: '/page2',
+  factory: $SecondPageRouteExtension._fromState,
+);
 
 extension $SecondPageRouteExtension on SecondPageRoute {
   static SecondPageRoute _fromState(GoRouterState state) => SecondPageRoute();
 
-  String get location => GoRouteData.$location(
-        '/page2',
-      );
+  String get location => GoRouteData.$location('/page2');
 
   void go(BuildContext context) => context.go(location);
 
@@ -57,16 +51,14 @@ extension $SecondPageRouteExtension on SecondPageRoute {
 }
 
 RouteBase get $thirdPageRoute => GoRouteData.$route(
-      path: '/page3',
-      factory: $ThirdPageRouteExtension._fromState,
-    );
+  path: '/page3',
+  factory: $ThirdPageRouteExtension._fromState,
+);
 
 extension $ThirdPageRouteExtension on ThirdPageRoute {
   static ThirdPageRoute _fromState(GoRouterState state) => ThirdPageRoute();
 
-  String get location => GoRouteData.$location(
-        '/page3',
-      );
+  String get location => GoRouteData.$location('/page3');
 
   void go(BuildContext context) => context.go(location);
 

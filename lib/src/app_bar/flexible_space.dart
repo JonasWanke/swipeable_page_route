@@ -10,13 +10,13 @@ import 'state.dart';
 
 class AnimatedFlexibleSpace extends MultiChildRenderObjectWidget {
   AnimatedFlexibleSpace(MorphingState state, {super.key})
-      : t = state.t,
-        super(
-          children: [
-            state.parent.appBar.flexibleSpace ?? const SizedBox(),
-            state.child.appBar.flexibleSpace ?? const SizedBox(),
-          ],
-        );
+    : t = state.t,
+      super(
+        children: [
+          state.parent.appBar.flexibleSpace ?? const SizedBox(),
+          state.child.appBar.flexibleSpace ?? const SizedBox(),
+        ],
+      );
 
   final double t;
 
@@ -28,8 +28,7 @@ class AnimatedFlexibleSpace extends MultiChildRenderObjectWidget {
   void updateRenderObject(
     BuildContext context,
     covariant RenderObject renderObject,
-  ) =>
-      (renderObject as _AnimatedFlexibleSpaceLayout).t = t;
+  ) => (renderObject as _AnimatedFlexibleSpaceLayout).t = t;
 }
 
 class _AnimatedFlexibleSpaceParentData

@@ -122,18 +122,13 @@ class AnimatedActions extends MultiChildRenderObjectWidget {
       tryMatchChangeGroup();
     }
 
-    return AnimatedActions._(
-      t: state.t,
-      groups: groups,
-      children: children,
-    );
+    return AnimatedActions._(t: state.t, groups: groups, children: children);
   }
   const AnimatedActions._({
     required this.t,
     required List<_ActionGroupType> groups,
-    required List<_AnimatedActionsParentDataWidget> children,
-  })  : _groups = groups,
-        super(children: children);
+    required List<_AnimatedActionsParentDataWidget> super.children,
+  }) : _groups = groups;
 
   final double t;
   final List<_ActionGroupType> _groups;
@@ -201,10 +196,8 @@ class _AnimatedActionsParentData extends ContainerBoxParentData<RenderBox> {
 
 class _AnimatedActionsLayout
     extends AnimatedAppBarLayout<_AnimatedActionsParentData> {
-  _AnimatedActionsLayout({
-    super.t,
-    required List<_ActionGroupType> groups,
-  }) : _groups = groups;
+  _AnimatedActionsLayout({super.t, required List<_ActionGroupType> groups})
+    : _groups = groups;
 
   List<_ActionGroupType> _groups;
   List<_ActionGroupType> get groups => _groups;

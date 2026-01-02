@@ -102,18 +102,16 @@ class _SliverAppBarDelegate extends SliverPersistentHeaderDelegate {
     required this.forceMaterialTransparency,
     required this.clipBehavior,
     required this.accessibleNavigation,
-  })  : assert(primary || topPadding == 0.0),
-        assert(
-          !floating ||
-              (snapConfiguration == null &&
-                  showOnScreenConfiguration == null) ||
-              vsync != null,
-          'vsync cannot be null when snapConfiguration or '
-          'showOnScreenConfiguration is not null, and floating is true',
-        ),
-        _bottomHeight = bottom?.preferredSize.height ?? 0;
+  }) : assert(primary || topPadding == 0.0),
+       assert(
+         !floating ||
+             (snapConfiguration == null && showOnScreenConfiguration == null) ||
+             vsync != null,
+         'vsync cannot be null when snapConfiguration or '
+         'showOnScreenConfiguration is not null, and floating is true',
+       ),
+       _bottomHeight = bottom?.preferredSize.height ?? 0;
 
-  // ignore: no-object-declaration
   final Object heroTag;
   final Widget? leading;
   final bool automaticallyImplyLeading;
@@ -190,19 +188,20 @@ class _SliverAppBarDelegate extends SliverPersistentHeaderDelegate {
     final visibleToolbarHeight =
         visibleMainHeight - _bottomHeight - extraToolbarHeight;
 
-    final isScrolledUnder = overlapsContent ||
+    final isScrolledUnder =
+        overlapsContent ||
         forceElevated ||
         (pinned && shrinkOffset > maxExtent - minExtent);
     final isPinnedWithOpacityFade =
         pinned && floating && bottom != null && extraToolbarHeight == 0.0;
     final toolbarOpacity =
         !accessibleNavigation && (!pinned || isPinnedWithOpacityFade)
-            ? clampDouble(
-                visibleToolbarHeight / (toolbarHeight ?? kToolbarHeight),
-                0,
-                1,
-              )
-            : 1.0;
+        ? clampDouble(
+            visibleToolbarHeight / (toolbarHeight ?? kToolbarHeight),
+            0,
+            1,
+          )
+        : 1.0;
 
     final appBar = FlexibleSpaceBar.createSettings(
       minExtent: minExtent,
@@ -219,8 +218,8 @@ class _SliverAppBarDelegate extends SliverPersistentHeaderDelegate {
         actions: actions,
         flexibleSpace:
             (title == null && flexibleSpace != null && !excludeHeaderSemantics)
-                ? Semantics(header: true, child: flexibleSpace)
-                : flexibleSpace,
+            ? Semantics(header: true, child: flexibleSpace)
+            : flexibleSpace,
         bottom: bottom,
         elevation: isScrolledUnder ? elevation : 0.0,
         scrolledUnderElevation: scrolledUnderElevation,
@@ -344,19 +343,18 @@ class MorphingSliverAppBar extends StatefulWidget {
     this.systemOverlayStyle,
     this.forceMaterialTransparency = false,
     this.clipBehavior,
-  })  : assert(
-          floating || !snap,
-          'The "snap" argument only makes sense for floating app bars.',
-        ),
-        assert(stretchTriggerOffset > 0.0),
-        assert(
-          collapsedHeight == null || collapsedHeight >= toolbarHeight,
-          'The "collapsedHeight" argument has to be larger than or equal to '
-          '[toolbarHeight].',
-        );
+  }) : assert(
+         floating || !snap,
+         'The "snap" argument only makes sense for floating app bars.',
+       ),
+       assert(stretchTriggerOffset > 0.0),
+       assert(
+         collapsedHeight == null || collapsedHeight >= toolbarHeight,
+         'The "collapsedHeight" argument has to be larger than or equal to '
+         '[toolbarHeight].',
+       );
 
   /// Tag used for the internally created [Hero] widget.
-  // ignore: no-object-declaration
   final Object heroTag;
 
   /// See [SliverAppBar.leading].
@@ -525,14 +523,15 @@ class _SliverAppBarState extends State<MorphingSliverAppBar>
   Widget build(BuildContext context) {
     assert(!widget.primary || debugCheckHasMediaQuery(context));
     final bottomHeight = widget.bottom?.preferredSize.height ?? 0;
-    final topPadding =
-        widget.primary ? MediaQuery.of(context).padding.top : 0.0;
+    final topPadding = widget.primary
+        ? MediaQuery.of(context).padding.top
+        : 0.0;
     final collapsedHeight =
         (widget.pinned && widget.floating && widget.bottom != null)
-            ? (widget.collapsedHeight ?? 0) + bottomHeight + topPadding
-            : (widget.collapsedHeight ?? widget.toolbarHeight) +
-                bottomHeight +
-                topPadding;
+        ? (widget.collapsedHeight ?? 0) + bottomHeight + topPadding
+        : (widget.collapsedHeight ?? widget.toolbarHeight) +
+              bottomHeight +
+              topPadding;
 
     return MediaQuery.removePadding(
       context: context,

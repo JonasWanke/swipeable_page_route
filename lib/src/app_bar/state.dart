@@ -118,15 +118,17 @@ class MorphingState {
       isScrolledUnder: t < 0.5
           ? parentSettings?.isScrolledUnder
           : childSettings?.isScrolledUnder,
-      hasLeading:
-          t < 0.5 ? parentSettings?.hasLeading : childSettings?.hasLeading,
+      hasLeading: t < 0.5
+          ? parentSettings?.hasLeading
+          : childSettings?.hasLeading,
       child: const SizedBox(),
     );
   }
 }
 
 extension type _OklabColor(
-    ({double alpha, double l, double a, double b}) components) {
+  ({double alpha, double l, double a, double b}) components
+) {
   factory _OklabColor.fromRgb(Color color) {
     final r = _srgbComponentToLinear(color.r);
     final g = _srgbComponentToLinear(color.g);
@@ -142,17 +144,15 @@ extension type _OklabColor(
     final m_ = math.pow(m, 1 / 3);
     final s_ = math.pow(s, 1 / 3);
 
-    return _OklabColor(
-      (
-        alpha: color.a,
-        // ignore: double-literal-format
-        l: 0.2104542553 * l_ + 0.7936177850 * m_ - 0.0040720468 * s_,
-        // ignore: double-literal-format
-        a: 1.9779984951 * l_ - 2.4285922050 * m_ + 0.4505937099 * s_,
-        // ignore: double-literal-format
-        b: 0.0259040371 * l_ + 0.7827717662 * m_ - 0.8086757660 * s_,
-      ),
-    );
+    return _OklabColor((
+      alpha: color.a,
+      // ignore: double-literal-format
+      l: 0.2104542553 * l_ + 0.7936177850 * m_ - 0.0040720468 * s_,
+      // ignore: double-literal-format
+      a: 1.9779984951 * l_ - 2.4285922050 * m_ + 0.4505937099 * s_,
+      // ignore: double-literal-format
+      b: 0.0259040371 * l_ + 0.7827717662 * m_ - 0.8086757660 * s_,
+    ));
   }
 
   static double _srgbComponentToLinear(double component) {
@@ -164,26 +164,30 @@ extension type _OklabColor(
 
   static _OklabColor? lerp(_OklabColor? x, _OklabColor? y, double t) {
     return switch ((x, y)) {
+      // ignore: avoid-unrelated-type-assertions
       (null, null) => null,
+      // ignore: avoid-unrelated-type-assertions
       (final x?, null) => x.scaleAlpha(1 - t),
+      // ignore: avoid-unrelated-type-assertions
       (null, final y?) => y.scaleAlpha(t),
-      (final x?, final y?) => _OklabColor(
-          (
-            alpha: lerpDouble(x.components.alpha, y.components.alpha, t)!,
-            l: lerpDouble(x.components.l, y.components.l, t)!,
-            a: lerpDouble(x.components.a, y.components.a, t)!,
-            b: lerpDouble(x.components.b, y.components.b, t)!,
-          ),
-        ),
+      (final x?, final y?) => _OklabColor((
+        alpha: lerpDouble(x.components.alpha, y.components.alpha, t)!,
+        l: lerpDouble(x.components.l, y.components.l, t)!,
+        a: lerpDouble(x.components.a, y.components.a, t)!,
+        b: lerpDouble(x.components.b, y.components.b, t)!,
+      )),
     };
   }
 
   _OklabColor scaleAlpha(double factor) =>
       withAlpha(clampDouble(components.alpha * factor, 0, 1));
   _OklabColor withAlpha(double alpha) {
-    return _OklabColor(
-      (alpha: alpha, l: components.l, a: components.a, b: components.b),
-    );
+    return _OklabColor((
+      alpha: alpha,
+      l: components.l,
+      a: components.a,
+      b: components.b,
+    ));
   }
 
   Color toRgb() {
@@ -224,13 +228,13 @@ extension type _OklabColor(
 @immutable
 class EndState {
   EndState(BuildContext context, this.appBar)
-      : theme = context.theme,
-        leading = AnimatedLeading.resolveLeading(context, appBar),
-        flexibleSpaceBarSettings = context
-            .dependOnInheritedWidgetOfExactType<FlexibleSpaceBarSettings>();
+    : theme = context.theme,
+      leading = AnimatedLeading.resolveLeading(context, appBar),
+      flexibleSpaceBarSettings = context
+          .dependOnInheritedWidgetOfExactType<FlexibleSpaceBarSettings>();
 
   final ThemeData theme;
-  AppBarTheme get appBarTheme => theme.appBarTheme;
+  AppBarThemeData get appBarTheme => theme.appBarTheme;
   final FlexibleSpaceBarSettings? flexibleSpaceBarSettings;
 
   final AppBar appBar;
@@ -264,9 +268,10 @@ class EndState {
         appBarTheme.backgroundColor ??
         (theme.useMaterial3
             ? theme.colorScheme.surface
+            // ignore: avoid-nested-conditional-expressions
             : theme.colorScheme.brightness == Brightness.dark
-                ? theme.colorScheme.surface
-                : theme.colorScheme.primary);
+            ? theme.colorScheme.surface
+            : theme.colorScheme.primary);
   }
 
   Color get foregroundColor {
@@ -274,9 +279,10 @@ class EndState {
         appBarTheme.foregroundColor ??
         (theme.useMaterial3
             ? theme.colorScheme.onSurface
+            // ignore: avoid-nested-conditional-expressions
             : theme.colorScheme.brightness == Brightness.dark
-                ? theme.colorScheme.onSurface
-                : theme.colorScheme.onPrimary);
+            ? theme.colorScheme.onSurface
+            : theme.colorScheme.onPrimary);
   }
 
   IconThemeData get overallIconTheme {
@@ -293,7 +299,8 @@ class EndState {
         appBarTheme.iconTheme ??
         (theme.useMaterial3
             ? IconThemeData(
-                color: appBar.foregroundColor ??
+                color:
+                    appBar.foregroundColor ??
                     appBarTheme.foregroundColor ??
                     theme.colorScheme.onSurfaceVariant,
                 size: 24,

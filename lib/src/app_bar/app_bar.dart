@@ -44,13 +44,12 @@ class MorphingAppBar extends StatelessWidget implements PreferredSizeWidget {
     this.systemOverlayStyle,
     this.forceMaterialTransparency = false,
     this.clipBehavior,
-  })  : assert(elevation == null || elevation >= 0.0),
-        preferredSize = Size.fromHeight(
-          toolbarHeight ?? kToolbarHeight + (bottom?.preferredSize.height ?? 0),
-        );
+  }) : assert(elevation == null || elevation >= 0.0),
+       preferredSize = Size.fromHeight(
+         toolbarHeight ?? kToolbarHeight + (bottom?.preferredSize.height ?? 0),
+       );
 
   /// Tag used for the internally created [Hero] widget.
-  // ignore: no-object-declaration
   final Object heroTag;
 
   /// See [AppBar.leading]
@@ -147,14 +146,17 @@ class MorphingAppBar extends StatelessWidget implements PreferredSizeWidget {
   Widget build(BuildContext context) {
     final theme = context.theme;
 
-    final actualBackgroundColor = backgroundColor ??
+    final actualBackgroundColor =
+        backgroundColor ??
         theme.appBarTheme.backgroundColor ??
         (theme.useMaterial3
             ? theme.colorScheme.surface
+            // ignore: avoid-nested-conditional-expressions
             : theme.colorScheme.brightness == Brightness.dark
-                ? theme.colorScheme.surface
-                : theme.colorScheme.primary);
-    final actualSystemOverlayStyle = systemOverlayStyle ??
+            ? theme.colorScheme.surface
+            : theme.colorScheme.primary);
+    final actualSystemOverlayStyle =
+        systemOverlayStyle ??
         context.theme.appBarTheme.systemOverlayStyle ??
         actualBackgroundColor.contrastSystemUiOverlayStyle;
 
@@ -226,11 +228,11 @@ class _AnimatedAppBar extends AnimatedWidget {
     required this.parent,
     required this.child,
     required this.animation,
-  })  : assert(
-          parent.appBar.primary == child.appBar.primary,
-          "Can't morph between a primary and a non-primary AppBar.",
-        ),
-        super(listenable: animation);
+  }) : assert(
+         parent.appBar.primary == child.appBar.primary,
+         "Can't morph between a primary and a non-primary AppBar.",
+       ),
+       super(listenable: animation);
 
   final EndState parent;
   final EndState child;
@@ -302,14 +304,13 @@ abstract class AnimatedAppBarPart extends StatelessWidget {
 }
 
 class AnimatedAppBarLayout<
-        ParentDataType extends ContainerBoxParentData<RenderBox>>
+  ParentDataType extends ContainerBoxParentData<RenderBox>
+>
     extends RenderBox
     with
         ContainerRenderObjectMixin<RenderBox, ParentDataType>,
         RenderBoxContainerDefaultsMixin<RenderBox, ParentDataType> {
-  AnimatedAppBarLayout({
-    double t = 0,
-  }) : _t = t;
+  AnimatedAppBarLayout({double t = 0}) : _t = t;
 
   double _t;
   double get t => _t;

@@ -16,7 +16,8 @@ class AnimatedLeading extends AnimatedAppBarPart {
       return const SizedBox();
     }
 
-    final canUpdate = parent.leading != null &&
+    final canUpdate =
+        parent.leading != null &&
         child.leading != null &&
         Widget.canUpdate(parent.leading!, child.leading!);
 

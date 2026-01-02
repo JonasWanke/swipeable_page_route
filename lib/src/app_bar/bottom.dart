@@ -56,11 +56,8 @@ class AnimatedBottom extends AnimatedAppBarPart implements PreferredSizeWidget {
     return SizedBox(
       height: preferredHeight,
       child: ShaderMask(
-        shaderCallback: (rect) => _buildScrimShader(
-          rect,
-          hasParent: hasParent,
-          hasChild: hasChild,
-        ),
+        shaderCallback: (rect) =>
+            _buildScrimShader(rect, hasParent: hasParent, hasChild: hasChild),
         blendMode: BlendMode.dstOut,
         child: Stack(
           children: [
@@ -99,10 +96,7 @@ class AnimatedBottom extends AnimatedAppBarPart implements PreferredSizeWidget {
           Colors.white.withValues(alpha: 1 - t),
         Colors.white.withAlpha(0),
       ],
-      stops: [
-        if (hasParent && hasChild) triangleT else 0.0,
-        1,
-      ],
+      stops: [if (hasParent && hasChild) triangleT else 0.0, 1],
     ).createShader(rect);
   }
 }

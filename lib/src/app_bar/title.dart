@@ -11,10 +11,8 @@ import 'state.dart';
 
 class AnimatedTitle extends MultiChildRenderObjectWidget {
   AnimatedTitle(MorphingState state, {super.key})
-      : t = state.t,
-        super(
-          children: [_createChild(state.parent), _createChild(state.child)],
-        );
+    : t = state.t,
+      super(children: [_createChild(state.parent), _createChild(state.child)]);
 
   final double t;
 
@@ -43,8 +41,7 @@ class AnimatedTitle extends MultiChildRenderObjectWidget {
   void updateRenderObject(
     BuildContext context,
     covariant RenderObject renderObject,
-  ) =>
-      (renderObject as _AnimatedTitleLayout).t = t;
+  ) => (renderObject as _AnimatedTitleLayout).t = t;
 }
 
 class _AnimatedTitleParentDataWidget
