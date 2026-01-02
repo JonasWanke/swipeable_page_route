@@ -512,7 +512,7 @@ packages:
       path: ".."
       relative: true
     source: path
-    version: "0.4.7"
+    version: "0.4.8"
   term_glyph:
     dependency: transitive
     description:

@@ -5,7 +5,7 @@ All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 <!-- Template:
-## NEW · 2025-xx-xx
+## NEW · 2026-xx-xx
 
 ### ⚠️ BREAKING CHANGES
 ### 🎉 New Features
@@ -15,6 +15,12 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 ### 🏗️ Refactoring
 ### 📦 Build & CI
 -->
+
+## 0.4.8 · 2026-01-02
+
+### 📦 Build & CI
+
+- upgrade to Flutter `^3.35.0`, Dart `^3.9.0` ([`c315762`](https://github.com/JonasWanke/swipeable_page_route/commit/c3157627b37fb607f7f8c02116ddfec57d8af5bf))
 
 ## 0.4.7 · 2025-01-26
 
