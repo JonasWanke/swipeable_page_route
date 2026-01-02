@@ -20,7 +20,7 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 
 ### 📦 Build & CI
 
-- upgrade to Flutter `^3.35.0`, Dart `^3.9.0` ([`c315762`](https://github.com/JonasWanke/swipeable_page_route/commit/c3157627b37fb607f7f8c02116ddfec57d8af5bf))
+- upgrade to Flutter `^3.35.0`, Dart `^3.9.0` ([`c315762`](https://github.com/JonasWanke/swipeable_page_route/commit/c3157627b37fb607f7f8c02116ddfec57d8af5bf)), closes: [#100](https://github.com/JonasWanke/swipeable_page_route/issues/100)
 
 ## 0.4.7 · 2025-01-26
 
