@@ -11,7 +11,7 @@ environment:
   flutter: '>=3.35.0'
 
 dependencies:
-  black_hole_flutter: ^1.0.3
+  black_hole_flutter: ">=1.0.3 <3.0.0"
   collection: ^1.15.0
   flutter:
     sdk: flutter
